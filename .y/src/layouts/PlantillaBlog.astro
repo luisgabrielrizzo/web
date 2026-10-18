@@ -1,0 +1,36 @@
+---
+const { frontmatter } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{frontmatter.title} | Luis Rizzo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --azul-corporativo: #0d233a; --dorado: #bfa15f; --gris-fondo: #f8f9fa; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; margin: 0; background-color: var(--gris-fondo); color: #333; }
+        nav { background: rgba(13, 35, 58, 0.95); padding: 15px; text-align: center; position: sticky; top: 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        nav a { color: white; text-decoration: none; font-weight: 500; font-size: 1.1em; }
+        nav a:hover { color: var(--dorado); }
+        .container { max-width: 800px; margin: 50px auto; padding: 40px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .fecha { color: #64748b; font-weight: bold; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; }
+        h1 { color: var(--azul-corporativo); font-size: 2.2em; border-bottom: 2px solid var(--dorado); padding-bottom: 15px; margin-top: 10px; }
+        .imagen-destacada { width: 100%; height: 350px; object-fit: cover; border-radius: 8px; margin: 25px 0; }
+        .contenido { font-size: 1.15em; color: #475569; }
+    </style>
+</head>
+<body>
+    <nav><a href="/"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a></nav>
+    <div class="container">
+        <div class="fecha">{frontmatter.date}</div>
+        <h1>{frontmatter.title}</h1>
+        <img src={frontmatter.image} class="imagen-destacada" alt="Portada del artículo">
+        <div class="contenido">
+            <!-- Aquí el panel inyectará mágicamente tu texto -->
+            <slot />
+        </div>
+    </div>
+</body>
+</html>
