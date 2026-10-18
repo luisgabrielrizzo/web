@@ -3,7 +3,8 @@
     "name": "github",
     "repo": "luisgabrielrizzo/web",
     "branch": "main",
-    "app_id": "Ov23liodKoSvCAvxfOT3"
+    "app_id": "Ov23liodKoSvCAvxfOT3",
+    "auth_type": "pkce"
   },
   "media_folder": "public/uploads",
   "public_folder": "/uploads",
