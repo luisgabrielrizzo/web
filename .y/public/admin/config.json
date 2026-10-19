@@ -4,7 +4,7 @@
     "repo": "luisgabrielrizzo/web",
     "branch": "main",
     "app_id": "Ov23liodKoSvCAvxfOT3",
-    "auth_type": "pkce"
+    "base_url": "https://sveltia-auth.gabrielrizzo651.workers.dev"
   },
   "media_folder": "public/uploads",
   "public_folder": "/uploads",
