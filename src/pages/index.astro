@@ -1,6 +1,6 @@
 ---
-// Lógica de Astro: Busca y ordena los artículos del blog por fecha
-const posts = await Astro.glob('/src/pages/articulos/*.md');
+// Lógica de Astro: Busca y ordena los artículos del blog por fecha (Compatible con Cloudflare)
+const posts = Object.values(import.meta.glob('./articulos/*.md', { eager: true }));
 const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf());
 ---
 
