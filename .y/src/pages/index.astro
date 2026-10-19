@@ -1,8 +1,3 @@
-El código que compartes corresponde a la estructura estática de la página principal de tu portafolio. Para que las nuevas publicaciones que creas en Sveltia CMS aparezcan automáticamente en la sección "Blog y Actualidad Profesional", es necesario transformar este documento en un archivo de Astro (`.astro`) y añadir la lógica para leer tus archivos Markdown.
-
-Guarda este archivo con la extensión **`.astro`** (por ejemplo, `src/pages/index.astro`) y reemplaza todo su contenido con el siguiente código exacto. Esto mantendrá intacto tu diseño, pero convertirá la sección del blog en una cuadrícula dinámica:
-
-```astro
 ---
 // Lógica de Astro: Busca y ordena los artículos del blog por fecha
 const posts = await Astro.glob('/src/pages/articulos/*.md');
@@ -184,5 +179,3 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 
 </body>
 </html>
-
-```
