@@ -1,5 +1,5 @@
 ---
-// Lógica de Astro: Busca y ordena los artículos del blog por fecha (Compatible con Cloudflare)
+// Lógica de Astro: Busca y ordena los artículos del blog por fecha (Seguro para Cloudflare)
 const posts = Object.values(import.meta.glob('./articulos/*.md', { eager: true }));
 const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf());
 ---
@@ -12,64 +12,92 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     <title>Luis Rizzo | Contador Público</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --azul-corporativo: #0d233a; --azul-claro: #1d3557; --dorado: #bfa15f; --gris-fondo: #f8f9fa; }
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 0; color: #333; background-color: var(--gris-fondo); }
-        
-        header { 
-            background: linear-gradient(rgba(13, 35, 58, 0.85), rgba(13, 35, 58, 0.90)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
-            color: #fff; padding: 120px 20px 80px; text-align: center; position: relative;
+        :root { 
+            --azul-corporativo: #1e3a8a; 
+            --azul-claro: #2563eb; 
+            --celeste-acento: #0ea5e9; 
+            --dorado: #f59e0b; 
+            --verde-exito: #10b981; 
+            --gris-fondo: #f0f9ff; 
+            --texto-principal: #1e293b;
         }
         
-        .foto-perfil { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 4px solid var(--dorado); box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin-bottom: 20px; transition: transform 0.3s; }
-        .foto-perfil:hover { transform: scale(1.05); }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 0; color: var(--texto-principal); background-color: var(--gris-fondo); overflow-x: hidden; }
         
-        header h1 { margin: 0; font-size: 3em; letter-spacing: 1px; font-weight: 700; }
-        header p { margin: 10px 0 0; font-size: 1.4em; color: #cbd5e1; font-weight: 300; }
+        /* Cabecera Interactiva */
+        header { 
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.85), rgba(14, 165, 233, 0.90)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+            color: #fff; padding: 140px 20px 100px; text-align: center; position: relative;
+        }
+        
+        .foto-perfil { width: 190px; height: 190px; border-radius: 50%; object-fit: cover; border: 4px solid var(--dorado); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin-bottom: 25px; transition: transform 0.4s ease, box-shadow 0.4s ease; }
+        .foto-perfil:hover { transform: scale(1.08) translateY(-5px); box-shadow: 0 15px 40px rgba(245, 158, 11, 0.4); }
+        
+        header h1 { margin: 0; font-size: 3.5em; letter-spacing: 1px; font-weight: 800; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        
+        /* Efecto Máquina de Escribir */
+        .typing-container { margin-top: 15px; font-size: 1.5em; color: #bae6fd; font-weight: 300; min-height: 35px; }
+        .cursor { display: inline-block; width: 3px; height: 1.2em; background-color: var(--dorado); vertical-align: middle; animation: blink 0.8s infinite; margin-left: 5px; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         
         nav { 
-            background: rgba(13, 35, 58, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            background: rgba(30, 58, 138, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); border-bottom: 3px solid var(--celeste-acento);
         }
-        nav a { color: white; margin: 0 20px; text-decoration: none; font-weight: 500; font-size: 1.1em; transition: color 0.3s; }
-        nav a:hover { color: var(--dorado); }
+        nav a { color: white; margin: 0 20px; text-decoration: none; font-weight: 500; font-size: 1.1em; transition: all 0.3s; padding: 5px 10px; border-radius: 5px; }
+        nav a:hover { color: var(--dorado); background: rgba(255,255,255,0.1); transform: translateY(-2px); }
         
-        .container { max-width: 1000px; margin: 60px auto; padding: 40px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); opacity: 0; transform: translateY(20px); animation: fadeIn 0.8s forwards; }
-        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+        /* Contenedores y Animación de Scroll (Reveal) */
+        .container { max-width: 1000px; margin: 60px auto; padding: 40px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(14, 165, 233, 0.08); border-top: 5px solid transparent; transition: border-color 0.3s; }
+        .container:hover { border-top-color: var(--celeste-acento); }
         
-        h2 { color: var(--azul-corporativo); border-bottom: 2px solid var(--dorado); padding-bottom: 15px; font-size: 2em; margin-bottom: 30px; }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        h2 { color: var(--azul-corporativo); border-bottom: 2px solid var(--celeste-acento); padding-bottom: 15px; font-size: 2em; margin-bottom: 30px; display: inline-block; }
         h2 i { color: var(--dorado); margin-right: 10px; }
         
+        /* Tarjetas Interactivas */
         .grid-perfil { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-        .card-perfil { background: #fff; padding: 30px; border-radius: 8px; border: 1px solid #e2e8f0; border-top: 4px solid var(--azul-claro); transition: transform 0.3s, box-shadow 0.3s; position: relative; }
-        .card-perfil:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .card-perfil { background: #fff; padding: 30px; border-radius: 10px; border: 1px solid #e0f2fe; border-left: 4px solid var(--azul-claro); transition: all 0.4s ease; position: relative; z-index: 1; }
+        .card-perfil:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15); border-left-color: var(--dorado); z-index: 2; }
         .card-perfil h3 { color: var(--azul-claro); margin-top: 0; font-size: 1.3em; }
         
-        .badge-sistema { display: inline-block; background: #f1f5f9; color: #0d233a; padding: 6px 12px; border-radius: 4px; font-size: 0.9em; font-weight: 600; margin-top: 8px; margin-right: 5px; border: 1px solid #cbd5e1; }
-        .badge-actual { display: inline-block; background: #10b981; color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2); }
+        .badge-sistema { display: inline-block; background: #f0f9ff; color: var(--azul-corporativo); padding: 8px 15px; border-radius: 6px; font-size: 0.9em; font-weight: 600; margin-top: 8px; margin-right: 5px; border: 1px solid #bae6fd; transition: all 0.3s; cursor: default; }
+        .badge-sistema:hover { background: var(--azul-corporativo); color: white; transform: translateY(-3px); box-shadow: 0 5px 10px rgba(30, 58, 138, 0.2); }
+        .badge-actual { display: inline-block; background: var(--verde-exito); color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2); animation: pulse 2s infinite; }
         
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+        
+        /* Tarjetas de Blog */
         .grid-blog { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px; }
-        .blog-card { background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid #e2e8f0; transition: transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column;}
-        .blog-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        .blog-img { width: 100%; height: 200px; object-fit: cover; }
-        .blog-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column;}
-        .blog-fecha { color: #64748b; font-size: 0.85em; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-        .blog-content h3 { color: var(--azul-corporativo); margin: 10px 0; font-size: 1.4em; }
+        .blog-card { background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #e0f2fe; transition: all 0.4s ease; display: flex; flex-direction: column; }
+        .blog-card:hover { transform: translateY(-10px); box-shadow: 0 25px 50px rgba(37, 99, 235, 0.2); }
+        .blog-img { width: 100%; height: 220px; object-fit: cover; transition: transform 0.5s ease; }
+        .blog-card:hover .blog-img { transform: scale(1.05); }
+        .blog-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; background: white; position: relative; z-index: 2; }
+        .blog-fecha { color: var(--celeste-acento); font-size: 0.85em; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .blog-content h3 { color: var(--azul-corporativo); margin: 10px 0; font-size: 1.4em; transition: color 0.3s; }
+        .blog-card:hover .blog-content h3 { color: var(--azul-claro); }
         .btn-leer { display: inline-flex; align-items: center; color: var(--azul-claro); font-weight: bold; text-decoration: none; margin-top: auto; padding-top: 15px; font-size: 1.05em; transition: color 0.3s; }
         .btn-leer i { margin-left: 8px; transition: transform 0.3s; }
         .btn-leer:hover { color: var(--dorado); }
-        .btn-leer:hover i { transform: translateX(5px); }
+        .btn-leer:hover i { transform: translateX(8px); }
         
+        /* Botones de Contacto */
         .contacto-seccion { text-align: center; padding: 30px 0 10px; }
         .botonera-contacto { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 35px; }
-        .btn-perfil { display: inline-flex; align-items: center; justify-content: center; padding: 15px 30px; text-decoration: none; font-weight: bold; font-size: 1.05em; border-radius: 50px; box-shadow: 0 8px 15px rgba(0,0,0,0.1); transition: all 0.3s; color: white; }
+        .btn-perfil { display: inline-flex; align-items: center; justify-content: center; padding: 15px 35px; text-decoration: none; font-weight: bold; font-size: 1.05em; border-radius: 50px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); transition: all 0.3s ease; color: white; position: relative; overflow: hidden; }
+        .btn-perfil::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s ease; }
+        .btn-perfil:hover::after { left: 100%; }
         .btn-perfil i { margin-right: 10px; font-size: 1.2em; }
-        .btn-perfil:hover { transform: translateY(-3px); box-shadow: 0 12px 20px rgba(0,0,0,0.15); }
+        .btn-perfil:hover { transform: translateY(-5px); box-shadow: 0 15px 25px rgba(0,0,0,0.2); }
         .btn-wsp { background: linear-gradient(135deg, #25d366, #128c7e); }
         .btn-linkedin { background: linear-gradient(135deg, #0077b5, #005a8a); }
-        .btn-cv { background: linear-gradient(135deg, #e04f5f, #c63645); }
+        .btn-cv { background: linear-gradient(135deg, #f43f5e, #be123c); }
 
-        @media (max-width: 768px) { nav a { display: block; margin: 10px 0; } header { padding: 80px 20px 60px; } }
+        @media (max-width: 768px) { nav a { display: block; margin: 10px 0; } header { padding: 100px 20px 80px; } header h1 { font-size: 2.5em; } }
     </style>
 </head>
 <body>
@@ -77,7 +105,9 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 <header>
     <img src="/fotoperfil.jpg" alt="Luis Rizzo" class="foto-perfil">
     <h1>Luis Rizzo</h1>
-    <p>Contador Público</p>
+    <div class="typing-container">
+        <span id="texto-animado"></span><span class="cursor"></span>
+    </div>
 </header>
 
 <nav>
@@ -88,12 +118,12 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     <a href="#contacto"><i class="fa-regular fa-envelope"></i> Contacto</a>
 </nav>
 
-<div class="container" id="perfil" style="animation-delay: 0.1s;">
+<div class="container reveal" id="perfil">
     <h2><i class="fa-regular fa-id-card"></i> Perfil Profesional</h2>
     <p>Soy Contador Público graduado por la Universidad Nacional de Salta (Título en trámite). Cuento con una sólida trayectoria en auditoría externa en firmas y estudios contables de prestigio, especializándome en la ejecución de procedimientos de control para estados contables, verificación de saldos de balance, control de cuentas corrientes y conciliaciones complejas. Me destaco por mi enfoque metódico para resolver inconsistencias de forma independiente y asegurar la confiabilidad financiera, con el objetivo de continuar mi crecimiento profesional dentro de equipos corporativos y estructuras organizacionales exigentes.</p>
 </div>
 
-<div class="container" id="experiencia" style="animation-delay: 0.2s;">
+<div class="container reveal" id="experiencia">
     <h2><i class="fa-solid fa-building-columns"></i> Trayectoria Laboral</h2>
     <div class="grid-perfil">
         <div class="card-perfil">
@@ -120,7 +150,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     </div>
 </div>
 
-<div class="container" id="competencias" style="animation-delay: 0.3s;">
+<div class="container reveal" id="competencias">
     <h2><i class="fa-solid fa-laptop-file"></i> Educación y Aptitudes Técnicas</h2>
     <div class="grid-perfil">
         <div class="card-perfil">
@@ -134,16 +164,15 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             <span class="badge-sistema"><i class="fa-solid fa-file-excel"></i> Excel & Office</span>
             <span class="badge-sistema"><i class="fa-brands fa-google"></i> Google Workspace</span>
             <span class="badge-sistema"><i class="fa-solid fa-robot"></i> Herramientas IA</span>
-            <span class="badge-sistema" style="background: var(--dorado); color: white;"><i class="fa-solid fa-server"></i> Tango Gestión</span>
+            <span class="badge-sistema" style="background: var(--dorado); color: white; border: none;"><i class="fa-solid fa-server"></i> Tango Gestión</span>
         </div>
     </div>
 </div>
 
-<div class="container" id="blog" style="animation-delay: 0.4s;">
+<div class="container reveal" id="blog">
     <h2><i class="fa-solid fa-pen-nib"></i> Blog y Actualidad Profesional</h2>
     <div class="grid-blog">
         
-        <!-- Bucle automático de Astro que renderiza todas las publicaciones -->
         {publicaciones.length > 0 ? (
             publicaciones.map((post) => (
                 <article class="blog-card">
@@ -163,7 +192,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     </div>
 </div>
 
-<div class="container" id="contacto" style="animation-delay: 0.5s;">
+<div class="container reveal" id="contacto">
     <h2><i class="fa-regular fa-handshake"></i> Contacto Profesional</h2>
     <div class="contacto-seccion">
         <p style="font-size: 1.1em; color: #64748b;">Radicado en Salta. Disponible para viajar y participar en proyectos a nivel nacional.</p>
@@ -176,6 +205,63 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         </div>
     </div>
 </div>
+
+<!-- SCRIPTS INTERACTIVOS -->
+<script>
+    // 1. Efecto Máquina de Escribir
+    const frases = ["Contador Público Nacional", "Auditoría Externa", "Análisis de Estados Contables", "Resolución de Inconsistencias"];
+    let fraseActual = 0;
+    let caracterActual = 0;
+    let borrando = false;
+    const elementoTexto = document.getElementById("texto-animado");
+
+    function escribir() {
+        const fraseCompleta = frases[fraseActual];
+        
+        if (borrando) {
+            elementoTexto.textContent = fraseCompleta.substring(0, caracterActual - 1);
+            caracterActual--;
+        } else {
+            elementoTexto.textContent = fraseCompleta.substring(0, caracterActual + 1);
+            caracterActual++;
+        }
+
+        let velocidad = borrando ? 50 : 100;
+
+        if (!borrando && caracterActual === fraseCompleta.length) {
+            velocidad = 2000; // Pausa al terminar de escribir
+            borrando = true;
+        } else if (borrando && caracterActual === 0) {
+            borrando = false;
+            fraseActual = (fraseActual + 1) % frases.length;
+            velocidad = 500; // Pausa antes de la siguiente palabra
+        }
+
+        setTimeout(escribir, velocidad);
+    }
+    
+    // Iniciar efecto de escritura
+    setTimeout(escribir, 1000);
+
+    // 2. Animación al hacer Scroll (Intersection Observer)
+    function revelarAlScroll() {
+        var revelados = document.querySelectorAll(".reveal");
+        
+        for (var i = 0; i < revelados.length; i++) {
+            var alturaVentana = window.innerHeight;
+            var distanciaElemento = revelados[i].getBoundingClientRect().top;
+            var puntoAparicion = 100;
+
+            if (distanciaElemento < alturaVentana - puntoAparicion) {
+                revelados[i].classList.add("active");
+            }
+        }
+    }
+
+    window.addEventListener("scroll", revelarAlScroll);
+    // Ejecutar una vez al cargar para los elementos que ya están en pantalla
+    revelarAlScroll();
+</script>
 
 </body>
 </html>
