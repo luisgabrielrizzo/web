@@ -48,7 +48,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         nav a { color: white; margin: 0 20px; text-decoration: none; font-weight: 500; font-size: 1.1em; transition: all 0.3s; padding: 5px 10px; border-radius: 5px; }
         nav a:hover { color: var(--dorado); background: rgba(255,255,255,0.1); transform: translateY(-2px); }
         
-        /* Contenedores y Animación de Scroll (Reveal) */
+        /* Contenedores y Animación de Scroll */
         .container { max-width: 1000px; margin: 60px auto; padding: 40px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(14, 165, 233, 0.08); border-top: 5px solid transparent; transition: border-color 0.3s; }
         .container:hover { border-top-color: var(--celeste-acento); }
         
@@ -57,6 +57,16 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         
         h2 { color: var(--azul-corporativo); border-bottom: 2px solid var(--celeste-acento); padding-bottom: 15px; font-size: 2em; margin-bottom: 30px; display: inline-block; }
         h2 i { color: var(--dorado); margin-right: 10px; }
+
+        /* Estructura de dos columnas para el Perfil */
+        .perfil-flex { display: flex; gap: 40px; align-items: center; }
+        .perfil-texto { flex: 1; }
+        .perfil-imagen-container { flex: 1; overflow: hidden; border-radius: 12px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .perfil-imagen-container img { width: 100%; height: auto; display: block; transition: transform 0.5s ease; }
+        .perfil-imagen-container:hover img { transform: scale(1.05); }
+        
+        .btn-secundario { display: inline-flex; align-items: center; padding: 10px 20px; background-color: #0077b5; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; margin-top: 15px; transition: all 0.3s; }
+        .btn-secundario:hover { background-color: #005a8a; transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0, 119, 181, 0.3); }
         
         /* Tarjetas Interactivas */
         .grid-perfil { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
@@ -81,9 +91,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         .blog-content h3 { color: var(--azul-corporativo); margin: 10px 0; font-size: 1.4em; transition: color 0.3s; }
         .blog-card:hover .blog-content h3 { color: var(--azul-claro); }
         .btn-leer { display: inline-flex; align-items: center; color: var(--azul-claro); font-weight: bold; text-decoration: none; margin-top: auto; padding-top: 15px; font-size: 1.05em; transition: color 0.3s; }
-        .btn-leer i { margin-left: 8px; transition: transform 0.3s; }
         .btn-leer:hover { color: var(--dorado); }
-        .btn-leer:hover i { transform: translateX(8px); }
         
         /* Botones de Contacto */
         .contacto-seccion { text-align: center; padding: 30px 0 10px; }
@@ -93,11 +101,57 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         .btn-perfil:hover::after { left: 100%; }
         .btn-perfil i { margin-right: 10px; font-size: 1.2em; }
         .btn-perfil:hover { transform: translateY(-5px); box-shadow: 0 15px 25px rgba(0,0,0,0.2); }
-        .btn-wsp { background: linear-gradient(135deg, #25d366, #128c7e); }
         .btn-linkedin { background: linear-gradient(135deg, #0077b5, #005a8a); }
         .btn-cv { background: linear-gradient(135deg, #f43f5e, #be123c); }
 
-        @media (max-width: 768px) { nav a { display: block; margin: 10px 0; } header { padding: 100px 20px 80px; } header h1 { font-size: 2.5em; } }
+        /* ========================================= */
+        /* ESTILOS DEL CHATBOT VIRTUAL PROGRAMADO    */
+        /* ========================================= */
+        .chat-container { position: fixed; bottom: 30px; right: 30px; z-index: 2000; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        .chat-btn-flotante { background: var(--azul-corporativo); color: white; border: none; width: 60px; height: 60px; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: 0 10px 25px rgba(30, 58, 138, 0.4); transition: transform 0.3s; display: flex; align-items: center; justify-content: center; animation: floatChat 3s ease-in-out infinite; }
+        .chat-btn-flotante:hover { transform: scale(1.1); background: var(--azul-claro); }
+        
+        @keyframes floatChat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+        .chat-window { position: absolute; bottom: 80px; right: 0; width: 350px; background: white; border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.2); overflow: hidden; display: flex; flex-direction: column; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-origin: bottom right; border: 1px solid #e0f2fe; }
+        .chat-window.oculto { transform: scale(0); opacity: 0; pointer-events: none; }
+        
+        .chat-header { background: linear-gradient(135deg, var(--azul-corporativo), var(--azul-claro)); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .chat-header-info { display: flex; align-items: center; gap: 12px; }
+        .chat-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--dorado); object-fit: cover; }
+        .chat-header-info div { display: flex; flex-direction: column; line-height: 1.2; }
+        .chat-header-info strong { font-size: 1.1em; }
+        .chat-header-info span { font-size: 0.75em; color: #bae6fd; display: flex; align-items: center; gap: 4px; margin-top: 3px; }
+        .punto-verde { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; display: inline-block; }
+        #cerrar-chat { background: none; border: none; color: white; font-size: 1.2em; cursor: pointer; transition: transform 0.2s; }
+        #cerrar-chat:hover { transform: scale(1.2); }
+        
+        .chat-messages { height: 320px; padding: 15px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
+        .mensaje { max-width: 85%; padding: 12px 15px; border-radius: 15px; font-size: 0.95em; line-height: 1.4; animation: fadeInChat 0.3s ease forwards; position: relative; }
+        .mensaje.bot { background: white; color: var(--texto-principal); align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        .mensaje.usuario { background: var(--azul-corporativo); color: white; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 2px 8px rgba(30,58,138,0.2); }
+        
+        .chat-input-area { padding: 15px; background: white; border-top: 1px solid #e2e8f0; }
+        .chat-opciones { display: flex; flex-direction: column; gap: 8px; }
+        .chat-opcion { background: #f0f9ff; color: var(--azul-corporativo); border: 1px solid #bae6fd; padding: 10px 15px; border-radius: 8px; font-size: 0.9em; cursor: pointer; transition: all 0.2s; font-weight: 600; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+        .chat-opcion:hover { background: var(--azul-claro); color: white; border-color: var(--azul-claro); transform: translateX(5px); }
+        
+        .escribiendo { display: flex; gap: 5px; align-items: center; padding: 12px 15px; background: white; border-radius: 15px; border-bottom-left-radius: 4px; align-self: flex-start; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        .escribiendo span { width: 6px; height: 6px; background: #94a3b8; border-radius: 50%; animation: typing 1.4s infinite ease-in-out both; }
+        .escribiendo span:nth-child(1) { animation-delay: -0.32s; }
+        .escribiendo span:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+        @keyframes fadeInChat { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        @media (max-width: 480px) { 
+            nav a { display: block; margin: 10px 0; } 
+            header { padding: 100px 20px 80px; } 
+            header h1 { font-size: 2.5em; } 
+            .perfil-flex { flex-direction: column; }
+            .chat-window { width: calc(100vw - 40px); right: -10px; bottom: 75px; } 
+            .chat-btn-flotante { width: 50px; height: 50px; font-size: 20px; right: 20px; bottom: 20px;}
+        }
     </style>
 </head>
 <body>
@@ -115,12 +169,22 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     <a href="#experiencia"><i class="fa-solid fa-briefcase"></i> Experiencia</a>
     <a href="#competencias"><i class="fa-solid fa-graduation-cap"></i> Formación</a>
     <a href="#blog"><i class="fa-regular fa-newspaper"></i> Blog</a>
-    <a href="#contacto"><i class="fa-regular fa-envelope"></i> Contacto</a>
+    <a href="#contacto"><i class="fa-regular fa-envelope"></i> Redes y Contacto</a>
 </nav>
 
 <div class="container reveal" id="perfil">
     <h2><i class="fa-regular fa-id-card"></i> Perfil Profesional</h2>
-    <p>Soy Contador Público graduado por la Universidad Nacional de Salta (Título en trámite). Cuento con una sólida trayectoria en auditoría externa en firmas y estudios contables de prestigio, especializándome en la ejecución de procedimientos de control para estados contables, verificación de saldos de balance, control de cuentas corrientes y conciliaciones complejas. Me destaco por mi enfoque metódico para resolver inconsistencias de forma independiente y asegurar la confiabilidad financiera, con el objetivo de continuar mi crecimiento profesional dentro de equipos corporativos y estructuras organizacionales exigentes.</p>
+    
+    <div class="perfil-flex">
+        <div class="perfil-texto">
+            <p>Soy Contador Público graduado por la Universidad Nacional de Salta (Título en trámite). Cuento con una sólida trayectoria en auditoría externa en firmas y estudios contables de prestigio, especializándome en la ejecución de procedimientos de control para estados contables, verificación de saldos de balance, control de cuentas corrientes y conciliaciones complejas.</p>
+            <p>Me destaco por mi enfoque metódico para resolver inconsistencias de forma independiente y asegurar la confiabilidad financiera, con el objetivo de continuar mi crecimiento profesional dentro de equipos corporativos y estructuras organizacionales exigentes.</p>
+            <a href="https://www.linkedin.com/in/luis-rizzo-cpn/" target="_blank" class="btn-secundario"><i class="fa-brands fa-linkedin"></i> Conectar en LinkedIn</a>
+        </div>
+        <div class="perfil-imagen-container">
+            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" alt="Análisis y Auditoría Profesional">
+        </div>
+    </div>
 </div>
 
 <div class="container reveal" id="experiencia">
@@ -193,20 +257,54 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 </div>
 
 <div class="container reveal" id="contacto">
-    <h2><i class="fa-regular fa-handshake"></i> Contacto Profesional</h2>
+    <h2><i class="fa-regular fa-handshake"></i> Redes y Contacto</h2>
     <div class="contacto-seccion">
-        <p style="font-size: 1.1em; color: #64748b;">Radicado en Salta. Disponible para viajar y participar en proyectos a nivel nacional.</p>
+        <p style="font-size: 1.1em; color: #64748b;">Radicado en Salta. Disponible para oportunidades de desarrollo corporativo a nivel nacional.</p>
         <p style="font-size: 1.2em;"><strong><i class="fa-regular fa-envelope"></i></strong> contacto@luisrizzo.com.ar</p>
         
         <div class="botonera-contacto">
-            <a href="https://wa.me/5493876524189" target="_blank" class="btn-perfil btn-wsp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-            <a href="https://www.linkedin.com/in/luis-rizzo-cpn/" target="_blank" class="btn-perfil btn-linkedin"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a>
-            <a href="/cv.pdf" download="CV_Luis_Rizzo.pdf" class="btn-perfil btn-cv"><i class="fa-solid fa-file-pdf"></i> Descargar CV</a>
+            <a href="https://www.linkedin.com/in/luis-rizzo-cpn/" target="_blank" class="btn-perfil btn-linkedin"><i class="fa-brands fa-linkedin-in"></i> LinkedIn Profesional</a>
+            <a href="/cv.pdf" download="CV_Luis_Rizzo.pdf" class="btn-perfil btn-cv"><i class="fa-solid fa-file-pdf"></i> Descargar Currículum</a>
         </div>
     </div>
 </div>
 
-<!-- SCRIPTS INTERACTIVOS -->
+<!-- ========================================== -->
+<!-- SISTEMA DE CHATBOT VIRTUAL INTEGRADO       -->
+<!-- ========================================== -->
+<div class="chat-container">
+    <div id="chat-window" class="chat-window oculto">
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <img src="/fotoperfil.jpg" alt="IA" class="chat-avatar">
+                <div>
+                    <strong>Asistente Virtual</strong>
+                    <span><span class="punto-verde"></span> En línea ahora</span>
+                </div>
+            </div>
+            <button id="cerrar-chat"><i class="fa-solid fa-times"></i></button>
+        </div>
+        
+        <div id="chat-messages" class="chat-messages">
+            <div class="mensaje bot">¡Hola! Soy el asistente virtual de Luis Rizzo. Conozco todo sobre su perfil profesional.<br><br>¿Qué información te gustaría consultar?</div>
+        </div>
+        
+        <div class="chat-input-area">
+            <div class="chat-opciones" id="caja-opciones">
+                <button class="chat-opcion" onclick="enviarMensaje('experiencia')">Resumen de Experiencia <i class="fa-solid fa-chevron-right"></i></button>
+                <button class="chat-opcion" onclick="enviarMensaje('educacion')">Estudios y Formación <i class="fa-solid fa-chevron-right"></i></button>
+                <button class="chat-opcion" onclick="enviarMensaje('sistemas')">Sistemas que maneja <i class="fa-solid fa-chevron-right"></i></button>
+                <button class="chat-opcion" onclick="enviarMensaje('contacto')" style="border-color: #22c55e; color: #166534; background: #f0fdf4;">Solicitar WhatsApp <i class="fa-brands fa-whatsapp" style="font-size: 1.2em;"></i></button>
+            </div>
+        </div>
+    </div>
+    
+    <button id="abrir-chat" class="chat-btn-flotante" title="Hablar con Asistente Virtual">
+        <i class="fa-solid fa-comment-dots"></i>
+    </button>
+</div>
+
+<!-- SCRIPTS INTERACTIVOS (Incluye Máquina de escribir, Scroll y Chatbot) -->
 <script>
     // 1. Efecto Máquina de Escribir
     const frases = ["Contador Público Nacional", "Auditoría Externa", "Análisis de Estados Contables", "Resolución de Inconsistencias"];
@@ -229,38 +327,94 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         let velocidad = borrando ? 50 : 100;
 
         if (!borrando && caracterActual === fraseCompleta.length) {
-            velocidad = 2000; // Pausa al terminar de escribir
+            velocidad = 2000; 
             borrando = true;
         } else if (borrando && caracterActual === 0) {
             borrando = false;
             fraseActual = (fraseActual + 1) % frases.length;
-            velocidad = 500; // Pausa antes de la siguiente palabra
+            velocidad = 500; 
         }
 
         setTimeout(escribir, velocidad);
     }
-    
-    // Iniciar efecto de escritura
     setTimeout(escribir, 1000);
 
-    // 2. Animación al hacer Scroll (Intersection Observer)
+    // 2. Animación al hacer Scroll
     function revelarAlScroll() {
         var revelados = document.querySelectorAll(".reveal");
-        
         for (var i = 0; i < revelados.length; i++) {
             var alturaVentana = window.innerHeight;
             var distanciaElemento = revelados[i].getBoundingClientRect().top;
-            var puntoAparicion = 100;
-
-            if (distanciaElemento < alturaVentana - puntoAparicion) {
+            if (distanciaElemento < alturaVentana - 100) {
                 revelados[i].classList.add("active");
             }
         }
     }
-
     window.addEventListener("scroll", revelarAlScroll);
-    // Ejecutar una vez al cargar para los elementos que ya están en pantalla
     revelarAlScroll();
+
+    // 3. Lógica del Chatbot Simulado
+    const btnAbrir = document.getElementById('abrir-chat');
+    const btnCerrar = document.getElementById('cerrar-chat');
+    const ventanaChat = document.getElementById('chat-window');
+    const contenedorMensajes = document.getElementById('chat-messages');
+    const cajaOpciones = document.getElementById('caja-opciones');
+
+    btnAbrir.addEventListener('click', () => {
+        ventanaChat.classList.remove('oculto');
+        btnAbrir.style.transform = 'scale(0)';
+    });
+
+    btnCerrar.addEventListener('click', () => {
+        ventanaChat.classList.add('oculto');
+        btnAbrir.style.transform = 'scale(1)';
+    });
+
+    const respuestasBot = {
+        experiencia: "Luis se desempeña actualmente como Auditor Externo en el Estudio Simón O. Montes (2026-Presente). Previamente trabajó en Consultora Pluss realizando revisión analítica de extractos financieros. Su fuerte es la verificación de saldos y control normativo.",
+        educacion: "Es Contador Público Nacional graduado de la UNSa (Título en trámite) y tiene un 65% de avance en la Licenciatura en Administración de Empresas. Además, cuenta con cursos en liquidación de sueldos.",
+        sistemas: "Posee un dominio avanzado en Excel, Google Workspace, herramientas de Inteligencia Artificial aplicadas a la contabilidad y manejo experto del sistema Tango Gestión.",
+        contacto: "Por supuesto. El número directo de WhatsApp de Luis es: <strong>+54 9 387 652 4189</strong>.<br><br>También puedes escribirle a <strong>contacto@luisrizzo.com.ar</strong> si prefieres una comunicación más formal. ¿Te ayudo con algo más?"
+    };
+
+    const etiquetasBotones = {
+        experiencia: "Resumen de Experiencia",
+        educacion: "Estudios y Formación",
+        sistemas: "Sistemas que maneja",
+        contacto: "Solicitar WhatsApp"
+    };
+
+    function enviarMensaje(tipo) {
+        cajaOpciones.style.display = 'none'; // Ocultar botones mientras responde
+
+        // Mostrar lo que "escribió" el usuario
+        const msgUsuario = document.createElement('div');
+        msgUsuario.className = 'mensaje usuario';
+        msgUsuario.textContent = etiquetasBotones[tipo];
+        contenedorMensajes.appendChild(msgUsuario);
+        contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
+
+        // Mostrar indicador "escribiendo..."
+        const escribiendo = document.createElement('div');
+        escribiendo.className = 'escribiendo';
+        escribiendo.innerHTML = '<span></span><span></span><span></span>';
+        contenedorMensajes.appendChild(escribiendo);
+        contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
+
+        // Simular tiempo de la IA pensando (1.5 segundos)
+        setTimeout(() => {
+            contenedorMensajes.removeChild(escribiendo);
+
+            const msgBot = document.createElement('div');
+            msgBot.className = 'mensaje bot';
+            msgBot.innerHTML = respuestasBot[tipo];
+            contenedorMensajes.appendChild(msgBot);
+            contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
+
+            // Volver a mostrar botones
+            cajaOpciones.style.display = 'flex';
+        }, 1500);
+    }
 </script>
 
 </body>
