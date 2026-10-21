@@ -104,6 +104,11 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         .btn-linkedin { background: linear-gradient(135deg, #0077b5, #005a8a); }
         .btn-cv { background: linear-gradient(135deg, #f43f5e, #be123c); }
 
+        /* PIE DE PÁGINA (FIRMA PERSONAL) */
+        footer { text-align: center; padding: 30px 20px; background-color: #1e293b; color: #94a3b8; font-size: 0.9em; border-top: 3px solid var(--dorado); margin-top: 80px; }
+        footer p { margin: 0; }
+        footer span { color: var(--dorado); font-weight: 600; }
+
         /* ESTILOS DEL CHATBOT VIRTUAL */
         .chat-container { position: fixed; bottom: 30px; right: 30px; z-index: 2000; font-family: 'Segoe UI', Tahoma, sans-serif; }
         .chat-btn-flotante { background: var(--azul-corporativo); color: white; border: none; width: 60px; height: 60px; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: 0 10px 25px rgba(30, 58, 138, 0.4); transition: transform 0.3s; display: flex; align-items: center; justify-content: center; animation: floatChat 3s ease-in-out infinite; }
@@ -302,7 +307,12 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     </button>
 </div>
 
-<!-- SCRIPTS INTERACTIVOS CON is:inline CORRECTO -->
+<!-- PIE DE PÁGINA CON FIRMA PERSONAL -->
+<footer>
+    <p>&copy; 2026 Luis Rizzo. Desarrollado de forma nativa por <span>Luis Rizzo</span>.</p>
+</footer>
+
+<!-- SCRIPTS INTERACTIVOS -->
 <script is:inline>
     // 1. Efecto Máquina de Escribir
     const frases = ["Contador Público Nacional", "Auditoría Externa", "Análisis de Estados Contables", "Resolución de Inconsistencias"];
