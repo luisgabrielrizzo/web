@@ -3,6 +3,7 @@ layout: ../../layouts/PlantillaBlog.astro
 title: 'ARCA lanzó el servicio obligatorio "Ganancias personas jurídicas web": claves de la nueva medida'
 date: Octubre 2026
 image: https://www.rionegro.com.ar/wp-content/uploads/2025/09/Imagen-arca-agencia-recaudacion-y-control-aduanero-afip-e1768488713142.jpg?w=920&h=520&crop=1
+description: La Agencia de Recaudación y Control Aduanero (ARCA) implementó un nuevo servicio online para la confección y presentación de la declaración jurada anual del Impuesto a las Ganancias para empresas (personas jurídicas).
 ---
 
 La **Agencia de Recaudación y Control Aduanero (ARCA)** implementó un nuevo servicio online para la confección y presentación de la declaración jurada anual del **Impuesto a las Ganancias para empresas (personas jurídicas)**. 
