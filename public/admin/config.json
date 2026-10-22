@@ -20,7 +20,8 @@
         {"label": "Título del Artículo", "name": "title", "widget": "string"},
         {"label": "Fecha", "name": "date", "widget": "string", "default": "Octubre 2026"},
         {"label": "Imagen de Portada", "name": "image", "widget": "image"},
-        {"label": "Contenido", "name": "body", "widget": "markdown"}
+        {"label": "Contenido", "name": "body", "widget": "markdown"},
+        {"label": "Resumen corto", "name": "description", "widget": "text", "required": false}
       ]
     }
   ]

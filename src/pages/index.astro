@@ -247,7 +247,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
                     <div class="blog-content">
                         <div class="blog-fecha">{post.frontmatter.date}</div>
                         <h3>{post.frontmatter.title}</h3>
-                        <p>Haz clic en el enlace inferior para leer el desarrollo completo de este análisis profesional.</p>
+                        <p>{post.frontmatter.description || "Haz clic en el enlace inferior para leer el artículo completo."}</p>
                         <a href={post.url} class="btn-leer">Leer artículo completo <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
                 </article>
@@ -309,13 +309,13 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 
 <!-- PIE DE PÁGINA CON FIRMA PERSONAL -->
 <footer>
-    <p>&copy; 2026 Luis Gabriel Rizzo. Desarrollado por <span>Luis Gabriel Rizzo</span>.</p>
+    <p>&copy; <span>Luis Gabriel Rizzo</span>.</p>
 </footer>
 
 <!-- SCRIPTS INTERACTIVOS -->
 <script is:inline>
     // 1. Efecto Máquina de Escribir
-    const frases = ["Contador Público Nacional", "Auditoría Externa", "Análisis de Estados Contables", "Resolución de Inconsistencias"];
+    const frases = ["Contador Público Nacional", "Auditoría Externa", "Análisis de Estados Contables"];
     let fraseActual = 0;
     let caracterActual = 0;
     let borrando = false;
