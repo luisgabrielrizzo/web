@@ -184,13 +184,21 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         .resultado-desglose div { display: flex; justify-content: space-between; font-size: 1.1em; }
         
         @media (max-width: 768px) { .calculadora-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 480px) { 
+       @media (max-width: 480px) { 
             nav a { display: block; margin: 10px 0; } 
             header { padding: 100px 20px 80px; } 
             header h1 { font-size: 2.2em; } 
             .perfil-flex { flex-direction: column; }
             .chat-window { width: calc(100vw - 40px); right: -10px; bottom: 75px; } 
             .chat-btn-flotante { width: 50px; height: 50px; font-size: 20px; right: 20px; bottom: 20px;}
+            
+            /* --- AJUSTES NUEVOS PARA ACHICAR PANELES EN MÓVILES --- */
+            .container { padding: 20px; margin: 30px 10px; } /* Reduce los bordes blancos laterales */
+            .cotizaciones-panel { padding: 15px; margin-bottom: 25px; } /* Achica la caja del dólar */
+            .cotizacion-valor { font-size: 1.6em; } /* Achica el número del dólar */
+            .calculadora-grid { padding: 15px; gap: 20px; } /* Achica la caja de la calculadora */
+            .calc-resultados { padding: 15px; } /* Achica la caja verde de resultados */
+            .monto { font-size: 2em; } /* Achica el resultado final del interés compuesto */
         }
     </style>
 </head>
