@@ -185,7 +185,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         .resultado-desglose div { display: flex; justify-content: space-between; font-size: 1.1em; }
         
         @media (max-width: 768px) { .calculadora-grid { grid-template-columns: 1fr; } }
-       @media (max-width: 480px) { 
+        @media (max-width: 480px) { 
             nav a { display: block; margin: 10px 0; } 
             header { padding: 100px 20px 80px; } 
             header h1 { font-size: 2.2em; } 
@@ -201,7 +201,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             .calc-resultados { padding: 15px; } /* Achica la caja verde de resultados */
             .monto { font-size: 2em; } /* Achica el resultado final del interés compuesto */
         }
-    /* ========================================== */
+        /* ========================================== */
         /* MODO OSCURO (DARK MODE) AUTOMÁTICO         */
         /* ========================================== */
         body.dark-mode {
@@ -248,7 +248,10 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             color: #38bdf8;
         }
     </style>
-    <header>
+</head>
+<body>
+
+<header>
     <img src="/fotoperfil.jpg" alt="Luis Gabriel Rizzo" class="foto-perfil">
     <h1>Luis Gabriel Rizzo</h1>
     <div class="typing-container">
@@ -264,7 +267,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             <i class="fa-brands fa-linkedin-in"></i> LinkedIn
         </a>
     </div>
-    </header>
+</header>
 
 <nav>
     <a href="#perfil"><i class="fa-regular fa-user"></i> Sobre Mí</a>
@@ -517,7 +520,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         }
     }
     window.addEventListener("scroll", revelarAlScroll);
-    revelarAlScroll();
+    reveladosAlScroll();
 
     // 3. Lógica del Chatbot Simulado
     const btnAbrir = document.getElementById('abrir-chat');
@@ -640,7 +643,8 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         }
     }
     setTimeout(obtenerCotizaciones, 800);
-// 6. Lógica del Modo Oscuro (Dark Mode)
+
+    // 6. Lógica del Modo Oscuro (Dark Mode)
     const btnDarkMode = document.getElementById('btn-dark-mode');
     const iconDarkMode = btnDarkMode.querySelector('i');
     const cuerpoWeb = document.body;
