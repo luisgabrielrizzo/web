@@ -13,19 +13,28 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     <meta name="description" content="CV profesional de Luis Gabriel Rizzo, Contador Público y Auditor Externo radicado en Salta.">
     <link rel="icon" type="image/jpeg" href="/fotoperfil.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --azul-corporativo: #1e3a8a; 
-            --azul-claro: #2563eb; 
-            --celeste-acento: #0ea5e9; 
-            --dorado: #f59e0b; 
-            --verde-exito: #10b981; 
-            --gris-fondo: #f0f9ff; 
-            --texto-principal: #1e293b;
+            /* NUEVA PALETA: Confianza Corporativa */
+            --azul-corporativo: #0F172A; /* Azul marino principal */
+            --azul-claro: #0891B2;       /* Cian intermedio para efectos */
+            --celeste-acento: #06B6D4;   /* Cian vibrante para detalles tecnológicos */
+            --dorado: #f59e0b;           /* Mantenemos el dorado original para bordes */
+            --verde-exito: #10b981;      /* Mantenemos para resultados financieros positivos */
+            --gris-fondo: #F8FAFC;       /* Fondo corporativo súper limpio */
+            --texto-principal: #334155;  /* Texto gris oscuro (mejor lectura que el negro) */
+            
+            /* Nuevas Fuentes */
+            --fuente-titulos: 'Inter', sans-serif;
+            --fuente-textos: 'Roboto', sans-serif;
         }
         
         html { scroll-behavior: smooth; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 0; color: var(--texto-principal); background-color: var(--gris-fondo); overflow-x: hidden; }
+        body { font-family: var(--fuente-textos); line-height: 1.6; margin: 0; padding: 0; color: var(--texto-principal); background-color: var(--gris-fondo); overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: var(--fuente-titulos); }
         
         /* Cabecera Interactiva */
         header { 
