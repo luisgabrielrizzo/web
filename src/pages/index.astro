@@ -269,18 +269,26 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     </div>
 </header>
 
-<nav>
-    <a href="#perfil"><i class="fa-regular fa-user"></i> Sobre Mí</a>
-    <a href="#experiencia"><i class="fa-solid fa-briefcase"></i> Experiencia</a>
-    <a href="#competencias"><i class="fa-solid fa-graduation-cap"></i> Formación</a>
-    <a href="#herramientas"><i class="fa-solid fa-chart-line"></i> Panel Financiero</a>
-    <a href="#blog"><i class="fa-regular fa-newspaper"></i> Blog</a>
-    <a href="#contacto"><i class="fa-regular fa-envelope"></i> Contacto</a>
-    
-    <!-- BOTÓN DE MODO OSCURO -->
-    <button id="btn-dark-mode" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; cursor: pointer; padding: 8px 15px; border-radius: 50px; margin-left: 15px; transition: all 0.3s;" title="Alternar Modo Oscuro">
-        <i class="fa-solid fa-moon"></i>
-    </button>
+<nav style="display: flex; justify-content: space-between; align-items: center; padding: 10px 40px;">
+    <!-- LOGO CON TUS INICIALES -->
+    <a href="#inicio" style="display: flex; align-items: center; text-decoration: none; padding: 0;">
+        <img src="/logo.png" alt="LR Logo" style="height: 45px; width: auto; object-fit: contain; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    </a>
+
+    <!-- ENLACES DE NAVEGACIÓN -->
+    <div style="display: flex; align-items: center;">
+        <a href="#perfil"><i class="fa-regular fa-user"></i> Sobre Mí</a>
+        <a href="#experiencia"><i class="fa-solid fa-briefcase"></i> Experiencia</a>
+        <a href="#competencias"><i class="fa-solid fa-graduation-cap"></i> Formación</a>
+        <a href="#herramientas"><i class="fa-solid fa-chart-line"></i> Panel Financiero</a>
+        <a href="#blog"><i class="fa-regular fa-newspaper"></i> Blog</a>
+        <a href="#contacto"><i class="fa-regular fa-envelope"></i> Contacto</a>
+        
+        <!-- BOTÓN DE MODO OSCURO -->
+        <button id="btn-dark-mode" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; cursor: pointer; padding: 8px 15px; border-radius: 50px; margin-left: 15px; transition: all 0.3s;" title="Alternar Modo Oscuro">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </div>
 </nav>
 
 <div class="container reveal" id="perfil">
