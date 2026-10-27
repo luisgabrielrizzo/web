@@ -396,7 +396,42 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         </div>
     </div>
 </div>
-
+<!-- SIMULADOR DE PRÉSTAMOS (SISTEMA FRANCÉS) -->
+    <div class="calculadora-grid" style="margin-top: 30px;">
+        <div class="calc-controles">
+            <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-building-columns"></i> Simulador de Préstamos (Sistema Francés)</h3>
+            <div class="input-grupo">
+                <label for="montoPrestamo">Monto del Préstamo ($)</label>
+                <input type="number" id="montoPrestamo" value="1000000" min="0">
+            </div>
+            <div class="input-grupo" style="margin-top: 15px;">
+                <label for="tasaPrestamo">Tasa Nominal Anual - TNA (%)</label>
+                <input type="number" id="tasaPrestamo" value="55" min="0" step="0.1">
+            </div>
+            <div class="input-grupo" style="margin-top: 15px;">
+                <label for="plazoPrestamo">Plazo (Meses)</label>
+                <input type="number" id="plazoPrestamo" value="24" min="1">
+            </div>
+            <button onclick="calcularPrestamo()" class="btn-calc" style="background: linear-gradient(135deg, #0ea5e9, #0284c7); margin-top: 15px;"><i class="fa-solid fa-file-signature"></i> Calcular Cuota</button>
+        </div>
+        
+        <div class="calc-resultados" style="border-left-color: #0ea5e9;">
+            <div class="resultado-card">
+                <h4>Cuota Mensual Fija</h4>
+                <div class="monto destacado" id="resCuota" style="color: #0ea5e9;">$0.00</div>
+            </div>
+            <div class="resultado-desglose">
+                <div>
+                    <span>Total a Devolver:</span>
+                    <strong id="resTotalPrestamo">$0.00</strong>
+                </div>
+                <div>
+                    <span>Intereses Pagados:</span>
+                    <strong id="resInteresesPrestamo" style="color: #f43f5e;">$0.00</strong>
+                </div>
+            </div>
+        </div>
+    </div>
 <div class="container reveal" id="blog">
     <h2><i class="fa-solid fa-pen-nib"></i> Blog y Actualidad Profesional</h2>
     <div class="grid-blog">
@@ -666,6 +701,42 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             iconDarkMode.classList.replace('fa-sun', 'fa-moon');
         }
     });
+    // 7. Lógica del Simulador de Préstamos (Sistema Francés)
+    function calcularPrestamo() {
+        const capital = parseFloat(document.getElementById('montoPrestamo').value);
+        const tna = parseFloat(document.getElementById('tasaPrestamo').value);
+        const meses = parseInt(document.getElementById('plazoPrestamo').value);
+
+        if (isNaN(capital) || isNaN(tna) || isNaN(meses) || capital <= 0 || meses <= 0) return;
+
+        // Fórmula financiera del Sistema Francés
+        const tasaMensual = (tna / 100) / 12;
+        let cuota = 0;
+        
+        if (tasaMensual === 0) {
+            cuota = capital / meses;
+        } else {
+            cuota = capital * (tasaMensual * Math.pow(1 + tasaMensual, meses)) / (Math.pow(1 + tasaMensual, meses) - 1);
+        }
+
+        const totalDevolver = cuota * meses;
+        const intereses = totalDevolver - capital;
+
+        const formatoMoneda = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
+
+        const calcResPrestamo = document.querySelectorAll('.calc-resultados')[1]; // Selecciona la segunda caja
+        calcResPrestamo.style.opacity = '0.5';
+        
+        setTimeout(() => {
+            document.getElementById('resCuota').innerText = formatoMoneda.format(cuota);
+            document.getElementById('resTotalPrestamo').innerText = formatoMoneda.format(totalDevolver);
+            document.getElementById('resInteresesPrestamo').innerText = formatoMoneda.format(intereses);
+            calcResPrestamo.style.opacity = '1';
+            calcResPrestamo.style.transition = 'opacity 0.4s';
+        }, 150);
+    }
+    // Ejecutar al inicio para mostrar los valores por defecto
+    setTimeout(calcularPrestamo, 600);
 </script>
 
 </body>
