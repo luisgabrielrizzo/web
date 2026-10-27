@@ -201,6 +201,52 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             .calc-resultados { padding: 15px; } /* Achica la caja verde de resultados */
             .monto { font-size: 2em; } /* Achica el resultado final del interés compuesto */
         }
+    /* ========================================== */
+        /* MODO OSCURO (DARK MODE) AUTOMÁTICO         */
+        /* ========================================== */
+        body.dark-mode {
+            --gris-fondo: #0f172a;      /* Fondo general azul muy oscuro */
+            --texto-principal: #e2e8f0; /* Texto claro grisáceo */
+            --azul-corporativo: #38bdf8;/* Títulos en celeste brillante */
+        }
+        
+        /* Oscurecemos los paneles, tarjetas y la calculadora */
+        body.dark-mode .container,
+        body.dark-mode .card-perfil,
+        body.dark-mode .blog-card,
+        body.dark-mode .blog-content,
+        body.dark-mode .cotizaciones-panel,
+        body.dark-mode .calculadora-grid,
+        body.dark-mode .chat-window,
+        body.dark-mode .chat-input-area,
+        body.dark-mode .chat-messages {
+            background-color: #1e293b;
+            border-color: #334155;
+            color: #e2e8f0;
+        }
+        
+        /* Oscurecemos los elementos internos */
+        body.dark-mode .cotizacion-card,
+        body.dark-mode .calc-resultados,
+        body.dark-mode .chat-opcion,
+        body.dark-mode .mensaje.bot {
+            background-color: #0f172a;
+            border-color: #334155;
+            color: #e2e8f0;
+        }
+
+        body.dark-mode .input-grupo input {
+            background-color: #0f172a;
+            color: white;
+            border-color: #334155;
+        }
+
+        /* Cambiamos el color de los números grandes y subtítulos */
+        body.dark-mode .cotizacion-valor,
+        body.dark-mode .monto,
+        body.dark-mode .input-grupo label {
+            color: #38bdf8;
+        }
     </style>
     <header>
     <img src="/fotoperfil.jpg" alt="Luis Gabriel Rizzo" class="foto-perfil">
@@ -227,6 +273,11 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     <a href="#herramientas"><i class="fa-solid fa-chart-line"></i> Panel Financiero</a>
     <a href="#blog"><i class="fa-regular fa-newspaper"></i> Blog</a>
     <a href="#contacto"><i class="fa-regular fa-envelope"></i> Contacto</a>
+    
+    <!-- BOTÓN DE MODO OSCURO -->
+    <button id="btn-dark-mode" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; cursor: pointer; padding: 8px 15px; border-radius: 50px; margin-left: 15px; transition: all 0.3s;" title="Alternar Modo Oscuro">
+        <i class="fa-solid fa-moon"></i>
+    </button>
 </nav>
 
 <div class="container reveal" id="perfil">
@@ -589,6 +640,28 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         }
     }
     setTimeout(obtenerCotizaciones, 800);
+// 6. Lógica del Modo Oscuro (Dark Mode)
+    const btnDarkMode = document.getElementById('btn-dark-mode');
+    const iconDarkMode = btnDarkMode.querySelector('i');
+    const cuerpoWeb = document.body;
+
+    // Verificar si el usuario ya tenía el modo oscuro activado en su visita anterior
+    if (localStorage.getItem('tema-oscuro') === 'activado') {
+        cuerpoWeb.classList.add('dark-mode');
+        iconDarkMode.classList.replace('fa-moon', 'fa-sun'); // Cambia la lunita por un sol
+    }
+
+    btnDarkMode.addEventListener('click', () => {
+        cuerpoWeb.classList.toggle('dark-mode');
+        
+        if (cuerpoWeb.classList.contains('dark-mode')) {
+            localStorage.setItem('tema-oscuro', 'activado'); // Guarda la preferencia
+            iconDarkMode.classList.replace('fa-moon', 'fa-sun');
+        } else {
+            localStorage.setItem('tema-oscuro', 'desactivado');
+            iconDarkMode.classList.replace('fa-sun', 'fa-moon');
+        }
+    });
 </script>
 
 </body>
