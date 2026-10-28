@@ -40,10 +40,10 @@ const { frontmatter } = Astro.props;
     </div>
 </body>
 <style is:global>
-    /* Fondo general del artículo en modo oscuro */
-    body.dark-mode {
+/* Fondo de la caja de contenido en modo oscuro */
+    body.dark-mode .container {
         background-color: #0f172a !important;
-        color: #e2e8f0 !important;
+        border: 1px solid rgba(255,255,255,0.1);
     }
     
     /* Títulos dentro del artículo */
