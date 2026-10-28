@@ -247,6 +247,11 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         body.dark-mode .input-grupo label {
             color: #38bdf8;
         }
+
+        /* Escudo para proteger los botones del Hero del estilo global del blog */
+        body.dark-mode header a {
+            color: #ffffff !important;
+        }
     </style>
 </head>
 <body>
@@ -260,13 +265,10 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     
     <!-- NUEVOS BOTONES DE ACCIÓN RÁPIDA -->
     <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-        <!-- BOTÓN CONTACTAR: Texto oscuro sobre fondo celeste para máximo contraste -->
-        <a href="#contacto" style="background-color: var(--celeste-acento); color: #0f172a; font-weight: 800; padding: 12px 28px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+        <a href="#contacto" style="background-color: var(--celeste-acento); color: white; padding: 12px 25px; text-decoration: none; border-radius: 50px; font-weight: bold; font-family: var(--fuente-titulos); transition: transform 0.3s, background-color 0.3s;">
             <i class="fa-regular fa-envelope"></i> Contactar ahora
         </a>
-
-        <!-- BOTÓN LINKEDIN: Borde más grueso y texto en negrita -->
-        <a href="https://www.linkedin.com/in/luis-rizzo-cpn/" target="_blank" style="background-color: rgba(0,0,0,0.3); border: 2px solid #ffffff; color: #ffffff; font-weight: 700; padding: 10px 26px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-size: 1.1rem; transition: all 0.3s;" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.15)'; this.style.transform='scale(1.05)'" onmouseout="this.style.backgroundColor='rgba(0,0,0,0.3)'; this.style.transform='scale(1)'">
+        <a href="https://www.linkedin.com/in/luis-rizzo-cpn/" target="_blank" style="background-color: rgba(255,255,255,0.1); border: 1px solid white; color: white; padding: 12px 25px; text-decoration: none; border-radius: 50px; font-weight: bold; font-family: var(--fuente-titulos); transition: transform 0.3s, background-color 0.3s;" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.2)'" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.1)'">
             <i class="fa-brands fa-linkedin-in"></i> LinkedIn
         </a>
     </div>
