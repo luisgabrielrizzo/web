@@ -20,6 +20,12 @@ const { frontmatter } = Astro.props;
         .imagen-destacada { width: 100%; height: 350px; object-fit: cover; border-radius: 8px; margin: 25px 0; }
         .contenido { font-size: 1.15em; color: #475569; }
     </style>
+    <script>
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.documentElement.classList.add('dark-mode');
+            document.body.classList.add('dark-mode');
+        }
+    </script>
 </head>
 <body>
     <nav><a href="/"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a></nav>
@@ -33,4 +39,35 @@ const { frontmatter } = Astro.props;
         </div>
     </div>
 </body>
+<style is:global>
+    /* Fondo general del artículo en modo oscuro */
+    body.dark-mode {
+        background-color: #0f172a !important;
+        color: #e2e8f0 !important;
+    }
+    
+    /* Títulos dentro del artículo */
+    body.dark-mode h1, 
+    body.dark-mode h2, 
+    body.dark-mode h3 {
+        color: #ffffff !important;
+    }
+    
+    /* Citas destacadas (las que llevan el > en markdown) */
+    body.dark-mode blockquote {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        border-left: 4px solid #0ea5e9 !important;
+        color: #cbd5e1 !important;
+    }
+    
+    /* Enlaces dentro del texto */
+    body.dark-mode a {
+        color: #38bdf8 !important;
+    }
+    
+    /* Líneas separadoras (las --- en markdown) */
+    body.dark-mode hr {
+        border-color: #334155 !important;
+    }
+</style>
 </html>
