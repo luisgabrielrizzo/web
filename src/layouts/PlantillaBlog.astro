@@ -1,74 +1,106 @@
 ---
 const { frontmatter } = Astro.props;
 ---
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{frontmatter.title} | Luis Rizzo</title>
+    <!-- Favicon de tu foto de perfil -->
     <link rel="icon" type="image/jpeg" href="/fotoperfil.jpg" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        :root { --azul-corporativo: #0d233a; --dorado: #bfa15f; --gris-fondo: #f8f9fa; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; margin: 0; background-color: var(--gris-fondo); color: #333; }
-        nav { background: rgba(13, 35, 58, 0.95); padding: 15px; text-align: center; position: sticky; top: 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        nav a { color: white; text-decoration: none; font-weight: 500; font-size: 1.1em; }
+        :root { 
+            --azul-corporativo: #0d233a; 
+            --dorado: #bfa15f; 
+            --gris-fondo: #f8f9fa; 
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; margin: 0; background: var(--gris-fondo); transition: background-color 0.3s; }
+        
+        nav { background: rgba(13, 35, 58, 0.95); padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; }
+        nav a { color: white; text-decoration: none; font-weight: 500; font-size: 1.1em; transition: color 0.3s; }
         nav a:hover { color: var(--dorado); }
-        .container { max-width: 800px; margin: 50px auto; padding: 40px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .fecha { color: #64748b; font-weight: bold; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; }
-        h1 { color: var(--azul-corporativo); font-size: 2.2em; border-bottom: 2px solid var(--dorado); padding-bottom: 15px; margin-top: 10px; }
-        .imagen-destacada { width: 100%; height: 350px; object-fit: cover; border-radius: 8px; margin: 25px 0; }
+        
+        .container { max-width: 800px; margin: 50px auto; padding: 40px; background: #fff; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: background-color 0.3s; }
+        
+        .fecha { color: #64748b; font-weight: bold; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+        h1 { color: var(--azul-corporativo); font-size: 2.2em; border-bottom: 2px solid var(--dorado); padding-bottom: 10px; margin-bottom: 25px; }
+        .imagen-destacada { width: 100%; height: 350px; object-fit: cover; border-radius: 8px; margin-bottom: 30px; }
         .contenido { font-size: 1.15em; color: #475569; }
     </style>
+
     <script>
-        if (localStorage.getItem('darkMode') === 'enabled') {
+        // CORRECCIÓN: Ahora lee la misma variable exacta que usa tu index.astro ('tema-oscuro')
+        if (localStorage.getItem('tema-oscuro') === 'activado') {
             document.documentElement.classList.add('dark-mode');
             document.body.classList.add('dark-mode');
         }
     </script>
 </head>
 <body>
-    <nav><a href="/"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a></nav>
+    <nav>
+        <a href="/"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
+    </nav>
+    
     <div class="container">
         <div class="fecha">{frontmatter.date}</div>
         <h1>{frontmatter.title}</h1>
-        <img src={frontmatter.image} class="imagen-destacada" alt="Portada del artículo">
+        {frontmatter.image && <img src={frontmatter.image} alt="Portada del artículo" class="imagen-destacada">}
         <div class="contenido">
-            <!-- Aquí el panel inyectará mágicamente tu texto -->
             <slot />
         </div>
     </div>
+
+    <!-- ESTILOS DE MODO OSCURO PARA EL BLOG -->
+    <style is:global>
+        /* Fondo general */
+        body.dark-mode {
+            background-color: #0f172a !important;
+            color: #e2e8f0 !important;
+        }
+        
+        /* CORRECCIÓN: Fondo oscuro para la caja central blanca */
+        body.dark-mode .container {
+            background-color: #1e293b !important;
+            border: 1px solid #334155;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        body.dark-mode .fecha {
+            color: #38bdf8 !important;
+        }
+
+        body.dark-mode h1, 
+        body.dark-mode h2, 
+        body.dark-mode h3 {
+            color: #ffffff !important;
+            border-bottom-color: #38bdf8 !important;
+        }
+        
+        body.dark-mode .contenido {
+            color: #cbd5e1 !important;
+        }
+
+        /* Formatos de Markdown en los artículos */
+        body.dark-mode .contenido blockquote {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+            border-left: 4px solid #0ea5e9 !important;
+            color: #e2e8f0 !important;
+            padding: 10px 15px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+        }
+        
+        body.dark-mode .contenido a {
+            color: #38bdf8 !important;
+        }
+        
+        body.dark-mode .contenido hr {
+            border-color: #334155 !important;
+        }
+    </style>
 </body>
-<style is:global>
-/* Fondo de la caja de contenido en modo oscuro */
-    body.dark-mode .container {
-        background-color: #0f172a !important;
-        border: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    /* Títulos dentro del artículo */
-    body.dark-mode h1, 
-    body.dark-mode h2, 
-    body.dark-mode h3 {
-        color: #ffffff !important;
-    }
-    
-    /* Citas destacadas (las que llevan el > en markdown) */
-    body.dark-mode blockquote {
-        background-color: rgba(255, 255, 255, 0.05) !important;
-        border-left: 4px solid #0ea5e9 !important;
-        color: #cbd5e1 !important;
-    }
-    
-    /* Enlaces dentro del texto */
-    body.dark-mode a {
-        color: #38bdf8 !important;
-    }
-    
-    /* Líneas separadoras (las --- en markdown) */
-    body.dark-mode hr {
-        border-color: #334155 !important;
-    }
-</style>
 </html>
