@@ -159,15 +159,21 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
         @keyframes fadeInChat { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ESTILOS WIDGET DÓLAR */
-        .cotizaciones-panel { margin-bottom: 40px; background: white; padding: 25px; border-radius: 12px; border: 1px solid #e0f2fe; box-shadow: 0 10px 25px rgba(30,58,138,0.05); }
-        .cotizaciones-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        /* ESTILOS WIDGET DÓLAR Y VENCIMIENTOS */
+        .cotizaciones-panel { background: white; padding: 25px; border-radius: 12px; border: 1px solid #e0f2fe; box-shadow: 0 10px 25px rgba(30,58,138,0.05); }
+        .cotizaciones-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
         .cotizacion-card { background: #f8fafc; border-left: 4px solid var(--dorado); padding: 20px; border-radius: 8px; text-align: center; transition: transform 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100px; }
         .cotizacion-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
         .cotizacion-tipo { display: block; font-size: 1.05em; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
         .cotizacion-valor { display: block; font-size: 2em; font-weight: 800; color: var(--azul-corporativo); margin: 5px 0; }
         .cotizacion-fecha { display: block; font-size: 0.8em; color: #94a3b8; }
         .loader-cotizacion { color: var(--celeste-acento); font-weight: 600; animation: pulse 1.5s infinite; }
+
+        /* Estilos del Item de Vencimiento */
+        .vencimiento-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; background: #f8fafc; border-left: 4px solid var(--azul-claro); border-radius: 6px; margin-bottom: 10px; transition: transform 0.2s, box-shadow 0.2s; }
+        .vencimiento-item:hover { transform: translateX(5px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .vencimiento-item-dia { font-weight: 700; color: var(--azul-corporativo); font-size: 1.05em; }
+        .vencimiento-item-titulo { color: #64748b; font-size: 0.9em; }
 
         /* ESTILOS DE LA CALCULADORA FINANCIERA */
         .calculadora-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; background: white; padding: 30px; border-radius: 12px; border: 1px solid #e0f2fe; box-shadow: 0 10px 25px rgba(30,58,138,0.05); }
@@ -194,20 +200,20 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             .chat-btn-flotante { width: 50px; height: 50px; font-size: 20px; right: 20px; bottom: 20px;}
             
             /* --- AJUSTES NUEVOS PARA ACHICAR PANELES EN MÓVILES --- */
-            .container { padding: 20px; margin: 30px 10px; } /* Reduce los bordes blancos laterales */
-            .cotizaciones-panel { padding: 15px; margin-bottom: 25px; } /* Achica la caja del dólar */
-            .cotizacion-valor { font-size: 1.6em; } /* Achica el número del dólar */
-            .calculadora-grid { padding: 15px; gap: 20px; } /* Achica la caja de la calculadora */
-            .calc-resultados { padding: 15px; } /* Achica la caja verde de resultados */
-            .monto { font-size: 2em; } /* Achica el resultado final del interés compuesto */
+            .container { padding: 20px; margin: 30px 10px; } 
+            .cotizaciones-panel { padding: 15px; margin-bottom: 25px; } 
+            .cotizacion-valor { font-size: 1.6em; } 
+            .calculadora-grid { padding: 15px; gap: 20px; } 
+            .calc-resultados { padding: 15px; } 
+            .monto { font-size: 2em; } 
         }
         /* ========================================== */
         /* MODO OSCURO (DARK MODE) AUTOMÁTICO         */
         /* ========================================== */
         body.dark-mode {
-            --gris-fondo: #0f172a;      /* Fondo general azul muy oscuro */
-            --texto-principal: #e2e8f0; /* Texto claro grisáceo */
-            --azul-corporativo: #38bdf8;/* Títulos en celeste brillante */
+            --gris-fondo: #0f172a;      
+            --texto-principal: #e2e8f0; 
+            --azul-corporativo: #38bdf8;
         }
         
         /* Oscurecemos los paneles, tarjetas y la calculadora */
@@ -241,17 +247,20 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             border-color: #334155;
         }
 
-        /* Cambiamos el color de los números grandes y subtítulos */
         body.dark-mode .cotizacion-valor,
         body.dark-mode .monto,
         body.dark-mode .input-grupo label {
             color: #38bdf8;
         }
 
-        /* Escudo para proteger los botones del Hero del estilo global del blog */
         body.dark-mode header a {
             color: #ffffff !important;
         }
+
+        /* Modo Oscuro para los Vencimientos */
+        body.dark-mode .vencimiento-item { background-color: #0f172a; border-color: #334155; }
+        body.dark-mode .vencimiento-item-dia { color: #38bdf8; }
+        body.dark-mode .vencimiento-item-titulo { color: #94a3b8; }
     </style>
 </head>
 <body>
@@ -367,7 +376,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 
 <div class="container reveal" id="herramientas">
     <h2><i class="fa-solid fa-chart-line"></i> Panel Financiero y Simulador</h2>
-    <p>Consulta las cotizaciones del mercado en tiempo real, calcula proyecciones de inversión y simula créditos.</p>
+    <p>Consulta las cotizaciones del mercado, próximos vencimientos impositivos y simula proyecciones de inversión y créditos.</p>
     
     <!-- BOTÓN DE DESPLIEGUE -->
     <div style="text-align: center; margin: 25px 0;">
@@ -379,12 +388,25 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     <!-- CONTENEDOR PLEGABLE -->
     <div id="contenido-panel-financiero" style="display: none; opacity: 0; transition: opacity 0.5s ease;">
         
-        <!-- WIDGET COTIZACIONES DÓLAR -->
-        <div class="cotizaciones-panel">
-            <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-money-bill-transfer"></i> Cotizaciones en Tiempo Real</h3>
-            <div class="cotizaciones-grid" id="panel-dolares">
-                <div class="cotizacion-card"><span class="loader-cotizacion">Actualizando mercado...</span></div>
+        <!-- GRID DE DÓLAR Y VENCIMIENTOS -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 40px;">
+            
+            <!-- WIDGET COTIZACIONES DÓLAR -->
+            <div class="cotizaciones-panel" style="margin-bottom: 0;">
+                <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-money-bill-transfer"></i> Mercado Cambiario</h3>
+                <div class="cotizaciones-grid" id="panel-dolares">
+                    <div class="cotizacion-card"><span class="loader-cotizacion">Actualizando mercado...</span></div>
+                </div>
             </div>
+
+            <!-- WIDGET CALENDARIO DE VENCIMIENTOS -->
+            <div class="cotizaciones-panel" style="margin-bottom: 0; border-left: 4px solid var(--azul-claro);">
+                <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-calendar-check"></i> Próximos Vencimientos</h3>
+                <div id="lista-vencimientos">
+                    <div class="loader-cotizacion" style="text-align: center; padding: 20px;">Calculando fechas impositivas...</div>
+                </div>
+            </div>
+            
         </div>
 
         <!-- CALCULADORA DE INVERSIONES -->
@@ -872,7 +894,63 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             btn.style.backgroundColor = 'var(--azul-corporativo)'; // Vuelve a azul
         }
     }
+
+    // 11. Calendario Inteligente de Vencimientos Impositivos
+    function cargarVencimientos() {
+        const hoy = new Date();
+        const mesActual = hoy.getMonth();
+        const anioActual = hoy.getFullYear();
+
+        // Lista base de vencimientos (Ej: Días 15, 18, 20 y 25 de cada mes)
+        const vencimientos = [
+            { dia: 15, titulo: "Ingresos Brutos (CM03) - SIFERE" },
+            { dia: 18, titulo: "IVA y Cargas Sociales (0-3)" },
+            { dia: 20, titulo: "IVA y Cargas Sociales (4-6)" },
+            { dia: 22, titulo: "IVA y Cargas Sociales (7-9)" }
+        ];
+
+        let listaHTML = '';
+
+        vencimientos.forEach(v => {
+            let mesVencimiento = mesActual;
+            let anioVencimiento = anioActual;
+            
+            // Si el día ya pasó este mes, salta automáticamente al mes siguiente
+            if (hoy.getDate() > v.dia) {
+                mesVencimiento++; 
+                if (mesVencimiento > 11) {
+                    mesVencimiento = 0;
+                    anioVencimiento++;
+                }
+            }
+
+            const fechaVenc = new Date(anioVencimiento, mesVencimiento, v.dia);
+            const mesTexto = fechaVenc.toLocaleDateString('es-AR', { month: 'short' }).toUpperCase();
+            
+            // Calculamos cuántos días faltan
+            const diffTiempo = Math.abs(fechaVenc - hoy);
+            const diffDias = Math.ceil(diffTiempo / (1000 * 60 * 60 * 24));
+            
+            // Diseñamos la etiqueta (badge) según los días que falten
+            let badge = `<span style="background: var(--celeste-acento); color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">En ${diffDias} días</span>`;
+            if (diffDias === 0) badge = `<span style="background: #ef4444; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">¡VENCE HOY!</span>`;
+            else if (diffDias <= 5) badge = `<span style="background: #f59e0b; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">Faltan ${diffDias}d</span>`;
+
+            listaHTML += `
+                <div class="vencimiento-item">
+                    <div>
+                        <div class="vencimiento-item-dia">${v.dia} de ${mesTexto}</div>
+                        <div class="vencimiento-item-titulo">${v.titulo}</div>
+                    </div>
+                    <div>${badge}</div>
+                </div>
+            `;
+        });
+
+        const panelVenc = document.getElementById('lista-vencimientos');
+        if(panelVenc) panelVenc.innerHTML = listaHTML;
+    }
+    setTimeout(cargarVencimientos, 900);
 </script>
 
 </body>
-</html>
