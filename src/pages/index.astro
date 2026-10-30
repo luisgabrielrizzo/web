@@ -257,13 +257,14 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 <body>
 
 <header>
+    <!-- RELOJ Y FECHA EN TIEMPO REAL (Esquina superior derecha) -->
+    <div id="fecha-en-vivo" style="position: absolute; top: 25px; right: 25px; color: #bae6fd; font-size: 0.85rem; font-weight: 500; font-family: var(--fuente-textos); background: rgba(0,0,0,0.25); padding: 6px 14px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px);">
+        Cargando fecha...
+    </div>
+
     <img src="/fotoperfil.jpg" alt="Luis Gabriel Rizzo" class="foto-perfil">
     <h1>Luis Gabriel Rizzo</h1>
     <div class="typing-container">
-        <!-- RELOJ Y FECHA EN TIEMPO REAL -->
-        <div id="fecha-en-vivo" style="color: #bae6fd; font-size: 1.1em; margin-top: 10px; margin-bottom: 10px; font-weight: 500; font-family: var(--fuente-textos);">
-            Cargando fecha...
-        </div>
         <span id="texto-animado"></span><span class="cursor"></span>
     </div>
     
