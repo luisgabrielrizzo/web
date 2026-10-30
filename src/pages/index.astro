@@ -260,6 +260,10 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     <img src="/fotoperfil.jpg" alt="Luis Gabriel Rizzo" class="foto-perfil">
     <h1>Luis Gabriel Rizzo</h1>
     <div class="typing-container">
+        <!-- RELOJ Y FECHA EN TIEMPO REAL -->
+        <div id="fecha-en-vivo" style="color: #bae6fd; font-size: 1.1em; margin-top: 10px; margin-bottom: 10px; font-weight: 500; font-family: var(--fuente-textos);">
+            Cargando fecha...
+        </div>
         <span id="texto-animado"></span><span class="cursor"></span>
     </div>
     
@@ -364,91 +368,142 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     <h2><i class="fa-solid fa-chart-line"></i> Panel Financiero y Simulador</h2>
     <p>Consulta las cotizaciones del mercado en tiempo real, calcula proyecciones de inversión y simula créditos.</p>
     
-    <!-- WIDGET COTIZACIONES DÓLAR -->
-    <div class="cotizaciones-panel">
-        <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-money-bill-transfer"></i> Cotizaciones en Tiempo Real</h3>
-        <div class="cotizaciones-grid" id="panel-dolares">
-            <div class="cotizacion-card"><span class="loader-cotizacion">Actualizando mercado...</span></div>
-        </div>
+    <!-- BOTÓN DE DESPLIEGUE -->
+    <div style="text-align: center; margin: 25px 0;">
+        <button id="btn-toggle-panel" onclick="togglePanelFinanciero()" class="btn-secundario" style="cursor: pointer; background-color: var(--azul-corporativo); border: none; font-family: var(--fuente-titulos); padding: 12px 25px; font-size: 1.1em; transition: all 0.3s;">
+            <i class="fa-solid fa-folder-open" style="margin-right: 8px;"></i> Abrir Panel Financiero
+        </button>
     </div>
 
-    <!-- CALCULADORA DE INVERSIONES -->
-    <div class="calculadora-grid">
-        <div class="calc-controles">
-            <div class="input-grupo">
-                <label for="capInicial">Capital Inicial ($)</label>
-                <input type="number" id="capInicial" value="100000" min="0">
-            </div>
-            <div class="input-grupo">
-                <label for="aporteMensual">Aporte Mensual ($)</label>
-                <input type="number" id="aporteMensual" value="10000" min="0">
-            </div>
-            <div class="input-grupo">
-                <label for="tasaAnual">Tasa de Interés Anual (%)</label>
-                <input type="number" id="tasaAnual" value="8" min="0" step="0.1">
-            </div>
-            <div class="input-grupo">
-                <label for="anios">Plazo (Años)</label>
-                <input type="number" id="anios" value="10" min="1">
-            </div>
-            <button onclick="calcularInversion()" class="btn-calc"><i class="fa-solid fa-calculator"></i> Proyectar Resultados</button>
-        </div>
+    <!-- CONTENEDOR PLEGABLE -->
+    <div id="contenido-panel-financiero" style="display: none; opacity: 0; transition: opacity 0.5s ease;">
         
-        <div class="calc-resultados">
-            <div class="resultado-card">
-                <h4>Capital Final Estimado</h4>
-                <div class="monto destacado" id="resTotal">$0.00</div>
-            </div>
-            <div class="resultado-desglose">
-                <div>
-                    <span>Total Invertido:</span>
-                    <strong id="resInvertido">$0.00</strong>
-                </div>
-                <div>
-                    <span>Intereses Generados:</span>
-                    <strong id="resIntereses" style="color: var(--verde-exito);">$0.00</strong>
-                </div>
+        <!-- WIDGET COTIZACIONES DÓLAR -->
+        <div class="cotizaciones-panel">
+            <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-money-bill-transfer"></i> Cotizaciones en Tiempo Real</h3>
+            <div class="cotizaciones-grid" id="panel-dolares">
+                <div class="cotizacion-card"><span class="loader-cotizacion">Actualizando mercado...</span></div>
             </div>
         </div>
-    </div>
 
-    <!-- SIMULADOR DE PRÉSTAMOS (SISTEMA FRANCÉS) -->
-    <div class="calculadora-grid" style="margin-top: 30px;">
-        <div class="calc-controles">
-            <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-building-columns"></i> Simulador de Préstamos (Sistema Francés)</h3>
-            <div class="input-grupo">
-                <label for="montoPrestamo">Monto del Préstamo ($)</label>
-                <input type="number" id="montoPrestamo" value="1000000" min="0">
+        <!-- CALCULADORA DE INVERSIONES -->
+        <div class="calculadora-grid">
+            <div class="calc-controles">
+                <div class="input-grupo">
+                    <label for="capInicial">Capital Inicial ($)</label>
+                    <input type="number" id="capInicial" value="100000" min="0">
+                </div>
+                <div class="input-grupo">
+                    <label for="aporteMensual">Aporte Mensual ($)</label>
+                    <input type="number" id="aporteMensual" value="10000" min="0">
+                </div>
+                <div class="input-grupo">
+                    <label for="tasaAnual">Tasa de Interés Anual (%)</label>
+                    <input type="number" id="tasaAnual" value="8" min="0" step="0.1">
+                </div>
+                <div class="input-grupo">
+                    <label for="anios">Plazo (Años)</label>
+                    <input type="number" id="anios" value="10" min="1">
+                </div>
+                <button onclick="calcularInversion()" class="btn-calc"><i class="fa-solid fa-calculator"></i> Proyectar Resultados</button>
             </div>
-            <div class="input-grupo" style="margin-top: 15px;">
-                <label for="tasaPrestamo">Tasa Nominal Anual - TNA (%)</label>
-                <input type="number" id="tasaPrestamo" value="55" min="0" step="0.1">
+            
+            <div class="calc-resultados">
+                <div class="resultado-card">
+                    <h4>Capital Final Estimado</h4>
+                    <div class="monto destacado" id="resTotal">$0.00</div>
+                </div>
+                <div class="resultado-desglose">
+                    <div>
+                        <span>Total Invertido:</span>
+                        <strong id="resInvertido">$0.00</strong>
+                    </div>
+                    <div>
+                        <span>Intereses Generados:</span>
+                        <strong id="resIntereses" style="color: var(--verde-exito);">$0.00</strong>
+                    </div>
+                </div>
             </div>
-            <div class="input-grupo" style="margin-top: 15px;">
-                <label for="plazoPrestamo">Plazo (Meses)</label>
-                <input type="number" id="plazoPrestamo" value="24" min="1">
+        </div>
+
+        <!-- SIMULADOR DE PRÉSTAMOS (SISTEMA FRANCÉS) -->
+        <div class="calculadora-grid" style="margin-top: 30px;">
+            <div class="calc-controles">
+                <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-building-columns"></i> Simulador de Préstamos (Sistema Francés)</h3>
+                <div class="input-grupo">
+                    <label for="montoPrestamo">Monto del Préstamo ($)</label>
+                    <input type="number" id="montoPrestamo" value="1000000" min="0">
+                </div>
+                <div class="input-grupo" style="margin-top: 15px;">
+                    <label for="tasaPrestamo">Tasa Nominal Anual - TNA (%)</label>
+                    <input type="number" id="tasaPrestamo" value="55" min="0" step="0.1">
+                </div>
+                <div class="input-grupo" style="margin-top: 15px;">
+                    <label for="plazoPrestamo">Plazo (Meses)</label>
+                    <input type="number" id="plazoPrestamo" value="24" min="1">
+                </div>
+                <button onclick="calcularPrestamo()" class="btn-calc" style="background: linear-gradient(135deg, #0ea5e9, #0284c7); margin-top: 15px;"><i class="fa-solid fa-file-signature"></i> Calcular Cuota</button>
             </div>
-            <button onclick="calcularPrestamo()" class="btn-calc" style="background: linear-gradient(135deg, #0ea5e9, #0284c7); margin-top: 15px;"><i class="fa-solid fa-file-signature"></i> Calcular Cuota</button>
+            
+            <div class="calc-resultados" style="border-left-color: #0ea5e9;">
+                <div class="resultado-card">
+                    <h4>Cuota Mensual Fija</h4>
+                    <div class="monto destacado" id="resCuota" style="color: #0ea5e9;">$0.00</div>
+                </div>
+                <div class="resultado-desglose">
+                    <div>
+                        <span>Total a Devolver:</span>
+                        <strong id="resTotalPrestamo">$0.00</strong>
+                    </div>
+                    <div>
+                        <span>Intereses Pagados:</span>
+                        <strong id="resInteresesPrestamo" style="color: #f43f5e;">$0.00</strong>
+                    </div>
+                </div>
+            </div>
         </div>
         
-        <div class="calc-resultados" style="border-left-color: #0ea5e9;">
-            <div class="resultado-card">
-                <h4>Cuota Mensual Fija</h4>
-                <div class="monto destacado" id="resCuota" style="color: #0ea5e9;">$0.00</div>
-            </div>
-            <div class="resultado-desglose">
-                <div>
-                    <span>Total a Devolver:</span>
-                    <strong id="resTotalPrestamo">$0.00</strong>
+        <!-- SIMULADOR DE CONVENIO MULTILATERAL (CM03 - ART 2) -->
+        <div class="calculadora-grid" style="margin-top: 30px;">
+            <div class="calc-controles">
+                <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-map-location-dot"></i> Liquidador Convenio Multilateral (Art. 2)</h3>
+                
+                <div class="input-grupo">
+                    <label for="cmBaseTotal">Base Imponible Total del Mes ($)</label>
+                    <input type="number" id="cmBaseTotal" value="5000000" min="0">
                 </div>
-                <div>
-                    <span>Intereses Pagados:</span>
-                    <strong id="resInteresesPrestamo" style="color: #f43f5e;">$0.00</strong>
+                
+                <div style="display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap;">
+                    <div class="input-grupo" style="flex: 1; min-width: 120px;">
+                        <label for="cmCoeficiente">Coef. Unificado (Ej: 0.1500)</label>
+                        <input type="number" id="cmCoeficiente" value="0.1500" step="0.0001" min="0" max="1">
+                    </div>
+                    <div class="input-grupo" style="flex: 1; min-width: 120px;">
+                        <label for="cmAlicuota">Alícuota Prov. (%)</label>
+                        <input type="number" id="cmAlicuota" value="3.0" step="0.1" min="0">
+                    </div>
+                </div>
+                
+                <button onclick="calcularCM()" class="btn-calc" style="background: linear-gradient(135deg, #10b981, #059669); margin-top: 15px;"><i class="fa-solid fa-calculator"></i> Calcular Impuesto</button>
+            </div>
+            
+            <div class="calc-resultados" style="border-left-color: #10b981;">
+                <div class="resultado-card">
+                    <h4>Impuesto Determinado SIFERE</h4>
+                    <div class="monto destacado" id="resCmImpuesto" style="color: #10b981;">$0.00</div>
+                </div>
+                <div class="resultado-desglose">
+                    <div>
+                        <span>Base Atribuible a Jurisdicción:</span>
+                        <strong id="resCmBase">$0.00</strong>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+        
+    </div> <!-- FIN DEL CONTENEDOR PLEGABLE -->
 </div>
+
 <div class="container reveal" id="blog">
     <h2><i class="fa-solid fa-pen-nib"></i> Blog y Actualidad Profesional</h2>
     <div class="grid-blog">
@@ -655,6 +710,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         const formatoMoneda = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
 
         const calcRes = document.querySelector('.calc-resultados');
+        if(!calcRes) return;
         calcRes.style.opacity = '0.5';
         setTimeout(() => {
             document.getElementById('resTotal').innerText = formatoMoneda.format(totalFinal);
@@ -669,6 +725,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     // 5. Cotizaciones del Dólar (DolarAPI)
     async function obtenerCotizaciones() {
         const panel = document.getElementById('panel-dolares');
+        if(!panel) return;
         try {
             const respuesta = await fetch('https://dolarapi.com/v1/dolares');
             const datos = await respuesta.json();
@@ -718,6 +775,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             iconDarkMode.classList.replace('fa-sun', 'fa-moon');
         }
     });
+
     // 7. Lógica del Simulador de Préstamos (Sistema Francés)
     function calcularPrestamo() {
         const capital = parseFloat(document.getElementById('montoPrestamo').value);
@@ -742,6 +800,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         const formatoMoneda = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
 
         const calcResPrestamo = document.querySelectorAll('.calc-resultados')[1]; // Selecciona la segunda caja
+        if(!calcResPrestamo) return;
         calcResPrestamo.style.opacity = '0.5';
         
         setTimeout(() => {
@@ -754,6 +813,64 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     }
     // Ejecutar al inicio para mostrar los valores por defecto
     setTimeout(calcularPrestamo, 600);
+    
+    // 8. Fecha en Tiempo Real
+    function actualizarFecha() {
+        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const fechaActual = new Date().toLocaleDateString('es-AR', opciones);
+        const fechaCapitalizada = fechaActual.charAt(0).toUpperCase() + fechaActual.slice(1);
+        const elementoFecha = document.getElementById('fecha-en-vivo');
+        if(elementoFecha) elementoFecha.innerText = fechaCapitalizada;
+    }
+    actualizarFecha();
+
+    // 9. Lógica del Liquidador Convenio Multilateral
+    function calcularCM() {
+        const baseTotal = parseFloat(document.getElementById('cmBaseTotal').value);
+        const coeficiente = parseFloat(document.getElementById('cmCoeficiente').value);
+        const alicuota = parseFloat(document.getElementById('cmAlicuota').value);
+
+        if (isNaN(baseTotal) || isNaN(coeficiente) || isNaN(alicuota)) return;
+
+        // Distribución Art. 2
+        const baseAtribuible = baseTotal * coeficiente;
+        const impuesto = baseAtribuible * (alicuota / 100);
+
+        const formatoMoneda = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
+
+        // Selecciona la tercera caja de resultados (Inversiones[0], Préstamos[1], CM[2])
+        const calcResCM = document.querySelectorAll('.calc-resultados')[2]; 
+        if(!calcResCM) return;
+        calcResCM.style.opacity = '0.5';
+        
+        setTimeout(() => {
+            document.getElementById('resCmBase').innerText = formatoMoneda.format(baseAtribuible);
+            document.getElementById('resCmImpuesto').innerText = formatoMoneda.format(impuesto);
+            calcResCM.style.opacity = '1';
+            calcResCM.style.transition = 'opacity 0.4s';
+        }, 150);
+    }
+    setTimeout(calcularCM, 700);
+
+    // 10. Función para Desplegar/Plegar el Panel Financiero
+    function togglePanelFinanciero() {
+        const panel = document.getElementById('contenido-panel-financiero');
+        const btn = document.getElementById('btn-toggle-panel');
+        
+        if (panel.style.display === 'none') {
+            // Abrir el panel
+            panel.style.display = 'block';
+            setTimeout(() => panel.style.opacity = '1', 10); // Efecto suave
+            btn.innerHTML = '<i class="fa-solid fa-folder-closed" style="margin-right: 8px;"></i> Cerrar Panel Financiero';
+            btn.style.backgroundColor = '#64748b'; // Cambia a gris
+        } else {
+            // Cerrar el panel
+            panel.style.opacity = '0';
+            setTimeout(() => panel.style.display = 'none', 500); // Espera que termine el efecto para ocultarlo
+            btn.innerHTML = '<i class="fa-solid fa-folder-open" style="margin-right: 8px;"></i> Abrir Panel Financiero';
+            btn.style.backgroundColor = 'var(--azul-corporativo)'; // Vuelve a azul
+        }
+    }
 </script>
 
 </body>
