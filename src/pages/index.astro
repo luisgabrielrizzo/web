@@ -745,7 +745,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     }
     setTimeout(calcularInversion, 500);
 
-    // 5. Cotizaciones del Dólar (DolarAPI)
+// 5. Cotizaciones del Dólar (DolarAPI) - CON COMPRA Y VENTA
     async function obtenerCotizaciones() {
         const panel = document.getElementById('panel-dolares');
         if(!panel) return;
@@ -763,10 +763,21 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
                 const fecha = new Date(dolar.fechaActualizacion).toLocaleTimeString('es-AR', { hour: '2-digit', minute:'2-digit' });
                 const tarjeta = document.createElement('div');
                 tarjeta.className = 'cotizacion-card';
+                
+                // Nuevo diseño en dos columnas
                 tarjeta.innerHTML = `
                     <span class="cotizacion-tipo">Dólar ${dolar.nombre}</span>
-                    <span class="cotizacion-valor">$${dolar.venta}</span>
-                    <span class="cotizacion-fecha">Venta • Act: ${fecha}</span>
+                    <div style="display: flex; justify-content: space-between; width: 100%; margin: 15px 0 10px; gap: 10px;">
+                        <div style="flex: 1; text-align: center; border-right: 1px solid #cbd5e1; padding-right: 5px;">
+                            <span style="display: block; font-size: 0.75em; color: #64748b; text-transform: uppercase;">Compra</span>
+                            <span class="cotizacion-valor" style="display: block; font-size: 1.3em; margin: 0;">$${dolar.compra}</span>
+                        </div>
+                        <div style="flex: 1; text-align: center; padding-left: 5px;">
+                            <span style="display: block; font-size: 0.75em; color: #64748b; text-transform: uppercase;">Venta</span>
+                            <span class="cotizacion-valor" style="display: block; font-size: 1.3em; margin: 0; color: var(--celeste-acento);">$${dolar.venta}</span>
+                        </div>
+                    </div>
+                    <span class="cotizacion-fecha">Act: ${fecha}</span>
                 `;
                 panel.appendChild(tarjeta);
             });
