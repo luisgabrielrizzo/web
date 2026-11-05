@@ -913,14 +913,13 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     setTimeout(cargarVencimientos, 900);
 
     // 12. INICIALIZAR MICROANIMACIONES 3D EN LAS TARJETAS ESTÁTICAS
-    // (Solo se activa en pantallas grandes para no entorpecer los celulares)
     if (window.innerWidth > 768) {
         VanillaTilt.init(document.querySelectorAll(".tilt-element"), {
-            max: 12,              // Grado máximo de inclinación
-            speed: 400,           // Velocidad del efecto
-            glare: true,          // Activa el brillo "metálico"
-            "max-glare": 0.2,     // Opacidad máxima del brillo
-            scale: 1.03           // Efecto sutil de lupa al pasar el mouse
+            max: 12,              
+            speed: 400,           
+            glare: true,          
+            "max-glare": 0.2,     
+            scale: 1.03           
         });
     }
 
