@@ -80,29 +80,50 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         .btn-secundario { display: inline-flex; align-items: center; padding: 10px 20px; background-color: #0077b5; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; margin-top: 15px; transition: all 0.3s; }
         .btn-secundario:hover { background-color: #005a8a; transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0, 119, 181, 0.3); }
         
-        /* Tarjetas Interactivas */
+        /* ========================================== */
+        /* EFECTOS 3D PARA TARJETAS INTERACTIVAS      */
+        /* ========================================== */
         .grid-perfil { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-        .card-perfil { background: #fff; padding: 30px; border-radius: 10px; border: 1px solid #e0f2fe; border-left: 4px solid var(--azul-claro); transition: all 0.4s ease; position: relative; z-index: 1; }
-        .card-perfil:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15); border-left-color: var(--dorado); z-index: 2; }
-        .card-perfil h3 { color: var(--azul-claro); margin-top: 0; font-size: 1.3em; }
         
-        .badge-sistema { display: inline-block; background: #f0f9ff; color: var(--azul-corporativo); padding: 8px 15px; border-radius: 6px; font-size: 0.9em; font-weight: 600; margin-top: 8px; margin-right: 5px; border: 1px solid #bae6fd; transition: all 0.3s; cursor: default; }
-        .badge-sistema:hover { background: var(--azul-corporativo); color: white; transform: translateY(-3px); box-shadow: 0 5px 10px rgba(30, 58, 138, 0.2); }
-        .badge-actual { display: inline-block; background: var(--verde-exito); color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2); animation: pulse 2s infinite; }
+        .card-perfil { 
+            background: #fff; padding: 30px; border-radius: 10px; border: 1px solid #e0f2fe; 
+            border-left: 4px solid var(--azul-claro); position: relative; z-index: 1; 
+            transform-style: preserve-3d; /* Activa la profundidad 3D */
+            transition: box-shadow 0.4s ease, border-color 0.4s ease;
+        }
+        .card-perfil:hover { 
+            box-shadow: 0 25px 45px rgba(37, 99, 235, 0.15); 
+            border-left-color: var(--dorado); z-index: 2; 
+        }
+        
+        /* Elementos flotantes 3D dentro de la tarjeta */
+        .card-perfil h3 { color: var(--azul-claro); margin-top: 0; font-size: 1.3em; transform: translateZ(30px); }
+        .card-perfil p { transform: translateZ(20px); }
+        .badge-sistema { 
+            display: inline-block; background: #f0f9ff; color: var(--azul-corporativo); padding: 8px 15px; 
+            border-radius: 6px; font-size: 0.9em; font-weight: 600; margin-top: 8px; margin-right: 5px; 
+            border: 1px solid #bae6fd; transition: all 0.3s; cursor: default;
+            transform: translateZ(40px); /* El badge flota aún más */
+        }
+        .badge-sistema:hover { background: var(--azul-corporativo); color: white; transform: translateZ(50px) translateY(-3px); box-shadow: 0 5px 10px rgba(30, 58, 138, 0.2); }
+        .badge-actual { display: inline-block; background: var(--verde-exito); color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2); animation: pulse 2s infinite; transform: translateZ(35px); }
         
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
         
-        /* Tarjetas de Blog */
+        /* Tarjetas de Blog en 3D */
         .grid-blog { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px; }
-        .blog-card { background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #e0f2fe; transition: all 0.4s ease; display: flex; flex-direction: column; }
-        .blog-card:hover { transform: translateY(-10px); box-shadow: 0 25px 50px rgba(37, 99, 235, 0.2); }
-        .blog-img { width: 100%; height: 220px; object-fit: cover; transition: transform 0.5s ease; }
-        .blog-card:hover .blog-img { transform: scale(1.05); }
-        .blog-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; background: white; position: relative; z-index: 2; }
+        .blog-card { 
+            background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #e0f2fe; 
+            display: flex; flex-direction: column; transform-style: preserve-3d;
+            transition: box-shadow 0.4s ease;
+        }
+        .blog-card:hover { box-shadow: 0 30px 60px rgba(37, 99, 235, 0.2); }
+        .blog-img { width: 100%; height: 220px; object-fit: cover; transform: translateZ(10px); }
+        .blog-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; background: white; position: relative; z-index: 2; transform: translateZ(30px); }
         .blog-fecha { color: var(--celeste-acento); font-size: 0.85em; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         .blog-content h3 { color: var(--azul-corporativo); margin: 10px 0; font-size: 1.4em; transition: color 0.3s; }
         .blog-card:hover .blog-content h3 { color: var(--azul-claro); }
-        .btn-leer { display: inline-flex; align-items: center; color: var(--azul-claro); font-weight: bold; text-decoration: none; margin-top: auto; padding-top: 15px; font-size: 1.05em; transition: color 0.3s; }
+        .btn-leer { display: inline-flex; align-items: center; color: var(--azul-claro); font-weight: bold; text-decoration: none; margin-top: auto; padding-top: 15px; font-size: 1.05em; transition: color 0.3s; transform: translateZ(40px); }
         .btn-leer:hover { color: var(--dorado); }
         
         /* Botones de Contacto */
@@ -116,7 +137,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         .btn-linkedin { background: linear-gradient(135deg, #0077b5, #005a8a); }
         .btn-cv { background: linear-gradient(135deg, #f43f5e, #be123c); }
 
-        /* PIE DE PÁGINA (FIRMA PERSONAL) */
+        /* PIE DE PÁGINA */
         footer { text-align: center; padding: 30px 20px; background-color: #1e293b; color: #94a3b8; font-size: 0.9em; border-top: 3px solid var(--dorado); margin-top: 80px; }
         footer p { margin: 0; }
         footer span { color: var(--dorado); font-weight: 600; }
@@ -159,23 +180,28 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
         @keyframes fadeInChat { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ESTILOS WIDGET DÓLAR Y VENCIMIENTOS */
+        /* WIDGET DÓLAR (Con 3D) */
         .cotizaciones-panel { background: white; padding: 25px; border-radius: 12px; border: 1px solid #e0f2fe; box-shadow: 0 10px 25px rgba(30,58,138,0.05); }
-        .cotizaciones-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
-        .cotizacion-card { background: #f8fafc; border-left: 4px solid var(--dorado); padding: 20px; border-radius: 8px; text-align: center; transition: transform 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100px; }
-        .cotizacion-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-        .cotizacion-tipo { display: block; font-size: 1.05em; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
-        .cotizacion-valor { display: block; font-size: 2em; font-weight: 800; color: var(--azul-corporativo); margin: 5px 0; }
-        .cotizacion-fecha { display: block; font-size: 0.8em; color: #94a3b8; }
-        .loader-cotizacion { color: var(--celeste-acento); font-weight: 600; animation: pulse 1.5s infinite; }
+        .cotizaciones-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .cotizacion-card { 
+            background: #f8fafc; border-left: 4px solid var(--dorado); padding: 20px; 
+            border-radius: 8px; display: flex; flex-direction: column; justify-content: center; min-height: 100px;
+            transform-style: preserve-3d; transition: box-shadow 0.4s ease;
+        }
+        .cotizacion-card:hover { box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        /* Elementos interiores del dólar saltan en 3D */
+        .cotizacion-tipo { display: block; font-size: 1.1em; font-weight: 700; color: var(--azul-corporativo); letter-spacing: 0.5px; text-align: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 10px; transform: translateZ(25px); }
+        .cotizacion-valores-container { display: flex; justify-content: space-between; width: 100%; margin: 15px 0 10px; gap: 10px; transform: translateZ(40px); }
+        .cotizacion-fecha { display: block; font-size: 0.75em; color: #94a3b8; margin-top: 10px; text-align: center; transform: translateZ(20px);}
+        .loader-cotizacion { color: var(--celeste-acento); font-weight: 600; animation: pulse 1.5s infinite; text-align: center; }
 
-        /* Estilos del Item de Vencimiento */
+        /* Vencimientos */
         .vencimiento-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; background: #f8fafc; border-left: 4px solid var(--azul-claro); border-radius: 6px; margin-bottom: 10px; transition: transform 0.2s, box-shadow 0.2s; }
         .vencimiento-item:hover { transform: translateX(5px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .vencimiento-item-dia { font-weight: 700; color: var(--azul-corporativo); font-size: 1.05em; }
         .vencimiento-item-titulo { color: #64748b; font-size: 0.9em; }
 
-        /* ESTILOS DE LA CALCULADORA FINANCIERA */
+        /* CALCULADORA FINANCIERA */
         .calculadora-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; background: white; padding: 30px; border-radius: 12px; border: 1px solid #e0f2fe; box-shadow: 0 10px 25px rgba(30,58,138,0.05); }
         .calc-controles { display: flex; flex-direction: column; gap: 15px; }
         .input-grupo { display: flex; flex-direction: column; }
@@ -199,74 +225,44 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             .chat-window { width: calc(100vw - 40px); right: -10px; bottom: 75px; } 
             .chat-btn-flotante { width: 50px; height: 50px; font-size: 20px; right: 20px; bottom: 20px;}
             
-            /* --- AJUSTES NUEVOS PARA ACHICAR PANELES EN MÓVILES --- */
             .container { padding: 20px; margin: 30px 10px; } 
             .cotizaciones-panel { padding: 15px; margin-bottom: 25px; } 
-            .cotizacion-valor { font-size: 1.6em; } 
             .calculadora-grid { padding: 15px; gap: 20px; } 
             .calc-resultados { padding: 15px; } 
             .monto { font-size: 2em; } 
+            
+            /* En celulares es mejor apagar el 3D para evitar lag al scrollear */
+            .card-perfil, .blog-card, .cotizacion-card { transform-style: flat; }
         }
+        
         /* ========================================== */
         /* MODO OSCURO (DARK MODE) AUTOMÁTICO         */
         /* ========================================== */
-        body.dark-mode {
-            --gris-fondo: #0f172a;      
-            --texto-principal: #e2e8f0; 
-            --azul-corporativo: #38bdf8;
+        body.dark-mode { --gris-fondo: #0f172a; --texto-principal: #e2e8f0; --azul-corporativo: #38bdf8; }
+        
+        body.dark-mode .container, body.dark-mode .card-perfil, body.dark-mode .blog-card,
+        body.dark-mode .blog-content, body.dark-mode .cotizaciones-panel, body.dark-mode .calculadora-grid,
+        body.dark-mode .chat-window, body.dark-mode .chat-input-area, body.dark-mode .chat-messages {
+            background-color: #1e293b; border-color: #334155; color: #e2e8f0;
         }
         
-        /* Oscurecemos los paneles, tarjetas y la calculadora */
-        body.dark-mode .container,
-        body.dark-mode .card-perfil,
-        body.dark-mode .blog-card,
-        body.dark-mode .blog-content,
-        body.dark-mode .cotizaciones-panel,
-        body.dark-mode .calculadora-grid,
-        body.dark-mode .chat-window,
-        body.dark-mode .chat-input-area,
-        body.dark-mode .chat-messages {
-            background-color: #1e293b;
-            border-color: #334155;
-            color: #e2e8f0;
-        }
-        
-        /* Oscurecemos los elementos internos */
-        body.dark-mode .cotizacion-card,
-        body.dark-mode .calc-resultados,
-        body.dark-mode .chat-opcion,
-        body.dark-mode .mensaje.bot {
-            background-color: #0f172a;
-            border-color: #334155;
-            color: #e2e8f0;
+        body.dark-mode .cotizacion-card, body.dark-mode .calc-resultados, body.dark-mode .chat-opcion, body.dark-mode .mensaje.bot {
+            background-color: #0f172a; border-color: #334155; color: #e2e8f0;
         }
 
-        body.dark-mode .input-grupo input {
-            background-color: #0f172a;
-            color: white;
-            border-color: #334155;
-        }
-
-        body.dark-mode .cotizacion-valor,
-        body.dark-mode .monto,
-        body.dark-mode .input-grupo label {
-            color: #38bdf8;
-        }
-
-        body.dark-mode header a {
-            color: #ffffff !important;
-        }
-
-        /* Modo Oscuro para los Vencimientos */
+        body.dark-mode .input-grupo input { background-color: #0f172a; color: white; border-color: #334155; }
+        body.dark-mode .cotizacion-valor, body.dark-mode .monto, body.dark-mode .input-grupo label { color: #38bdf8; }
+        body.dark-mode header a { color: #ffffff !important; }
         body.dark-mode .vencimiento-item { background-color: #0f172a; border-color: #334155; }
         body.dark-mode .vencimiento-item-dia { color: #38bdf8; }
         body.dark-mode .vencimiento-item-titulo { color: #94a3b8; }
+        body.dark-mode .cotizacion-tipo { border-color: #334155; color: #38bdf8; }
     </style>
 </head>
 <body>
 
 <header>
-    <!-- RELOJ Y FECHA EN TIEMPO REAL (Esquina superior derecha) -->
+    <!-- RELOJ Y FECHA EN TIEMPO REAL -->
     <div id="fecha-en-vivo" style="position: absolute; top: 25px; right: 25px; color: #bae6fd; font-size: 0.85rem; font-weight: 500; font-family: var(--fuente-textos); background: rgba(0,0,0,0.25); padding: 6px 14px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px);">
         Cargando fecha...
     </div>
@@ -277,7 +273,6 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         <span id="texto-animado"></span><span class="cursor"></span>
     </div>
     
-    <!-- NUEVOS BOTONES DE ACCIÓN RÁPIDA -->
     <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
         <a href="#contacto" style="background-color: var(--celeste-acento); color: white; padding: 12px 25px; text-decoration: none; border-radius: 50px; font-weight: bold; font-family: var(--fuente-titulos); transition: transform 0.3s, background-color 0.3s;">
             <i class="fa-regular fa-envelope"></i> Contactar ahora
@@ -289,7 +284,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 </header>
 
 <nav style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; padding: 15px; gap: 15px;">
-    <!-- LOGO CON TUS INICIALES (CÓDIGO VECTORIAL) -->
+    <!-- LOGO CON TUS INICIALES -->
     <a href="#inicio" style="padding: 0; margin: 0; display: flex; align-items: center; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
         <svg width="60" height="40" viewBox="0 0 100 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.4));">
             <text x="5" y="50" font-family="'Inter', sans-serif" font-weight="800" font-size="55" fill="#ffffff" style="letter-spacing: -2px;">L</text>
@@ -297,7 +292,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         </svg>
     </a>
 
-    <!-- ENLACES DE NAVEGACIÓN FLEXIBLES -->
+    <!-- ENLACES DE NAVEGACIÓN -->
     <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px;">
         <a href="#perfil" style="margin: 0;"><i class="fa-regular fa-user"></i> Sobre Mí</a>
         <a href="#experiencia" style="margin: 0;"><i class="fa-solid fa-briefcase"></i> Experiencia</a>
@@ -306,7 +301,6 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         <a href="#blog" style="margin: 0;"><i class="fa-regular fa-newspaper"></i> Blog</a>
         <a href="#contacto" style="margin: 0;"><i class="fa-regular fa-envelope"></i> Contacto</a>
         
-        <!-- BOTÓN DE MODO OSCURO -->
         <button id="btn-dark-mode" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; cursor: pointer; padding: 8px 15px; border-radius: 50px; transition: all 0.3s;" title="Alternar Modo Oscuro">
             <i class="fa-solid fa-moon"></i>
         </button>
@@ -331,23 +325,24 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 <div class="container reveal" id="experiencia">
     <h2><i class="fa-solid fa-building-columns"></i> Trayectoria Laboral</h2>
     <div class="grid-perfil">
-        <div class="card-perfil">
+        <!-- Las clases .card-perfil ahora tendrán efecto 3D Tilt -->
+        <div class="card-perfil tilt-element">
             <span class="badge-actual">Puesto Actual</span>
             <h3>Auditor Externo</h3>
             <p><strong>Estudio Simón O. Montes y Asociados (2026 - Presente)</strong></p>
             <p>Planificación y ejecución de procedimientos de auditoría externa para estados contables de diversos clientes. Análisis integral de papeles de trabajo, verificación de saldos y control normativo fiscal.</p>
         </div>
-        <div class="card-perfil">
+        <div class="card-perfil tilt-element">
             <h3>Auditor Externo</h3>
             <p><strong>Consultora Pluss (2024 - 2026)</strong></p>
             <p>Procedimientos de auditoría externa de balances comerciales. Elaboración de papeles de trabajo, revisión analítica de extractos financieros complejos y resolución autónoma de desvíos en la información contable.</p>
         </div>
-        <div class="card-perfil">
+        <div class="card-perfil tilt-element">
             <h3>Becario de Formación</h3>
             <p><strong>Facultad de Ciencias Económicas (UNSa) (2023 - 2024)</strong></p>
             <p>Manejo de datos para informes de gestión, soporte en tareas administrativas, control de expedientes documentales y asistencia directa al cuerpo superior de la institución.</p>
         </div>
-        <div class="card-perfil">
+        <div class="card-perfil tilt-element">
             <h3>Auxiliar Administrativo - Contable</h3>
             <p><strong>Empresa Iriarte (2021 - 2022)</strong></p>
             <p>Gestión operativa de cuentas por cobrar y pagar, procesamiento de registros de clientes, archivo documental técnico y conciliaciones bancarias periódicas de soporte impositivo.</p>
@@ -358,13 +353,13 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 <div class="container reveal" id="competencias">
     <h2><i class="fa-solid fa-laptop-file"></i> Educación y Aptitudes Técnicas</h2>
     <div class="grid-perfil">
-        <div class="card-perfil">
+        <div class="card-perfil tilt-element">
             <h3>Formación Académica</h3>
             <p>• <strong>Contador Público Nacional</strong> (UNSa — Egresado 2025)</p>
             <p>• <strong>Lic. en Administración de Empresas</strong> (UNSa — 65% Aprobado / En curso)</p>
             <p>• Cursos de Liquidación de Sueldos y Desempeño Jurídico-Contable (2024)</p>
         </div>
-        <div class="card-perfil">
+        <div class="card-perfil tilt-element">
             <h3>Sistemas e Informática</h3>
             <span class="badge-sistema"><i class="fa-solid fa-file-excel"></i> Excel & Office</span>
             <span class="badge-sistema"><i class="fa-brands fa-google"></i> Google Workspace</span>
@@ -378,17 +373,14 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     <h2><i class="fa-solid fa-chart-line"></i> Panel Financiero y Simulador</h2>
     <p>Consulta las cotizaciones del mercado, próximos vencimientos impositivos y simula proyecciones de inversión y créditos.</p>
     
-    <!-- BOTÓN DE DESPLIEGUE -->
     <div style="text-align: center; margin: 25px 0;">
         <button id="btn-toggle-panel" onclick="togglePanelFinanciero()" class="btn-secundario" style="cursor: pointer; background-color: var(--azul-corporativo); border: none; font-family: var(--fuente-titulos); padding: 12px 25px; font-size: 1.1em; transition: all 0.3s;">
             <i class="fa-solid fa-folder-open" style="margin-right: 8px;"></i> Abrir Panel Financiero
         </button>
     </div>
 
-    <!-- CONTENEDOR PLEGABLE -->
     <div id="contenido-panel-financiero" style="display: none; opacity: 0; transition: opacity 0.5s ease;">
         
-        <!-- GRID DE DÓLAR Y VENCIMIENTOS -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 40px;">
             
             <!-- WIDGET COTIZACIONES DÓLAR -->
@@ -533,7 +525,8 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         
         {publicaciones.length > 0 ? (
             publicaciones.map((post) => (
-                <article class="blog-card">
+                <!-- Las tarjetas del blog también se benefician del Tilt -->
+                <article class="blog-card tilt-element">
                     <img src={post.frontmatter.image} alt="Portada del artículo" class="blog-img">
                     <div class="blog-content">
                         <div class="blog-fecha">{post.frontmatter.date}</div>
@@ -563,9 +556,6 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- SISTEMA DE CHATBOT VIRTUAL INTEGRADO       -->
-<!-- ========================================== -->
 <div class="chat-container">
     <div id="chat-window" class="chat-window oculto">
         <div class="chat-header">
@@ -578,11 +568,9 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             </div>
             <button id="cerrar-chat"><i class="fa-solid fa-times"></i></button>
         </div>
-        
         <div id="chat-messages" class="chat-messages">
             <div class="mensaje bot">¡Hola! Soy el asistente virtual de Luis Gabriel Rizzo. Conozco todo sobre su perfil profesional.<br><br>¿Qué información te gustaría consultar?</div>
         </div>
-        
         <div class="chat-input-area">
             <div class="chat-opciones" id="caja-opciones">
                 <button class="chat-opcion" onclick="enviarMensaje('experiencia')">Resumen de Experiencia <i class="fa-solid fa-chevron-right"></i></button>
@@ -592,16 +580,17 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             </div>
         </div>
     </div>
-    
     <button id="abrir-chat" class="chat-btn-flotante" title="Hablar con Asistente Virtual">
         <i class="fa-solid fa-comment-dots"></i>
     </button>
 </div>
 
-<!-- PIE DE PÁGINA CON FIRMA PERSONAL -->
 <footer>
-    <p>&copy; <span>Luis Gabriel Rizzo</span></p>
+    <p>&copy; <span>2026 Luis Gabriel Rizzo</span></p>
 </footer>
+
+<!-- IMPORTACIÓN DE LA LIBRERÍA DE MICROANIMACIONES 3D (VANILLA-TILT) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 
 <!-- SCRIPTS INTERACTIVOS -->
 <script is:inline>
@@ -614,7 +603,6 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 
     function escribir() {
         const fraseCompleta = frases[fraseActual];
-        
         if (borrando) {
             elementoTexto.textContent = fraseCompleta.substring(0, caracterActual - 1);
             caracterActual--;
@@ -622,9 +610,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             elementoTexto.textContent = fraseCompleta.substring(0, caracterActual + 1);
             caracterActual++;
         }
-
         let velocidad = borrando ? 50 : 100;
-
         if (!borrando && caracterActual === fraseCompleta.length) {
             velocidad = 2000; 
             borrando = true;
@@ -633,7 +619,6 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             fraseActual = (fraseActual + 1) % frases.length;
             velocidad = 500; 
         }
-
         setTimeout(escribir, velocidad);
     }
     setTimeout(escribir, 1000);
@@ -685,13 +670,11 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 
     function enviarMensaje(tipo) {
         cajaOpciones.style.display = 'none';
-
         const msgUsuario = document.createElement('div');
         msgUsuario.className = 'mensaje usuario';
         msgUsuario.textContent = etiquetasBotones[tipo];
         contenedorMensajes.appendChild(msgUsuario);
         contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
-
         const escribiendo = document.createElement('div');
         escribiendo.className = 'escribiendo';
         escribiendo.innerHTML = '<span></span><span></span><span></span>';
@@ -700,38 +683,31 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 
         setTimeout(() => {
             contenedorMensajes.removeChild(escribiendo);
-
             const msgBot = document.createElement('div');
             msgBot.className = 'mensaje bot';
             msgBot.innerHTML = respuestasBot[tipo];
             contenedorMensajes.appendChild(msgBot);
             contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
-
             cajaOpciones.style.display = 'flex';
         }, 1500);
     }
 
-    // 4. Lógica de la Calculadora Financiera
+    // 4. Calculadora Financiera
     function calcularInversion() {
         const p = parseFloat(document.getElementById('capInicial').value);
         const pmt = parseFloat(document.getElementById('aporteMensual').value);
         const r = parseFloat(document.getElementById('tasaAnual').value) / 100;
         const t = parseFloat(document.getElementById('anios').value);
         const n = 12;
-
         if (isNaN(p) || isNaN(pmt) || isNaN(r) || isNaN(t)) return;
-
         const tasaMensual = r / n;
         const meses = t * n;
         const capitalFuturo = p * Math.pow(1 + tasaMensual, meses);
         const aportesFuturos = pmt * ((Math.pow(1 + tasaMensual, meses) - 1) / tasaMensual);
         const totalFinal = capitalFuturo + aportesFuturos;
-        
         const totalInvertido = p + (pmt * meses);
         const intereses = totalFinal - totalInvertido;
-
         const formatoMoneda = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
-
         const calcRes = document.querySelector('.calc-resultados');
         if(!calcRes) return;
         calcRes.style.opacity = '0.5';
@@ -745,15 +721,13 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     }
     setTimeout(calcularInversion, 500);
 
-// 5. Cotizaciones del Dólar (DolarAPI) - CON COMPRA Y VENTA
+    // 5. Cotizaciones del Dólar (DolarAPI) + Activación de TILT 3D
     async function obtenerCotizaciones() {
         const panel = document.getElementById('panel-dolares');
         if(!panel) return;
         try {
             const respuesta = await fetch('https://dolarapi.com/v1/dolares');
             const datos = await respuesta.json();
-            
-            // Filtramos solo Oficial, Blue, MEP y CCL
             const dolaresClave = ['oficial', 'blue', 'mep', 'ccl'];
             const dolaresFiltrados = datos.filter(d => dolaresClave.includes(d.casa));
             
@@ -763,46 +737,53 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
                 const fecha = new Date(dolar.fechaActualizacion).toLocaleTimeString('es-AR', { hour: '2-digit', minute:'2-digit' });
                 const tarjeta = document.createElement('div');
                 tarjeta.className = 'cotizacion-card';
-                
-                // Nuevo diseño en dos columnas
                 tarjeta.innerHTML = `
                     <span class="cotizacion-tipo">Dólar ${dolar.nombre}</span>
-                    <div style="display: flex; justify-content: space-between; width: 100%; margin: 15px 0 10px; gap: 10px;">
+                    <div class="cotizacion-valores-container">
                         <div style="flex: 1; text-align: center; border-right: 1px solid #cbd5e1; padding-right: 5px;">
                             <span style="display: block; font-size: 0.75em; color: #64748b; text-transform: uppercase;">Compra</span>
-                            <span class="cotizacion-valor" style="display: block; font-size: 1.3em; margin: 0;">$${dolar.compra}</span>
+                            <span class="cotizacion-valor" style="font-size: 1.3em;">$${dolar.compra}</span>
                         </div>
                         <div style="flex: 1; text-align: center; padding-left: 5px;">
                             <span style="display: block; font-size: 0.75em; color: #64748b; text-transform: uppercase;">Venta</span>
-                            <span class="cotizacion-valor" style="display: block; font-size: 1.3em; margin: 0; color: var(--celeste-acento);">$${dolar.venta}</span>
+                            <span class="cotizacion-valor" style="font-size: 1.3em; color: var(--celeste-acento);">$${dolar.venta}</span>
                         </div>
                     </div>
                     <span class="cotizacion-fecha">Act: ${fecha}</span>
                 `;
                 panel.appendChild(tarjeta);
             });
+
+            // INICIALIZAR VANILLA TILT EN LOS DÓLARES GENERADOS
+            if (window.innerWidth > 768) {
+                VanillaTilt.init(document.querySelectorAll(".cotizacion-card"), {
+                    max: 12,
+                    speed: 400,
+                    glare: true,
+                    "max-glare": 0.2
+                });
+            }
+            
         } catch (error) {
-            panel.innerHTML = '<p style="color: red; font-weight: bold; text-align: center;">Servicio de cotización no disponible temporalmente.</p>';
+            panel.innerHTML = '<p style="color: red; font-weight: bold; text-align: center;">Servicio no disponible.</p>';
         }
     }
     setTimeout(obtenerCotizaciones, 800);
 
-    // 6. Lógica del Modo Oscuro (Dark Mode)
+    // 6. Lógica del Modo Oscuro
     const btnDarkMode = document.getElementById('btn-dark-mode');
     const iconDarkMode = btnDarkMode.querySelector('i');
     const cuerpoWeb = document.body;
 
-    // Verificar si el usuario ya tenía el modo oscuro activado en su visita anterior
     if (localStorage.getItem('tema-oscuro') === 'activado') {
         cuerpoWeb.classList.add('dark-mode');
-        iconDarkMode.classList.replace('fa-moon', 'fa-sun'); // Cambia la lunita por un sol
+        iconDarkMode.classList.replace('fa-moon', 'fa-sun'); 
     }
 
     btnDarkMode.addEventListener('click', () => {
         cuerpoWeb.classList.toggle('dark-mode');
-        
         if (cuerpoWeb.classList.contains('dark-mode')) {
-            localStorage.setItem('tema-oscuro', 'activado'); // Guarda la preferencia
+            localStorage.setItem('tema-oscuro', 'activado'); 
             iconDarkMode.classList.replace('fa-moon', 'fa-sun');
         } else {
             localStorage.setItem('tema-oscuro', 'desactivado');
@@ -810,33 +791,23 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         }
     });
 
-    // 7. Lógica del Simulador de Préstamos (Sistema Francés)
+    // 7. Simulador de Préstamos
     function calcularPrestamo() {
         const capital = parseFloat(document.getElementById('montoPrestamo').value);
         const tna = parseFloat(document.getElementById('tasaPrestamo').value);
         const meses = parseInt(document.getElementById('plazoPrestamo').value);
-
         if (isNaN(capital) || isNaN(tna) || isNaN(meses) || capital <= 0 || meses <= 0) return;
 
-        // Fórmula financiera del Sistema Francés
         const tasaMensual = (tna / 100) / 12;
         let cuota = 0;
-        
-        if (tasaMensual === 0) {
-            cuota = capital / meses;
-        } else {
-            cuota = capital * (tasaMensual * Math.pow(1 + tasaMensual, meses)) / (Math.pow(1 + tasaMensual, meses) - 1);
-        }
-
+        if (tasaMensual === 0) cuota = capital / meses;
+        else cuota = capital * (tasaMensual * Math.pow(1 + tasaMensual, meses)) / (Math.pow(1 + tasaMensual, meses) - 1);
         const totalDevolver = cuota * meses;
         const intereses = totalDevolver - capital;
-
         const formatoMoneda = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
-
-        const calcResPrestamo = document.querySelectorAll('.calc-resultados')[1]; // Selecciona la segunda caja
+        const calcResPrestamo = document.querySelectorAll('.calc-resultados')[1];
         if(!calcResPrestamo) return;
         calcResPrestamo.style.opacity = '0.5';
-        
         setTimeout(() => {
             document.getElementById('resCuota').innerText = formatoMoneda.format(cuota);
             document.getElementById('resTotalPrestamo').innerText = formatoMoneda.format(totalDevolver);
@@ -845,7 +816,6 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             calcResPrestamo.style.transition = 'opacity 0.4s';
         }, 150);
     }
-    // Ejecutar al inicio para mostrar los valores por defecto
     setTimeout(calcularPrestamo, 600);
     
     // 8. Fecha en Tiempo Real
@@ -858,25 +828,18 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     }
     actualizarFecha();
 
-    // 9. Lógica del Liquidador Convenio Multilateral
+    // 9. Convenio Multilateral
     function calcularCM() {
         const baseTotal = parseFloat(document.getElementById('cmBaseTotal').value);
         const coeficiente = parseFloat(document.getElementById('cmCoeficiente').value);
         const alicuota = parseFloat(document.getElementById('cmAlicuota').value);
-
         if (isNaN(baseTotal) || isNaN(coeficiente) || isNaN(alicuota)) return;
-
-        // Distribución Art. 2
         const baseAtribuible = baseTotal * coeficiente;
         const impuesto = baseAtribuible * (alicuota / 100);
-
         const formatoMoneda = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
-
-        // Selecciona la tercera caja de resultados (Inversiones[0], Préstamos[1], CM[2])
         const calcResCM = document.querySelectorAll('.calc-resultados')[2]; 
         if(!calcResCM) return;
         calcResCM.style.opacity = '0.5';
-        
         setTimeout(() => {
             document.getElementById('resCmBase').innerText = formatoMoneda.format(baseAtribuible);
             document.getElementById('resCmImpuesto').innerText = formatoMoneda.format(impuesto);
@@ -886,47 +849,38 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     }
     setTimeout(calcularCM, 700);
 
-    // 10. Función para Desplegar/Plegar el Panel Financiero
+    // 10. Desplegar/Plegar Panel Financiero
     function togglePanelFinanciero() {
         const panel = document.getElementById('contenido-panel-financiero');
         const btn = document.getElementById('btn-toggle-panel');
-        
         if (panel.style.display === 'none') {
-            // Abrir el panel
             panel.style.display = 'block';
-            setTimeout(() => panel.style.opacity = '1', 10); // Efecto suave
+            setTimeout(() => panel.style.opacity = '1', 10); 
             btn.innerHTML = '<i class="fa-solid fa-folder-closed" style="margin-right: 8px;"></i> Cerrar Panel Financiero';
-            btn.style.backgroundColor = '#64748b'; // Cambia a gris
+            btn.style.backgroundColor = '#64748b'; 
         } else {
-            // Cerrar el panel
             panel.style.opacity = '0';
-            setTimeout(() => panel.style.display = 'none', 500); // Espera que termine el efecto para ocultarlo
+            setTimeout(() => panel.style.display = 'none', 500); 
             btn.innerHTML = '<i class="fa-solid fa-folder-open" style="margin-right: 8px;"></i> Abrir Panel Financiero';
-            btn.style.backgroundColor = 'var(--azul-corporativo)'; // Vuelve a azul
+            btn.style.backgroundColor = 'var(--azul-corporativo)'; 
         }
     }
 
-    // 11. Calendario Inteligente de Vencimientos Impositivos
+    // 11. Calendario de Vencimientos
     function cargarVencimientos() {
         const hoy = new Date();
         const mesActual = hoy.getMonth();
         const anioActual = hoy.getFullYear();
-
-        // Lista base de vencimientos (Ej: Días 15, 18, 20 y 25 de cada mes)
         const vencimientos = [
             { dia: 15, titulo: "Ingresos Brutos (CM03) - SIFERE" },
             { dia: 18, titulo: "IVA y Cargas Sociales (0-3)" },
             { dia: 20, titulo: "IVA y Cargas Sociales (4-6)" },
             { dia: 22, titulo: "IVA y Cargas Sociales (7-9)" }
         ];
-
         let listaHTML = '';
-
         vencimientos.forEach(v => {
             let mesVencimiento = mesActual;
             let anioVencimiento = anioActual;
-            
-            // Si el día ya pasó este mes, salta automáticamente al mes siguiente
             if (hoy.getDate() > v.dia) {
                 mesVencimiento++; 
                 if (mesVencimiento > 11) {
@@ -934,15 +888,11 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
                     anioVencimiento++;
                 }
             }
-
             const fechaVenc = new Date(anioVencimiento, mesVencimiento, v.dia);
             const mesTexto = fechaVenc.toLocaleDateString('es-AR', { month: 'short' }).toUpperCase();
-            
-            // Calculamos cuántos días faltan
             const diffTiempo = Math.abs(fechaVenc - hoy);
             const diffDias = Math.ceil(diffTiempo / (1000 * 60 * 60 * 24));
             
-            // Diseñamos la etiqueta (badge) según los días que falten
             let badge = `<span style="background: var(--celeste-acento); color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">En ${diffDias} días</span>`;
             if (diffDias === 0) badge = `<span style="background: #ef4444; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">¡VENCE HOY!</span>`;
             else if (diffDias <= 5) badge = `<span style="background: #f59e0b; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">Faltan ${diffDias}d</span>`;
@@ -957,11 +907,23 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
                 </div>
             `;
         });
-
         const panelVenc = document.getElementById('lista-vencimientos');
         if(panelVenc) panelVenc.innerHTML = listaHTML;
     }
     setTimeout(cargarVencimientos, 900);
+
+    // 12. INICIALIZAR MICROANIMACIONES 3D EN LAS TARJETAS ESTÁTICAS
+    // (Solo se activa en pantallas grandes para no entorpecer los celulares)
+    if (window.innerWidth > 768) {
+        VanillaTilt.init(document.querySelectorAll(".tilt-element"), {
+            max: 12,              // Grado máximo de inclinación
+            speed: 400,           // Velocidad del efecto
+            glare: true,          // Activa el brillo "metálico"
+            "max-glare": 0.2,     // Opacidad máxima del brillo
+            scale: 1.03           // Efecto sutil de lupa al pasar el mouse
+        });
+    }
+
 </script>
 
 </body>
