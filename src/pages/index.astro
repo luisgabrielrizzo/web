@@ -7,15 +7,15 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Luis Gabriel Rizzo | Contador Público</title>
-    <meta name="description" content="CV profesional de Luis Gabriel Rizzo, Contador Público y Auditor Externo radicado en Salta.">
-    <link rel="icon" type="image/jpeg" href="/fotoperfil.jpg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <meta name="description" content="CV profesional de Luis Gabriel Rizzo, Contador Público y Auditor Externo radicado en Salta." />
+    <link rel="icon" type="image/jpeg" href="/fotoperfil.jpg" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
     <style>
         :root { 
             --azul-corporativo: #0F172A; 
@@ -41,10 +41,9 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         body { font-family: var(--fuente-textos); line-height: 1.6; margin: 0; padding: 0; color: var(--texto-principal); background-color: var(--gris-fondo); overflow-x: hidden; }
         h1, h2, h3, h4 { font-family: var(--fuente-titulos); }
         
-        /* CABECERA PARALLAX */
+        /* CABECERA SEGURA Y NODOS */
         header { 
             background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(8, 145, 178, 0.85)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
-            background-attachment: fixed; 
             color: #fff; padding: 140px 20px 100px; text-align: center; position: relative; overflow: hidden;
         }
         
@@ -200,7 +199,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             .calculadora-grid { padding: 15px; gap: 20px; } 
             .calc-resultados { padding: 15px; } 
             .monto { font-size: 2em; } 
-            .card-perfil, .blog-card, .cotizacion-card { transform-style: flat; }
+            .card-perfil, .blog-card, .cotizacion-card, .tilt-element { transform-style: flat; }
         }
         
         body.dark-mode { --gris-fondo: #0f172a; --texto-principal: #e2e8f0; --azul-corporativo: #38bdf8; }
@@ -227,11 +226,11 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 
 <header>
     <div id="particles-js"></div>
+    <div id="fecha-en-vivo" style="position: absolute; top: 20px; right: 20px; color: #bae6fd; font-size: 0.85rem; font-weight: 500; font-family: var(--fuente-textos); background: rgba(0,0,0,0.25); padding: 6px 14px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px); z-index: 2;">
+        Cargando fecha...
+    </div>
     <div class="header-content">
-        <div id="fecha-en-vivo" style="position: absolute; top: -110px; right: 5px; color: #bae6fd; font-size: 0.85rem; font-weight: 500; font-family: var(--fuente-textos); background: rgba(0,0,0,0.25); padding: 6px 14px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px);">
-            Cargando fecha...
-        </div>
-        <img src="/fotoperfil.jpg" alt="Luis Gabriel Rizzo" class="foto-perfil">
+        <img src="/fotoperfil.jpg" alt="Luis Gabriel Rizzo" class="foto-perfil" />
         <h1>Luis Gabriel Rizzo</h1>
         <div class="typing-container"><span id="texto-animado"></span><span class="cursor"></span></div>
         <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
@@ -272,7 +271,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             <a href="https://www.linkedin.com/in/luis-rizzo-cpn/" target="_blank" class="btn-secundario"><i class="fa-brands fa-linkedin"></i> Conectar en LinkedIn</a>
         </div>
         <div class="perfil-imagen-container">
-            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" alt="Análisis y Auditoría Profesional">
+            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" alt="Análisis y Auditoría Profesional" />
         </div>
     </div>
 </div>
@@ -349,10 +348,10 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 
         <div class="calculadora-grid">
             <div class="calc-controles">
-                <div class="input-grupo"><label>Capital Inicial ($)</label><input type="number" id="capInicial" value="100000" min="0"></div>
-                <div class="input-grupo"><label>Aporte Mensual ($)</label><input type="number" id="aporteMensual" value="10000" min="0"></div>
-                <div class="input-grupo"><label>Tasa Anual (%)</label><input type="number" id="tasaAnual" value="8" min="0" step="0.1"></div>
-                <div class="input-grupo"><label>Plazo (Años)</label><input type="number" id="anios" value="10" min="1"></div>
+                <div class="input-grupo"><label>Capital Inicial ($)</label><input type="number" id="capInicial" value="100000" min="0" /></div>
+                <div class="input-grupo"><label>Aporte Mensual ($)</label><input type="number" id="aporteMensual" value="10000" min="0" /></div>
+                <div class="input-grupo"><label>Tasa Anual (%)</label><input type="number" id="tasaAnual" value="8" min="0" step="0.1" /></div>
+                <div class="input-grupo"><label>Plazo (Años)</label><input type="number" id="anios" value="10" min="1" /></div>
                 <button onclick="calcularInversion()" class="btn-calc"><i class="fa-solid fa-calculator"></i> Proyectar Resultados</button>
             </div>
             <div class="calc-resultados">
@@ -367,9 +366,9 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         <div class="calculadora-grid" style="margin-top: 30px;">
             <div class="calc-controles">
                 <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-building-columns"></i> Simulador de Préstamos</h3>
-                <div class="input-grupo"><label>Monto del Préstamo ($)</label><input type="number" id="montoPrestamo" value="1000000" min="0"></div>
-                <div class="input-grupo" style="margin-top: 15px;"><label>TNA (%)</label><input type="number" id="tasaPrestamo" value="55" min="0" step="0.1"></div>
-                <div class="input-grupo" style="margin-top: 15px;"><label>Plazo (Meses)</label><input type="number" id="plazoPrestamo" value="24" min="1"></div>
+                <div class="input-grupo"><label>Monto del Préstamo ($)</label><input type="number" id="montoPrestamo" value="1000000" min="0" /></div>
+                <div class="input-grupo" style="margin-top: 15px;"><label>TNA (%)</label><input type="number" id="tasaPrestamo" value="55" min="0" step="0.1" /></div>
+                <div class="input-grupo" style="margin-top: 15px;"><label>Plazo (Meses)</label><input type="number" id="plazoPrestamo" value="24" min="1" /></div>
                 <button onclick="calcularPrestamo()" class="btn-calc" style="background: linear-gradient(135deg, #0ea5e9, #0284c7); margin-top: 15px;"><i class="fa-solid fa-file-signature"></i> Calcular Cuota</button>
             </div>
             <div class="calc-resultados" style="border-left-color: #0ea5e9;">
@@ -384,10 +383,10 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         <div class="calculadora-grid" style="margin-top: 30px;">
             <div class="calc-controles">
                 <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-map-location-dot"></i> Convenio Multilateral (Art. 2)</h3>
-                <div class="input-grupo"><label>Base Imponible Total ($)</label><input type="number" id="cmBaseTotal" value="5000000" min="0"></div>
+                <div class="input-grupo"><label>Base Imponible Total ($)</label><input type="number" id="cmBaseTotal" value="5000000" min="0" /></div>
                 <div style="display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap;">
-                    <div class="input-grupo" style="flex: 1; min-width: 120px;"><label>Coeficiente Unificado</label><input type="number" id="cmCoeficiente" value="0.1500" step="0.0001" min="0" max="1"></div>
-                    <div class="input-grupo" style="flex: 1; min-width: 120px;"><label>Alícuota (%)</label><input type="number" id="cmAlicuota" value="3.0" step="0.1" min="0"></div>
+                    <div class="input-grupo" style="flex: 1; min-width: 120px;"><label>Coeficiente Unificado</label><input type="number" id="cmCoeficiente" value="0.1500" step="0.0001" min="0" max="1" /></div>
+                    <div class="input-grupo" style="flex: 1; min-width: 120px;"><label>Alícuota (%)</label><input type="number" id="cmAlicuota" value="3.0" step="0.1" min="0" /></div>
                 </div>
                 <button onclick="calcularCM()" class="btn-calc" style="background: linear-gradient(135deg, #10b981, #059669); margin-top: 15px;"><i class="fa-solid fa-calculator"></i> Calcular Impuesto</button>
             </div>
@@ -407,7 +406,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         {publicaciones.length > 0 ? (
             publicaciones.map((post) => (
                 <article class="blog-card tilt-element">
-                    <img src={post.frontmatter.image} alt="Portada del artículo" class="blog-img">
+                    <img src={post.frontmatter.image} alt="Portada del artículo" class="blog-img" />
                     <div class="blog-content">
                         <div class="blog-fecha">{post.frontmatter.date}</div>
                         <h3>{post.frontmatter.title}</h3>
@@ -438,7 +437,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     <div id="chat-window" class="chat-window oculto">
         <div class="chat-header">
             <div class="chat-header-info">
-                <img src="/fotoperfil.jpg" alt="IA" class="chat-avatar">
+                <img src="/fotoperfil.jpg" alt="IA" class="chat-avatar" />
                 <div><strong>Asistente Virtual</strong><span><span class="punto-verde"></span> En línea ahora</span></div>
             </div>
             <button id="cerrar-chat"><i class="fa-solid fa-times"></i></button>
@@ -460,207 +459,348 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 
 <footer><p>&copy; <span>2026 Luis Gabriel Rizzo</span></p></footer>
 
+<!-- LIBRERÍAS DE ANIMACIÓN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
-<!-- CDN MÁS ESTABLE PARA PARTICLES JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
 
 <script is:inline>
-    // PARTICLES JS (Nodos Tecnológicos) - Con seguro de fallos
-    if (typeof particlesJS !== "undefined") {
-        particlesJS("particles-js", {
-            particles: { number: { value: 40, density: { enable: true, value_area: 800 } }, color: { value: "#06B6D4" }, shape: { type: "circle" }, opacity: { value: 0.5, random: false }, size: { value: 3, random: true }, line_linked: { enable: true, distance: 150, color: "#06B6D4", opacity: 0.4, width: 1 }, move: { enable: true, speed: 2, direction: "none", random: false, straight: false, out_mode: "out", bounce: false } },
-            interactivity: { detect_on: "canvas", events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" }, resize: true }, modes: { grab: { distance: 140, line_linked: { opacity: 1 } }, push: { particles_nb: 4 } } },
-            retina_detect: true
+    // 1. SEGURO ANTI-FALLOS DE CARGA
+    setTimeout(() => {
+        document.querySelectorAll(".reveal").forEach(el => el.classList.add("active"));
+    }, 1500);
+
+    // 2. Animación al hacer scroll
+    function revelarAlScroll() {
+        const revelados = document.querySelectorAll(".reveal");
+        const ventana = window.innerHeight;
+        revelados.forEach(el => {
+            if (el.getBoundingClientRect().top < ventana - 50) {
+                el.classList.add("active");
+            }
         });
     }
+    window.addEventListener("scroll", revelarAlScroll); 
+    revelarAlScroll();
 
-    const frases = ["Contador Público Nacional", "Auditoría Externa"];
-    let fraseActual = 0, caracterActual = 0, borrando = false;
-    const elementoTexto = document.getElementById("texto-animado");
-    function escribir() {
-        const frase = frases[fraseActual];
-        if (borrando) { elementoTexto.textContent = frase.substring(0, caracterActual - 1); caracterActual--; } 
-        else { elementoTexto.textContent = frase.substring(0, caracterActual + 1); caracterActual++; }
-        let velocidad = borrando ? 50 : 100;
-        if (!borrando && caracterActual === frase.length) { velocidad = 2000; borrando = true; } 
-        else if (borrando && caracterActual === 0) { borrando = false; fraseActual = (fraseActual + 1) % frases.length; velocidad = 500; }
-        setTimeout(escribir, velocidad);
-    }
-    setTimeout(escribir, 1000);
-
-    function revelarAlScroll() {
-        var revelados = document.querySelectorAll(".reveal");
-        for (var i = 0; i < revelados.length; i++) {
-            if (revelados[i].getBoundingClientRect().top < window.innerHeight - 100) revelados[i].classList.add("active");
+    // 3. Partículas con manejo de errores
+    try {
+        if (typeof particlesJS !== "undefined") {
+            particlesJS("particles-js", {
+                particles: { 
+                    number: { value: 40, density: { enable: true, value_area: 800 } }, 
+                    color: { value: "#06B6D4" }, 
+                    shape: { type: "circle" }, 
+                    opacity: { value: 0.5 }, 
+                    size: { value: 3, random: true }, 
+                    line_linked: { enable: true, distance: 150, color: "#06B6D4", opacity: 0.4, width: 1 }, 
+                    move: { enable: true, speed: 2 } 
+                },
+                interactivity: { 
+                    detect_on: "canvas", 
+                    events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" }, resize: true }, 
+                    modes: { grab: { distance: 140, line_linked: { opacity: 1 } }, push: { particles_nb: 4 } } 
+                },
+                retina_detect: true
+            });
         }
+    } catch(error) { 
+        console.log("Partículas desactivadas preventivamente."); 
     }
-    window.addEventListener("scroll", revelarAlScroll); revelarAlScroll();
 
-    const btnAbrir = document.getElementById('abrir-chat'), btnCerrar = document.getElementById('cerrar-chat');
-    const ventanaChat = document.getElementById('chat-window'), contenedorMensajes = document.getElementById('chat-messages'), cajaOpciones = document.getElementById('caja-opciones');
-    btnAbrir.addEventListener('click', () => { ventanaChat.classList.remove('oculto'); btnAbrir.style.transform = 'scale(0)'; });
-    btnCerrar.addEventListener('click', () => { ventanaChat.classList.add('oculto'); btnAbrir.style.transform = 'scale(1)'; });
+    // 4. Efecto de Escritura
+    try {
+        const frases = ["Contador Público Nacional", "Auditoría Externa"];
+        let fActual = 0, cActual = 0, borrando = false;
+        const eTexto = document.getElementById("texto-animado");
+        
+        function escribir() {
+            if(!eTexto) return;
+            const f = frases[fActual];
+            if (borrando) { 
+                eTexto.textContent = f.substring(0, cActual - 1); 
+                cActual--; 
+            } else { 
+                eTexto.textContent = f.substring(0, cActual + 1); 
+                cActual++; 
+            }
+            let vel = borrando ? 50 : 100;
+            if (!borrando && cActual === f.length) { 
+                vel = 2000; 
+                borrando = true; 
+            } else if (borrando && cActual === 0) { 
+                borrando = false; 
+                fActual = (fActual + 1) % frases.length; 
+                vel = 500; 
+            }
+            setTimeout(escribir, vel);
+        }
+        setTimeout(escribir, 1000);
+    } catch(error) {}
 
-    const respuestasBot = {
-        experiencia: "Luis se desempeña actualmente como Auditor Externo en el Estudio Simón O. Montes (2026-Presente). Previamente trabajó en Consultora Pluss realizando revisión analítica de extractos financieros.",
-        educacion: "Es Contador Público Nacional graduado de la UNSa (Título en trámite) y tiene un 65% de avance en la Licenciatura en Administración de Empresas.",
-        sistemas: "Posee un dominio avanzado en Excel, Google Workspace, herramientas de Inteligencia Artificial aplicadas a la contabilidad y manejo experto del sistema Tango Gestión.",
-        contacto: "Por supuesto. El número directo de WhatsApp de Luis es: <strong>+54 9 387 652 4189</strong>.<br><br>También puedes escribirle a <strong>contacto@luisrizzo.com.ar</strong>"
+    // 5. Fecha Actual
+    try {
+        const d = new Date().toLocaleDateString('es-AR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const fEl = document.getElementById('fecha-en-vivo');
+        if(fEl) fEl.innerText = d.charAt(0).toUpperCase() + d.slice(1);
+    } catch(error) {}
+
+    // 6. Modo Oscuro
+    try {
+        const btnD = document.getElementById('btn-dark-mode'), iconD = btnD?.querySelector('i');
+        if (localStorage.getItem('tema-oscuro') === 'activado') { 
+            document.body.classList.add('dark-mode'); 
+            if(iconD) iconD.classList.replace('fa-moon', 'fa-sun'); 
+        }
+        if(btnD) {
+            btnD.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) { 
+                    localStorage.setItem('tema-oscuro', 'activado'); 
+                    if(iconD) iconD.classList.replace('fa-moon', 'fa-sun'); 
+                } else { 
+                    localStorage.setItem('tema-oscuro', 'desactivado'); 
+                    if(iconD) iconD.classList.replace('fa-sun', 'fa-moon'); 
+                }
+            });
+        }
+    } catch(error) {}
+
+    // 7. Lógica del Chatbot
+    try {
+        const btnAb = document.getElementById('abrir-chat');
+        const btnCe = document.getElementById('cerrar-chat');
+        const winCh = document.getElementById('chat-window');
+        const msgCo = document.getElementById('chat-messages');
+        const boxOp = document.getElementById('caja-opciones');
+        
+        if(btnAb && btnCe) {
+            btnAb.addEventListener('click', () => { winCh.classList.remove('oculto'); btnAb.style.transform = 'scale(0)'; });
+            btnCe.addEventListener('click', () => { winCh.classList.add('oculto'); btnAb.style.transform = 'scale(1)'; });
+        }
+        
+        const resB = { 
+            experiencia: "Luis se desempeña actualmente como Auditor Externo en el Estudio Simón O. Montes (2026-Presente). Previamente trabajó en Consultora Pluss realizando revisión analítica de extractos financieros.", 
+            educacion: "Es Contador Público Nacional graduado de la UNSa (Título en trámite) y tiene un 65% de avance en la Licenciatura en Administración de Empresas.", 
+            sistemas: "Posee un dominio avanzado en Excel, Google Workspace, herramientas de Inteligencia Artificial aplicadas a la contabilidad y manejo experto del sistema Tango Gestión.", 
+            contacto: "El número directo de WhatsApp de Luis es: <strong>+54 9 387 652 4189</strong>.<br><br>También puedes escribirle a <strong>contacto@luisrizzo.com.ar</strong>" 
+        };
+        const tagB = { 
+            experiencia: "Resumen de Experiencia", 
+            educacion: "Estudios y Formación", 
+            sistemas: "Sistemas que maneja", 
+            contacto: "Solicitar WhatsApp" 
+        };
+        
+        window.enviarMensaje = function(t) {
+            if(!boxOp || !msgCo) return;
+            boxOp.style.display = 'none';
+            const mu = document.createElement('div'); mu.className = 'mensaje usuario'; mu.innerHTML = tagB[t];
+            msgCo.appendChild(mu); msgCo.scrollTop = msgCo.scrollHeight;
+            
+            const me = document.createElement('div'); me.className = 'escribiendo'; me.innerHTML = '<span></span><span></span><span></span>';
+            msgCo.appendChild(me); msgCo.scrollTop = msgCo.scrollHeight;
+            
+            setTimeout(() => {
+                msgCo.removeChild(me);
+                const mb = document.createElement('div'); mb.className = 'mensaje bot'; mb.innerHTML = resB[t];
+                msgCo.appendChild(mb); msgCo.scrollTop = msgCo.scrollHeight;
+                boxOp.style.display = 'flex';
+            }, 1500);
+        };
+    } catch(error) {}
+
+    // 8. Cuenta Progresiva de Números
+    function animarVal(id, valFin) {
+        try {
+            const obj = document.getElementById(id); if(!obj) return;
+            let start = null; const dur = 1200;
+            const format = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
+            
+            const step = (ts) => {
+                if (!start) start = ts;
+                const prog = Math.min((ts - start) / dur, 1);
+                const ease = 1 - Math.pow(1 - prog, 4);
+                obj.innerText = format.format(ease * valFin);
+                if (prog < 1) window.requestAnimationFrame(step); 
+                else obj.innerText = format.format(valFin);
+            };
+            window.requestAnimationFrame(step);
+        } catch(error){}
+    }
+
+    // 9. Calculadoras Financieras
+    window.calcularInversion = function() {
+        try {
+            const p = parseFloat(document.getElementById('capInicial').value);
+            const pmt = parseFloat(document.getElementById('aporteMensual').value);
+            const r = parseFloat(document.getElementById('tasaAnual').value)/100;
+            const t = parseFloat(document.getElementById('anios').value);
+            
+            if (isNaN(p) || isNaN(pmt) || isNaN(r) || isNaN(t)) return;
+            
+            const m = t * 12, tm = r / 12;
+            const tf = (p * Math.pow(1 + tm, m)) + (pmt * ((Math.pow(1 + tm, m) - 1) / tm));
+            const ti = p + (pmt * m), int = tf - ti;
+            
+            const bx = document.querySelectorAll('.calc-resultados')[0]; 
+            if(bx) { 
+                bx.style.opacity = '0.5'; 
+                setTimeout(() => { 
+                    animarVal('resTotal', tf); 
+                    animarVal('resInvertido', ti); 
+                    animarVal('resIntereses', int); 
+                    bx.style.opacity = '1'; bx.style.transition = 'opacity 0.4s'; 
+                }, 150); 
+            }
+        } catch(error){}
+    };
+
+    window.calcularPrestamo = function() {
+        try {
+            const c = parseFloat(document.getElementById('montoPrestamo').value);
+            const tna = parseFloat(document.getElementById('tasaPrestamo').value);
+            const m = parseInt(document.getElementById('plazoPrestamo').value);
+            
+            if (isNaN(c) || isNaN(tna) || isNaN(m)) return;
+            
+            const tm = (tna/100)/12;
+            const cu = tm === 0 ? c/m : c*(tm*Math.pow(1+tm,m))/(Math.pow(1+tm,m)-1);
+            const td = cu*m, int = td-c;
+            
+            const bx = document.querySelectorAll('.calc-resultados')[1]; 
+            if(bx) { 
+                bx.style.opacity = '0.5'; 
+                setTimeout(() => { 
+                    animarVal('resCuota', cu); 
+                    animarVal('resTotalPrestamo', td); 
+                    animarVal('resInteresesPrestamo', int); 
+                    bx.style.opacity = '1'; bx.style.transition = 'opacity 0.4s'; 
+                }, 150); 
+            }
+        } catch(error){}
+    };
+
+    window.calcularCM = function() {
+        try {
+            const b = parseFloat(document.getElementById('cmBaseTotal').value);
+            const c = parseFloat(document.getElementById('cmCoeficiente').value);
+            const a = parseFloat(document.getElementById('cmAlicuota').value);
+            
+            if (isNaN(b) || isNaN(c) || isNaN(a)) return;
+            
+            const ba = b*c, imp = ba*(a/100);
+            
+            const bx = document.querySelectorAll('.calc-resultados')[2]; 
+            if(bx) { 
+                bx.style.opacity = '0.5'; 
+                setTimeout(() => { 
+                    animarVal('resCmBase', ba); 
+                    animarVal('resCmImpuesto', imp); 
+                    bx.style.opacity = '1'; bx.style.transition = 'opacity 0.4s'; 
+                }, 150); 
+            }
+        } catch(error){}
     };
     
-    // Diccionario de etiquetas corregido para no depender de "event"
-    const etiquetasBotones = { experiencia: "Resumen de Experiencia", educacion: "Estudios y Formación", sistemas: "Sistemas que maneja", contacto: "Solicitar WhatsApp" };
+    // Iniciar calculadoras
+    setTimeout(() => { calcularInversion(); calcularPrestamo(); calcularCM(); }, 800);
 
-    function enviarMensaje(tipo) {
-        cajaOpciones.style.display = 'none';
-        const msgUsuario = document.createElement('div'); msgUsuario.className = 'mensaje usuario'; msgUsuario.textContent = etiquetasBotones[tipo];
-        contenedorMensajes.appendChild(msgUsuario); contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
-        const escribiendo = document.createElement('div'); escribiendo.className = 'escribiendo'; escribiendo.innerHTML = '<span></span><span></span><span></span>';
-        contenedorMensajes.appendChild(escribiendo); contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
-        setTimeout(() => {
-            contenedorMensajes.removeChild(escribiendo);
-            const msgBot = document.createElement('div'); msgBot.className = 'mensaje bot'; msgBot.innerHTML = respuestasBot[tipo];
-            contenedorMensajes.appendChild(msgBot); contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
-            cajaOpciones.style.display = 'flex';
-        }, 1500);
-    }
-
-    function animarValor(id, valorFinal, duration) {
-        const obj = document.getElementById(id);
-        if(!obj) return;
-        let startTimestamp = null;
-        const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            const easeProgress = 1 - Math.pow(1 - progress, 4); 
-            const currentVal = easeProgress * valorFinal;
-            obj.innerText = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(currentVal);
-            if (progress < 1) window.requestAnimationFrame(step);
-            else obj.innerText = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valorFinal);
-        };
-        window.requestAnimationFrame(step);
-    }
-
-    function calcularInversion() {
-        const p = parseFloat(document.getElementById('capInicial').value), pmt = parseFloat(document.getElementById('aporteMensual').value), r = parseFloat(document.getElementById('tasaAnual').value) / 100, t = parseFloat(document.getElementById('anios').value), n = 12;
-        if (isNaN(p) || isNaN(pmt) || isNaN(r) || isNaN(t)) return;
-        const tasaMensual = r / n, meses = t * n, capitalFuturo = p * Math.pow(1 + tasaMensual, meses), aportesFuturos = pmt * ((Math.pow(1 + tasaMensual, meses) - 1) / tasaMensual);
-        const totalFinal = capitalFuturo + aportesFuturos, totalInvertido = p + (pmt * meses), intereses = totalFinal - totalInvertido;
-        const calcRes = document.querySelector('.calc-resultados'); if(!calcRes) return;
-        calcRes.style.opacity = '0.5';
-        setTimeout(() => {
-            animarValor('resTotal', totalFinal, 1200);
-            animarValor('resInvertido', totalInvertido, 1200);
-            animarValor('resIntereses', intereses, 1200);
-            calcRes.style.opacity = '1'; calcRes.style.transition = 'opacity 0.4s';
-        }, 150);
-    }
-    setTimeout(calcularInversion, 500);
-
-    async function obtenerCotizaciones() {
-        const panel = document.getElementById('panel-dolares');
-        if(!panel) return;
-        panel.innerHTML = '<div class="skeleton-card"></div>'.repeat(4);
+    window.togglePanelFinanciero = function() {
         try {
-            const respuesta = await fetch('https://dolarapi.com/v1/dolares');
-            const datos = await respuesta.json();
-            const dolaresClave = ['oficial', 'blue', 'mep', 'ccl'];
-            const dolaresFiltrados = datos.filter(d => dolaresClave.includes(d.casa));
-            panel.innerHTML = ''; 
-            dolaresFiltrados.forEach(dolar => {
-                const fecha = new Date(dolar.fechaActualizacion).toLocaleTimeString('es-AR', { hour: '2-digit', minute:'2-digit' });
-                const tarjeta = document.createElement('div'); tarjeta.className = 'cotizacion-card';
-                tarjeta.innerHTML = `
-                    <span class="cotizacion-tipo">Dólar ${dolar.nombre}</span>
+            const p = document.getElementById('contenido-panel-financiero');
+            const b = document.getElementById('btn-toggle-panel');
+            if (p.style.display === 'none') { 
+                p.style.display = 'block'; 
+                setTimeout(() => p.style.opacity = '1', 10); 
+                b.innerHTML = '<i class="fa-solid fa-folder-closed" style="margin-right: 8px;"></i> Cerrar Panel Financiero'; 
+                b.style.backgroundColor = '#64748b'; 
+            } else { 
+                p.style.opacity = '0'; 
+                setTimeout(() => p.style.display = 'none', 500); 
+                b.innerHTML = '<i class="fa-solid fa-folder-open" style="margin-right: 8px;"></i> Abrir Panel Financiero'; 
+                b.style.backgroundColor = 'var(--azul-corporativo)'; 
+            }
+        } catch(error){}
+    };
+
+    // 10. Consulta Dólar API
+    async function getCotizaciones() {
+        const p = document.getElementById('panel-dolares'); if(!p) return;
+        p.innerHTML = '<div class="skeleton-card"></div>'.repeat(4);
+        try {
+            const res = await fetch('https://dolarapi.com/v1/dolares'); 
+            const data = await res.json();
+            const flt = data.filter(d => ['oficial', 'blue', 'mep', 'ccl'].includes(d.casa));
+            
+            p.innerHTML = '';
+            flt.forEach(d => {
+                const f = new Date(d.fechaActualizacion).toLocaleTimeString('es-AR', { hour: '2-digit', minute:'2-digit' });
+                const crd = document.createElement('div'); 
+                crd.className = 'cotizacion-card tilt-element';
+                crd.innerHTML = `
+                    <span class="cotizacion-tipo">Dólar ${d.nombre}</span>
                     <div class="cotizacion-valores-container">
-                        <div style="flex: 1; text-align: center; border-right: 1px solid #cbd5e1; padding-right: 5px;"><span style="display: block; font-size: 0.75em; color: #64748b; text-transform: uppercase;">Compra</span><span class="cotizacion-valor" style="font-size: 1.3em;">$${dolar.compra}</span></div>
-                        <div style="flex: 1; text-align: center; padding-left: 5px;"><span style="display: block; font-size: 0.75em; color: #64748b; text-transform: uppercase;">Venta</span><span class="cotizacion-valor" style="font-size: 1.3em; color: var(--celeste-acento);">$${dolar.venta}</span></div>
+                        <div style="flex: 1; text-align: center; border-right: 1px solid #cbd5e1; padding-right: 5px;">
+                            <span style="display: block; font-size: 0.75em; color: #64748b; text-transform: uppercase;">Compra</span>
+                            <span class="cotizacion-valor" style="font-size: 1.3em;">$${d.compra}</span>
+                        </div>
+                        <div style="flex: 1; text-align: center; padding-left: 5px;">
+                            <span style="display: block; font-size: 0.75em; color: #64748b; text-transform: uppercase;">Venta</span>
+                            <span class="cotizacion-valor" style="font-size: 1.3em; color: var(--celeste-acento);">$${d.venta}</span>
+                        </div>
                     </div>
-                    <span class="cotizacion-fecha">Act: ${fecha}</span>
+                    <span class="cotizacion-fecha">Act: ${f}</span>
                 `;
-                panel.appendChild(tarjeta);
+                p.appendChild(crd);
             });
-            if (window.innerWidth > 768 && typeof VanillaTilt !== "undefined") { VanillaTilt.init(document.querySelectorAll(".cotizacion-card"), { max: 12, speed: 400, glare: true, "max-glare": 0.2 }); }
-        } catch (error) { panel.innerHTML = '<p style="color: red; font-weight: bold; text-align: center;">Servicio no disponible.</p>'; }
-    }
-    setTimeout(obtenerCotizaciones, 800);
-
-    const btnDarkMode = document.getElementById('btn-dark-mode'), iconDarkMode = btnDarkMode.querySelector('i'), cuerpoWeb = document.body;
-    if (localStorage.getItem('tema-oscuro') === 'activado') { cuerpoWeb.classList.add('dark-mode'); iconDarkMode.classList.replace('fa-moon', 'fa-sun'); }
-    btnDarkMode.addEventListener('click', () => {
-        cuerpoWeb.classList.toggle('dark-mode');
-        if (cuerpoWeb.classList.contains('dark-mode')) { localStorage.setItem('tema-oscuro', 'activado'); iconDarkMode.classList.replace('fa-moon', 'fa-sun'); } 
-        else { localStorage.setItem('tema-oscuro', 'desactivado'); iconDarkMode.classList.replace('fa-sun', 'fa-moon'); }
-    });
-
-    function calcularPrestamo() {
-        const capital = parseFloat(document.getElementById('montoPrestamo').value), tna = parseFloat(document.getElementById('tasaPrestamo').value), meses = parseInt(document.getElementById('plazoPrestamo').value);
-        if (isNaN(capital) || isNaN(tna) || isNaN(meses) || capital <= 0 || meses <= 0) return;
-        const tasaMensual = (tna / 100) / 12; let cuota = 0;
-        if (tasaMensual === 0) cuota = capital / meses; else cuota = capital * (tasaMensual * Math.pow(1 + tasaMensual, meses)) / (Math.pow(1 + tasaMensual, meses) - 1);
-        const totalDevolver = cuota * meses, intereses = totalDevolver - capital;
-        const calcResPrestamo = document.querySelectorAll('.calc-resultados')[1]; if(!calcResPrestamo) return;
-        calcResPrestamo.style.opacity = '0.5';
-        setTimeout(() => {
-            animarValor('resCuota', cuota, 1000);
-            animarValor('resTotalPrestamo', totalDevolver, 1000);
-            animarValor('resInteresesPrestamo', intereses, 1000);
-            calcResPrestamo.style.opacity = '1'; calcResPrestamo.style.transition = 'opacity 0.4s';
-        }, 150);
-    }
-    setTimeout(calcularPrestamo, 600);
-    
-    function actualizarFecha() {
-        const fechaActual = new Date().toLocaleDateString('es-AR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        const elementoFecha = document.getElementById('fecha-en-vivo');
-        if(elementoFecha) elementoFecha.innerText = fechaActual.charAt(0).toUpperCase() + fechaActual.slice(1);
-    }
-    actualizarFecha();
-
-    function calcularCM() {
-        const baseTotal = parseFloat(document.getElementById('cmBaseTotal').value), coeficiente = parseFloat(document.getElementById('cmCoeficiente').value), alicuota = parseFloat(document.getElementById('cmAlicuota').value);
-        if (isNaN(baseTotal) || isNaN(coeficiente) || isNaN(alicuota)) return;
-        const baseAtribuible = baseTotal * coeficiente, impuesto = baseAtribuible * (alicuota / 100);
-        const calcResCM = document.querySelectorAll('.calc-resultados')[2]; if(!calcResCM) return;
-        calcResCM.style.opacity = '0.5';
-        setTimeout(() => {
-            animarValor('resCmBase', baseAtribuible, 1000);
-            animarValor('resCmImpuesto', impuesto, 1000);
-            calcResCM.style.opacity = '1'; calcResCM.style.transition = 'opacity 0.4s';
-        }, 150);
-    }
-    setTimeout(calcularCM, 700);
-
-    function togglePanelFinanciero() {
-        const panel = document.getElementById('contenido-panel-financiero'), btn = document.getElementById('btn-toggle-panel');
-        if (panel.style.display === 'none') {
-            panel.style.display = 'block'; setTimeout(() => panel.style.opacity = '1', 10); 
-            btn.innerHTML = '<i class="fa-solid fa-folder-closed" style="margin-right: 8px;"></i> Cerrar Panel Financiero'; btn.style.backgroundColor = '#64748b'; 
-        } else {
-            panel.style.opacity = '0'; setTimeout(() => panel.style.display = 'none', 500); 
-            btn.innerHTML = '<i class="fa-solid fa-folder-open" style="margin-right: 8px;"></i> Abrir Panel Financiero'; btn.style.backgroundColor = 'var(--azul-corporativo)'; 
+            
+            if (window.innerWidth > 768 && typeof VanillaTilt !== "undefined") { 
+                VanillaTilt.init(document.querySelectorAll(".cotizacion-card"), { max: 10, speed: 400, glare: true, "max-glare": 0.2 }); 
+            }
+        } catch (e) { 
+            p.innerHTML = '<p style="color: red; font-weight: bold; text-align: center;">Servicio no disponible temporalmente.</p>'; 
         }
     }
+    setTimeout(getCotizaciones, 1000);
 
+    // 11. Vencimientos Automáticos
     function cargarVencimientos() {
-        const hoy = new Date(), mesActual = hoy.getMonth(), anioActual = hoy.getFullYear();
-        const vencimientos = [{ dia: 15, titulo: "Ingresos Brutos (CM03) - SIFERE" }, { dia: 18, titulo: "IVA y Cargas Sociales (0-3)" }, { dia: 20, titulo: "IVA y Cargas Sociales (4-6)" }, { dia: 22, titulo: "IVA y Cargas Sociales (7-9)" }];
-        let listaHTML = '';
-        vencimientos.forEach(v => {
-            let mesVencimiento = mesActual, anioVencimiento = anioActual;
-            if (hoy.getDate() > v.dia) { mesVencimiento++; if (mesVencimiento > 11) { mesVencimiento = 0; anioVencimiento++; } }
-            const fechaVenc = new Date(anioVencimiento, mesVencimiento, v.dia);
-            const diffDias = Math.ceil(Math.abs(fechaVenc - hoy) / (1000 * 60 * 60 * 24));
-            let badge = `<span style="background: var(--celeste-acento); color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">En ${diffDias} días</span>`;
-            if (diffDias === 0) badge = `<span style="background: #ef4444; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">¡VENCE HOY!</span>`;
-            else if (diffDias <= 5) badge = `<span style="background: #f59e0b; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">Faltan ${diffDias}d</span>`;
-            listaHTML += `<div class="vencimiento-item"><div><div class="vencimiento-item-dia">${v.dia} de ${fechaVenc.toLocaleDateString('es-AR', { month: 'short' }).toUpperCase()}</div><div class="vencimiento-item-titulo">${v.titulo}</div></div><div>${badge}</div></div>`;
-        });
-        const panelVenc = document.getElementById('lista-vencimientos'); if(panelVenc) panelVenc.innerHTML = listaHTML;
+        try {
+            const hoy = new Date(), m = hoy.getMonth(), a = hoy.getFullYear();
+            const vencs = [
+                { dia: 15, tit: "Ingresos Brutos (CM03) - SIFERE" }, 
+                { dia: 18, tit: "IVA y Cargas Sociales (0-3)" }, 
+                { dia: 20, tit: "IVA y Cargas Sociales (4-6)" }, 
+                { dia: 22, tit: "IVA y Cargas Sociales (7-9)" }
+            ];
+            let h = '';
+            vencs.forEach(v => {
+                let mv = m, av = a; 
+                if (hoy.getDate() > v.dia) { 
+                    mv++; 
+                    if (mv > 11) { mv = 0; av++; } 
+                }
+                const fv = new Date(av, mv, v.dia);
+                const diff = Math.ceil(Math.abs(fv - hoy) / (1000 * 60 * 60 * 24));
+                
+                let bg = `<span style="background: var(--celeste-acento); color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">En ${diff} días</span>`;
+                if (diff === 0) bg = `<span style="background: #ef4444; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">¡VENCE HOY!</span>`;
+                else if (diff <= 5) bg = `<span style="background: #f59e0b; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">Faltan ${diff}d</span>`;
+                
+                h += `<div class="vencimiento-item"><div><div class="vencimiento-item-dia">${v.dia} de ${fv.toLocaleDateString('es-AR', { month: 'short' }).toUpperCase()}</div><div class="vencimiento-item-titulo">${v.tit}</div></div><div>${bg}</div></div>`;
+            });
+            const p = document.getElementById('lista-vencimientos'); 
+            if(p) p.innerHTML = h;
+        } catch(error){}
     }
-    setTimeout(cargarVencimientos, 900);
+    setTimeout(cargarVencimientos, 1100);
 
-    if (window.innerWidth > 768 && typeof VanillaTilt !== "undefined") { VanillaTilt.init(document.querySelectorAll(".tilt-element"), { max: 12, speed: 400, glare: true, "max-glare": 0.2, scale: 1.03 }); }
+    // 12. Vanilla Tilt General
+    try {
+        if (window.innerWidth > 768 && typeof VanillaTilt !== "undefined") { 
+            VanillaTilt.init(document.querySelectorAll(".tilt-element"), { max: 10, speed: 400, glare: true, "max-glare": 0.2, scale: 1.02 }); 
+        }
+    } catch(e) {}
 </script>
 </body>
 </html>
