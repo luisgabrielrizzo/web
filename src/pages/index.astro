@@ -28,40 +28,29 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             --fuente-titulos: 'Inter', sans-serif;
             --fuente-textos: 'Roboto', sans-serif;
         }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--fuente-textos); line-height: 1.6; margin: 0; padding: 0; color: var(--texto-principal); background-color: var(--gris-fondo); overflow-x: hidden; }
-        h1, h2, h3, h4 { font-family: var(--fuente-titulos); }
-        /* ========================================== */
-        /* MICRO-DETALLES VISUALES FINTECH            */
-        /* ========================================== */
         
-        /* 1. Scrollbar Personalizada */
+        /* MICRO-DETALLES VISUALES FINTECH */
         ::-webkit-scrollbar { width: 12px; }
         ::-webkit-scrollbar-track { background: var(--gris-fondo); }
         ::-webkit-scrollbar-thumb { background: var(--azul-claro); border-radius: 10px; border: 3px solid var(--gris-fondo); }
         ::-webkit-scrollbar-thumb:hover { background: var(--celeste-acento); }
-
-        /* 2. Color de Selección de Texto */
         ::selection { background: var(--celeste-acento); color: #ffffff; }
         ::-moz-selection { background: var(--celeste-acento); color: #ffffff; }
 
-        /* 3. Resplandor Magnético en Botones Clave */
-        a[href="#contacto"]:hover, .btn-calc:hover, .btn-perfil:hover {
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.6) !important;
-        }
-
-        /* 4. Efecto Cristal Premium para el Menú */
-        nav { 
-            background: rgba(15, 23, 42, 0.75) !important; 
-            backdrop-filter: blur(15px) saturate(180%) !important; 
-            -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-        }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--fuente-textos); line-height: 1.6; margin: 0; padding: 0; color: var(--texto-principal); background-color: var(--gris-fondo); overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: var(--fuente-titulos); }
         
+        /* CABECERA PARALLAX */
         header { 
             background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(8, 145, 178, 0.85)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
-            color: #fff; padding: 140px 20px 100px; text-align: center; position: relative;
+            background-attachment: fixed; /* EFECTO PARALLAX */
+            color: #fff; padding: 140px 20px 100px; text-align: center; position: relative; overflow: hidden;
         }
+        
+        #particles-js { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 0; }
+        .header-content { position: relative; z-index: 1; }
+        
         .foto-perfil { width: 190px; height: 190px; border-radius: 50%; object-fit: cover; border: 4px solid var(--celeste-acento); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin-bottom: 25px; transition: transform 0.4s ease, box-shadow 0.4s ease; }
         .foto-perfil:hover { transform: scale(1.08) translateY(-5px); box-shadow: 0 15px 40px rgba(6, 182, 212, 0.4); }
         header h1 { margin: 0; font-size: 3.2em; letter-spacing: 1px; font-weight: 800; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
@@ -70,9 +59,13 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         .cursor { display: inline-block; width: 3px; height: 1.2em; background-color: var(--dorado); vertical-align: middle; animation: blink 0.8s infinite; margin-left: 5px; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         
+        /* MENU GLASSMORPHISM */
         nav { 
-            background: rgba(30, 58, 138, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); border-bottom: 3px solid var(--celeste-acento);
+            background: rgba(15, 23, 42, 0.75) !important; 
+            backdrop-filter: blur(15px) saturate(180%) !important; 
+            -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+            padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
         nav a { color: white; margin: 0 20px; text-decoration: none; font-weight: 500; font-size: 1.1em; transition: all 0.3s; padding: 5px 10px; border-radius: 5px; }
         nav a:hover { color: var(--dorado); background: rgba(255,255,255,0.1); transform: translateY(-2px); }
@@ -92,6 +85,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         
         .btn-secundario { display: inline-flex; align-items: center; padding: 10px 20px; background-color: #0077b5; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; margin-top: 15px; transition: all 0.3s; }
         .btn-secundario:hover { background-color: #005a8a; transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0, 119, 181, 0.3); }
+        a[href="#contacto"]:hover, .btn-calc:hover, .btn-perfil:hover { box-shadow: 0 0 20px rgba(6, 182, 212, 0.6) !important; }
         
         .grid-perfil { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
         .card-perfil { background: #fff; padding: 30px; border-radius: 10px; border: 1px solid #e0f2fe; border-left: 4px solid var(--azul-claro); position: relative; z-index: 1; transform-style: preserve-3d; transition: box-shadow 0.4s ease, border-color 0.4s ease; }
@@ -164,12 +158,16 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 
         .cotizaciones-panel { background: white; padding: 25px; border-radius: 12px; border: 1px solid #e0f2fe; box-shadow: 0 10px 25px rgba(30,58,138,0.05); }
         .cotizaciones-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-        .cotizacion-card { background: #f8fafc; border-left: 4px solid var(--dorado); padding: 20px; border-radius: 8px; display: flex; flex-direction: column; justify-content: center; min-height: 100px; transform-style: preserve-3d; transition: box-shadow 0.4s ease; }
+        .cotizacion-card { background: #f8fafc; border-left: 4px solid var(--dorado); padding: 20px; border-radius: 8px; display: flex; flex-direction: column; justify-content: center; min-height: 110px; transform-style: preserve-3d; transition: box-shadow 0.4s ease; }
         .cotizacion-card:hover { box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
         .cotizacion-tipo { display: block; font-size: 1.1em; font-weight: 700; color: var(--azul-corporativo); letter-spacing: 0.5px; text-align: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 10px; transform: translateZ(25px); }
         .cotizacion-valores-container { display: flex; justify-content: space-between; width: 100%; margin: 15px 0 10px; gap: 10px; transform: translateZ(40px); }
         .cotizacion-fecha { display: block; font-size: 0.75em; color: #94a3b8; margin-top: 10px; text-align: center; transform: translateZ(20px);}
-        .loader-cotizacion { color: var(--celeste-acento); font-weight: 600; animation: pulse 1.5s infinite; text-align: center; }
+        
+        /* EFECTO ESQUELETO (SKELETON LOADING) */
+        .skeleton-card { background: #e2e8f0; border-radius: 8px; min-height: 110px; position: relative; overflow: hidden; border-left: 4px solid #cbd5e1; }
+        .skeleton-card::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent); animation: skeleton-shimmer 1.5s infinite; }
+        @keyframes skeleton-shimmer { 100% { left: 100%; } }
 
         .vencimiento-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; background: #f8fafc; border-left: 4px solid var(--azul-claro); border-radius: 6px; margin-bottom: 10px; transition: transform 0.2s, box-shadow 0.2s; }
         .vencimiento-item:hover { transform: translateX(5px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
@@ -183,7 +181,6 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         .input-grupo input { padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1em; outline: none; transition: border-color 0.3s, box-shadow 0.3s; }
         .input-grupo input:focus { border-color: var(--celeste-acento); box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2); }
         .btn-calc { background: linear-gradient(135deg, var(--dorado), #d97706); color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; transition: all 0.3s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 10px; }
-        .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3); }
         .calc-resultados { background: #f8fafc; border-radius: 12px; padding: 30px; display: flex; flex-direction: column; justify-content: center; border-left: 5px solid var(--verde-exito); }
         .resultado-card h4 { margin: 0; color: #64748b; font-size: 1.1em; font-weight: 600; }
         .monto { font-size: 2.5em; font-weight: 800; color: var(--azul-corporativo); margin: 10px 0 20px; }
@@ -222,24 +219,31 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         body.dark-mode .vencimiento-item-dia { color: #38bdf8; }
         body.dark-mode .vencimiento-item-titulo { color: #94a3b8; }
         body.dark-mode .cotizacion-tipo { border-color: #334155; color: #38bdf8; }
+        body.dark-mode .skeleton-card { background: #1e293b; border-left-color: #334155; }
+        body.dark-mode .skeleton-card::after { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); }
     </style>
 </head>
 <body>
 
 <header>
-    <div id="fecha-en-vivo" style="position: absolute; top: 25px; right: 25px; color: #bae6fd; font-size: 0.85rem; font-weight: 500; font-family: var(--fuente-textos); background: rgba(0,0,0,0.25); padding: 6px 14px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px);">
-        Cargando fecha...
-    </div>
-    <img src="/fotoperfil.jpg" alt="Luis Gabriel Rizzo" class="foto-perfil">
-    <h1>Luis Gabriel Rizzo</h1>
-    <div class="typing-container"><span id="texto-animado"></span><span class="cursor"></span></div>
-    <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-        <a href="#contacto" style="background-color: var(--celeste-acento); color: white; padding: 12px 25px; text-decoration: none; border-radius: 50px; font-weight: bold; font-family: var(--fuente-titulos); transition: transform 0.3s, background-color 0.3s;">
-            <i class="fa-regular fa-envelope"></i> Contactar ahora
-        </a>
-        <a href="https://www.linkedin.com/in/luis-rizzo-cpn/" target="_blank" style="background-color: rgba(255,255,255,0.1); border: 1px solid white; color: white; padding: 12px 25px; text-decoration: none; border-radius: 50px; font-weight: bold; font-family: var(--fuente-titulos); transition: transform 0.3s, background-color 0.3s;" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.2)'" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.1)'">
-            <i class="fa-brands fa-linkedin-in"></i> LinkedIn
-        </a>
+    <!-- PARTICLES JS CONTENEDOR (Fondo Tecnológico) -->
+    <div id="particles-js"></div>
+
+    <div class="header-content">
+        <div id="fecha-en-vivo" style="position: absolute; top: -110px; right: 5px; color: #bae6fd; font-size: 0.85rem; font-weight: 500; font-family: var(--fuente-textos); background: rgba(0,0,0,0.25); padding: 6px 14px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px);">
+            Cargando fecha...
+        </div>
+        <img src="/fotoperfil.jpg" alt="Luis Gabriel Rizzo" class="foto-perfil">
+        <h1>Luis Gabriel Rizzo</h1>
+        <div class="typing-container"><span id="texto-animado"></span><span class="cursor"></span></div>
+        <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+            <a href="#contacto" style="background-color: var(--celeste-acento); color: white; padding: 12px 25px; text-decoration: none; border-radius: 50px; font-weight: bold; font-family: var(--fuente-titulos); transition: transform 0.3s, background-color 0.3s;">
+                <i class="fa-regular fa-envelope"></i> Contactar ahora
+            </a>
+            <a href="https://www.linkedin.com/in/luis-rizzo-cpn/" target="_blank" style="background-color: rgba(255,255,255,0.1); border: 1px solid white; color: white; padding: 12px 25px; text-decoration: none; border-radius: 50px; font-weight: bold; font-family: var(--fuente-titulos); transition: transform 0.3s, background-color 0.3s;" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.2)'" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.1)'">
+                <i class="fa-brands fa-linkedin-in"></i> LinkedIn
+            </a>
+        </div>
     </div>
 </header>
 
@@ -324,54 +328,37 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 <div class="container reveal" id="herramientas">
     <h2><i class="fa-solid fa-chart-line"></i> Panel Financiero y Simulador</h2>
     <p>Consulta las cotizaciones del mercado, próximos vencimientos impositivos y simula proyecciones de inversión y créditos.</p>
-    
     <div style="text-align: center; margin: 25px 0;">
         <button id="btn-toggle-panel" onclick="togglePanelFinanciero()" class="btn-secundario" style="cursor: pointer; background-color: var(--azul-corporativo); border: none; font-family: var(--fuente-titulos); padding: 12px 25px; font-size: 1.1em; transition: all 0.3s;">
             <i class="fa-solid fa-folder-open" style="margin-right: 8px;"></i> Abrir Panel Financiero
         </button>
     </div>
-
     <div id="contenido-panel-financiero" style="display: none; opacity: 0; transition: opacity 0.5s ease;">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 40px;">
             <div class="cotizaciones-panel" style="margin-bottom: 0;">
                 <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-money-bill-transfer"></i> Mercado Cambiario</h3>
                 <div class="cotizaciones-grid" id="panel-dolares">
-                    <div class="cotizacion-card"><span class="loader-cotizacion">Actualizando mercado...</span></div>
+                    <!-- SE INYECTARÁ ESQUELETO DE CARGA POR JS -->
                 </div>
             </div>
             <div class="cotizaciones-panel" style="margin-bottom: 0; border-left: 4px solid var(--azul-claro);">
                 <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-calendar-check"></i> Próximos Vencimientos</h3>
                 <div id="lista-vencimientos">
-                    <div class="loader-cotizacion" style="text-align: center; padding: 20px;">Calculando fechas impositivas...</div>
+                    <div class="loader-cotizacion" style="text-align: center; padding: 20px;">Calculando fechas...</div>
                 </div>
             </div>
         </div>
 
         <div class="calculadora-grid">
             <div class="calc-controles">
-                <div class="input-grupo">
-                    <label for="capInicial">Capital Inicial ($)</label>
-                    <input type="number" id="capInicial" value="100000" min="0">
-                </div>
-                <div class="input-grupo">
-                    <label for="aporteMensual">Aporte Mensual ($)</label>
-                    <input type="number" id="aporteMensual" value="10000" min="0">
-                </div>
-                <div class="input-grupo">
-                    <label for="tasaAnual">Tasa de Interés Anual (%)</label>
-                    <input type="number" id="tasaAnual" value="8" min="0" step="0.1">
-                </div>
-                <div class="input-grupo">
-                    <label for="anios">Plazo (Años)</label>
-                    <input type="number" id="anios" value="10" min="1">
-                </div>
+                <div class="input-grupo"><label>Capital Inicial ($)</label><input type="number" id="capInicial" value="100000" min="0"></div>
+                <div class="input-grupo"><label>Aporte Mensual ($)</label><input type="number" id="aporteMensual" value="10000" min="0"></div>
+                <div class="input-grupo"><label>Tasa Anual (%)</label><input type="number" id="tasaAnual" value="8" min="0" step="0.1"></div>
+                <div class="input-grupo"><label>Plazo (Años)</label><input type="number" id="anios" value="10" min="1"></div>
                 <button onclick="calcularInversion()" class="btn-calc"><i class="fa-solid fa-calculator"></i> Proyectar Resultados</button>
             </div>
             <div class="calc-resultados">
-                <div class="resultado-card">
-                    <h4>Capital Final Estimado</h4>
-                    <div class="monto destacado" id="resTotal">$0.00</div>
-                </div>
+                <div class="resultado-card"><h4>Capital Final Estimado</h4><div class="monto destacado" id="resTotal">$0.00</div></div>
                 <div class="resultado-desglose">
                     <div><span>Total Invertido:</span><strong id="resInvertido">$0.00</strong></div>
                     <div><span>Intereses Generados:</span><strong id="resIntereses" style="color: var(--verde-exito);">$0.00</strong></div>
@@ -381,26 +368,14 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 
         <div class="calculadora-grid" style="margin-top: 30px;">
             <div class="calc-controles">
-                <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-building-columns"></i> Simulador de Préstamos (Sistema Francés)</h3>
-                <div class="input-grupo">
-                    <label for="montoPrestamo">Monto del Préstamo ($)</label>
-                    <input type="number" id="montoPrestamo" value="1000000" min="0">
-                </div>
-                <div class="input-grupo" style="margin-top: 15px;">
-                    <label for="tasaPrestamo">Tasa Nominal Anual - TNA (%)</label>
-                    <input type="number" id="tasaPrestamo" value="55" min="0" step="0.1">
-                </div>
-                <div class="input-grupo" style="margin-top: 15px;">
-                    <label for="plazoPrestamo">Plazo (Meses)</label>
-                    <input type="number" id="plazoPrestamo" value="24" min="1">
-                </div>
+                <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-building-columns"></i> Simulador de Préstamos</h3>
+                <div class="input-grupo"><label>Monto del Préstamo ($)</label><input type="number" id="montoPrestamo" value="1000000" min="0"></div>
+                <div class="input-grupo" style="margin-top: 15px;"><label>TNA (%)</label><input type="number" id="tasaPrestamo" value="55" min="0" step="0.1"></div>
+                <div class="input-grupo" style="margin-top: 15px;"><label>Plazo (Meses)</label><input type="number" id="plazoPrestamo" value="24" min="1"></div>
                 <button onclick="calcularPrestamo()" class="btn-calc" style="background: linear-gradient(135deg, #0ea5e9, #0284c7); margin-top: 15px;"><i class="fa-solid fa-file-signature"></i> Calcular Cuota</button>
             </div>
             <div class="calc-resultados" style="border-left-color: #0ea5e9;">
-                <div class="resultado-card">
-                    <h4>Cuota Mensual Fija</h4>
-                    <div class="monto destacado" id="resCuota" style="color: #0ea5e9;">$0.00</div>
-                </div>
+                <div class="resultado-card"><h4>Cuota Mensual Fija</h4><div class="monto destacado" id="resCuota" style="color: #0ea5e9;">$0.00</div></div>
                 <div class="resultado-desglose">
                     <div><span>Total a Devolver:</span><strong id="resTotalPrestamo">$0.00</strong></div>
                     <div><span>Intereses Pagados:</span><strong id="resInteresesPrestamo" style="color: #f43f5e;">$0.00</strong></div>
@@ -410,28 +385,16 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         
         <div class="calculadora-grid" style="margin-top: 30px;">
             <div class="calc-controles">
-                <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-map-location-dot"></i> Liquidador Convenio Multilateral (Art. 2)</h3>
-                <div class="input-grupo">
-                    <label for="cmBaseTotal">Base Imponible Total del Mes ($)</label>
-                    <input type="number" id="cmBaseTotal" value="5000000" min="0">
-                </div>
+                <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-map-location-dot"></i> Convenio Multilateral (Art. 2)</h3>
+                <div class="input-grupo"><label>Base Imponible Total ($)</label><input type="number" id="cmBaseTotal" value="5000000" min="0"></div>
                 <div style="display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap;">
-                    <div class="input-grupo" style="flex: 1; min-width: 120px;">
-                        <label for="cmCoeficiente">Coef. Unificado (Ej: 0.1500)</label>
-                        <input type="number" id="cmCoeficiente" value="0.1500" step="0.0001" min="0" max="1">
-                    </div>
-                    <div class="input-grupo" style="flex: 1; min-width: 120px;">
-                        <label for="cmAlicuota">Alícuota Prov. (%)</label>
-                        <input type="number" id="cmAlicuota" value="3.0" step="0.1" min="0">
-                    </div>
+                    <div class="input-grupo" style="flex: 1; min-width: 120px;"><label>Coeficiente Unificado</label><input type="number" id="cmCoeficiente" value="0.1500" step="0.0001" min="0" max="1"></div>
+                    <div class="input-grupo" style="flex: 1; min-width: 120px;"><label>Alícuota (%)</label><input type="number" id="cmAlicuota" value="3.0" step="0.1" min="0"></div>
                 </div>
                 <button onclick="calcularCM()" class="btn-calc" style="background: linear-gradient(135deg, #10b981, #059669); margin-top: 15px;"><i class="fa-solid fa-calculator"></i> Calcular Impuesto</button>
             </div>
             <div class="calc-resultados" style="border-left-color: #10b981;">
-                <div class="resultado-card">
-                    <h4>Impuesto Determinado SIFERE</h4>
-                    <div class="monto destacado" id="resCmImpuesto" style="color: #10b981;">$0.00</div>
-                </div>
+                <div class="resultado-card"><h4>Impuesto Determinado SIFERE</h4><div class="monto destacado" id="resCmImpuesto" style="color: #10b981;">$0.00</div></div>
                 <div class="resultado-desglose">
                     <div><span>Base Atribuible a Jurisdicción:</span><strong id="resCmBase">$0.00</strong></div>
                 </div>
@@ -478,10 +441,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         <div class="chat-header">
             <div class="chat-header-info">
                 <img src="/fotoperfil.jpg" alt="IA" class="chat-avatar">
-                <div>
-                    <strong>Asistente Virtual</strong>
-                    <span><span class="punto-verde"></span> En línea ahora</span>
-                </div>
+                <div><strong>Asistente Virtual</strong><span><span class="punto-verde"></span> En línea ahora</span></div>
             </div>
             <button id="cerrar-chat"><i class="fa-solid fa-times"></i></button>
         </div>
@@ -497,42 +457,45 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             </div>
         </div>
     </div>
-    <button id="abrir-chat" class="chat-btn-flotante" title="Hablar con Asistente Virtual">
-        <i class="fa-solid fa-comment-dots"></i>
-    </button>
+    <button id="abrir-chat" class="chat-btn-flotante" title="Hablar con Asistente Virtual"><i class="fa-solid fa-comment-dots"></i></button>
 </div>
 
-<footer>
-    <p>&copy; <span>2026 Luis Gabriel Rizzo</span></p>
-</footer>
+<footer><p>&copy; <span>2026 Luis Gabriel Rizzo</span></p></footer>
 
+<!-- LIBRERÍAS DE ANIMACIÓN (Tilt 3D y Particles JS) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
 <script is:inline>
-    const frases = ["Contador Público Nacional", "Auditoría Externa"];
-    let fraseActual = 0;
-    let caracterActual = 0;
-    let borrando = false;
-    const elementoTexto = document.getElementById("texto-animado");
+    // PARTICLES JS (Nodos Tecnológicos)
+    particlesJS("particles-js", {
+        particles: {
+            number: { value: 40, density: { enable: true, value_area: 800 } },
+            color: { value: "#06B6D4" },
+            shape: { type: "circle" },
+            opacity: { value: 0.5, random: false },
+            size: { value: 3, random: true },
+            line_linked: { enable: true, distance: 150, color: "#06B6D4", opacity: 0.4, width: 1 },
+            move: { enable: true, speed: 2, direction: "none", random: false, straight: false, out_mode: "out", bounce: false }
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" }, resize: true },
+            modes: { grab: { distance: 140, line_linked: { opacity: 1 } }, push: { particles_nb: 4 } }
+        },
+        retina_detect: true
+    });
 
+    const frases = ["Contador Público Nacional", "Auditoría Externa"];
+    let fraseActual = 0, caracterActual = 0, borrando = false;
+    const elementoTexto = document.getElementById("texto-animado");
     function escribir() {
-        const fraseCompleta = frases[fraseActual];
-        if (borrando) {
-            elementoTexto.textContent = fraseCompleta.substring(0, caracterActual - 1);
-            caracterActual--;
-        } else {
-            elementoTexto.textContent = fraseCompleta.substring(0, caracterActual + 1);
-            caracterActual++;
-        }
+        const frase = frases[fraseActual];
+        if (borrando) { elementoTexto.textContent = frase.substring(0, caracterActual - 1); caracterActual--; } 
+        else { elementoTexto.textContent = frase.substring(0, caracterActual + 1); caracterActual++; }
         let velocidad = borrando ? 50 : 100;
-        if (!borrando && caracterActual === fraseCompleta.length) {
-            velocidad = 2000; 
-            borrando = true;
-        } else if (borrando && caracterActual === 0) {
-            borrando = false;
-            fraseActual = (fraseActual + 1) % frases.length;
-            velocidad = 500; 
-        }
+        if (!borrando && caracterActual === frase.length) { velocidad = 2000; borrando = true; } 
+        else if (borrando && caracterActual === 0) { borrando = false; fraseActual = (fraseActual + 1) % frases.length; velocidad = 500; }
         setTimeout(escribir, velocidad);
     }
     setTimeout(escribir, 1000);
@@ -540,31 +503,15 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     function revelarAlScroll() {
         var revelados = document.querySelectorAll(".reveal");
         for (var i = 0; i < revelados.length; i++) {
-            var alturaVentana = window.innerHeight;
-            var distanciaElemento = revelados[i].getBoundingClientRect().top;
-            if (distanciaElemento < alturaVentana - 100) {
-                revelados[i].classList.add("active");
-            }
+            if (revelados[i].getBoundingClientRect().top < window.innerHeight - 100) revelados[i].classList.add("active");
         }
     }
-    window.addEventListener("scroll", revelarAlScroll);
-    revelarAlScroll();
+    window.addEventListener("scroll", revelarAlScroll); revelarAlScroll();
 
-    const btnAbrir = document.getElementById('abrir-chat');
-    const btnCerrar = document.getElementById('cerrar-chat');
-    const ventanaChat = document.getElementById('chat-window');
-    const contenedorMensajes = document.getElementById('chat-messages');
-    const cajaOpciones = document.getElementById('caja-opciones');
-
-    btnAbrir.addEventListener('click', () => {
-        ventanaChat.classList.remove('oculto');
-        btnAbrir.style.transform = 'scale(0)';
-    });
-
-    btnCerrar.addEventListener('click', () => {
-        ventanaChat.classList.add('oculto');
-        btnAbrir.style.transform = 'scale(1)';
-    });
+    const btnAbrir = document.getElementById('abrir-chat'), btnCerrar = document.getElementById('cerrar-chat');
+    const ventanaChat = document.getElementById('chat-window'), contenedorMensajes = document.getElementById('chat-messages'), cajaOpciones = document.getElementById('caja-opciones');
+    btnAbrir.addEventListener('click', () => { ventanaChat.classList.remove('oculto'); btnAbrir.style.transform = 'scale(0)'; });
+    btnCerrar.addEventListener('click', () => { ventanaChat.classList.add('oculto'); btnAbrir.style.transform = 'scale(1)'; });
 
     const respuestasBot = {
         experiencia: "Luis se desempeña actualmente como Auditor Externo en el Estudio Simón O. Montes (2026-Presente). Previamente trabajó en Consultora Pluss realizando revisión analítica de extractos financieros.",
@@ -572,254 +519,159 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         sistemas: "Posee un dominio avanzado en Excel, Google Workspace, herramientas de Inteligencia Artificial aplicadas a la contabilidad y manejo experto del sistema Tango Gestión.",
         contacto: "Por supuesto. El número directo de WhatsApp de Luis es: <strong>+54 9 387 652 4189</strong>.<br><br>También puedes escribirle a <strong>contacto@luisrizzo.com.ar</strong>"
     };
-
-    const etiquetasBotones = {
-        experiencia: "Resumen de Experiencia",
-        educacion: "Estudios y Formación",
-        sistemas: "Sistemas que maneja",
-        contacto: "Solicitar WhatsApp"
-    };
-
     function enviarMensaje(tipo) {
         cajaOpciones.style.display = 'none';
-        const msgUsuario = document.createElement('div');
-        msgUsuario.className = 'mensaje usuario';
-        msgUsuario.textContent = etiquetasBotones[tipo];
-        contenedorMensajes.appendChild(msgUsuario);
-        contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
-        const escribiendo = document.createElement('div');
-        escribiendo.className = 'escribiendo';
-        escribiendo.innerHTML = '<span></span><span></span><span></span>';
-        contenedorMensajes.appendChild(escribiendo);
-        contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
-
+        const msgUsuario = document.createElement('div'); msgUsuario.className = 'mensaje usuario'; msgUsuario.textContent = event.target.innerText;
+        contenedorMensajes.appendChild(msgUsuario); contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
+        const escribiendo = document.createElement('div'); escribiendo.className = 'escribiendo'; escribiendo.innerHTML = '<span></span><span></span><span></span>';
+        contenedorMensajes.appendChild(escribiendo); contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
         setTimeout(() => {
             contenedorMensajes.removeChild(escribiendo);
-            const msgBot = document.createElement('div');
-            msgBot.className = 'mensaje bot';
-            msgBot.innerHTML = respuestasBot[tipo];
-            contenedorMensajes.appendChild(msgBot);
-            contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
+            const msgBot = document.createElement('div'); msgBot.className = 'mensaje bot'; msgBot.innerHTML = respuestasBot[tipo];
+            contenedorMensajes.appendChild(msgBot); contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
             cajaOpciones.style.display = 'flex';
         }, 1500);
     }
 
+    // MOTOR DE ANIMACIÓN DE NÚMEROS (Cuenta Progresiva)
+    function animarValor(id, valorFinal, duration) {
+        const obj = document.getElementById(id);
+        if(!obj) return;
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const easeProgress = 1 - Math.pow(1 - progress, 4); // Efecto de frenado suave al final
+            const currentVal = easeProgress * valorFinal;
+            obj.innerText = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(currentVal);
+            if (progress < 1) window.requestAnimationFrame(step);
+            else obj.innerText = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valorFinal);
+        };
+        window.requestAnimationFrame(step);
+    }
+
     function calcularInversion() {
-        const p = parseFloat(document.getElementById('capInicial').value);
-        const pmt = parseFloat(document.getElementById('aporteMensual').value);
-        const r = parseFloat(document.getElementById('tasaAnual').value) / 100;
-        const t = parseFloat(document.getElementById('anios').value);
-        const n = 12;
+        const p = parseFloat(document.getElementById('capInicial').value), pmt = parseFloat(document.getElementById('aporteMensual').value), r = parseFloat(document.getElementById('tasaAnual').value) / 100, t = parseFloat(document.getElementById('anios').value), n = 12;
         if (isNaN(p) || isNaN(pmt) || isNaN(r) || isNaN(t)) return;
-        const tasaMensual = r / n;
-        const meses = t * n;
-        const capitalFuturo = p * Math.pow(1 + tasaMensual, meses);
-        const aportesFuturos = pmt * ((Math.pow(1 + tasaMensual, meses) - 1) / tasaMensual);
-        const totalFinal = capitalFuturo + aportesFuturos;
-        const totalInvertido = p + (pmt * meses);
-        const intereses = totalFinal - totalInvertido;
-        const formatoMoneda = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
-        const calcRes = document.querySelector('.calc-resultados');
-        if(!calcRes) return;
+        const tasaMensual = r / n, meses = t * n, capitalFuturo = p * Math.pow(1 + tasaMensual, meses), aportesFuturos = pmt * ((Math.pow(1 + tasaMensual, meses) - 1) / tasaMensual);
+        const totalFinal = capitalFuturo + aportesFuturos, totalInvertido = p + (pmt * meses), intereses = totalFinal - totalInvertido;
+        const calcRes = document.querySelector('.calc-resultados'); if(!calcRes) return;
         calcRes.style.opacity = '0.5';
         setTimeout(() => {
-            document.getElementById('resTotal').innerText = formatoMoneda.format(totalFinal);
-            document.getElementById('resInvertido').innerText = formatoMoneda.format(totalInvertido);
-            document.getElementById('resIntereses').innerText = formatoMoneda.format(intereses);
-            calcRes.style.opacity = '1';
-            calcRes.style.transition = 'opacity 0.4s';
+            animarValor('resTotal', totalFinal, 1200);
+            animarValor('resInvertido', totalInvertido, 1200);
+            animarValor('resIntereses', intereses, 1200);
+            calcRes.style.opacity = '1'; calcRes.style.transition = 'opacity 0.4s';
         }, 150);
     }
     setTimeout(calcularInversion, 500);
 
+    // DÓLAR CON ESQUELETOS DE CARGA
     async function obtenerCotizaciones() {
         const panel = document.getElementById('panel-dolares');
         if(!panel) return;
+        // Inyectar 4 tarjetas "Skeleton" antes de consultar
+        panel.innerHTML = '<div class="skeleton-card"></div>'.repeat(4);
         try {
             const respuesta = await fetch('https://dolarapi.com/v1/dolares');
             const datos = await respuesta.json();
             const dolaresClave = ['oficial', 'blue', 'mep', 'ccl'];
             const dolaresFiltrados = datos.filter(d => dolaresClave.includes(d.casa));
-            
             panel.innerHTML = ''; 
-            
             dolaresFiltrados.forEach(dolar => {
                 const fecha = new Date(dolar.fechaActualizacion).toLocaleTimeString('es-AR', { hour: '2-digit', minute:'2-digit' });
-                const tarjeta = document.createElement('div');
-                tarjeta.className = 'cotizacion-card';
+                const tarjeta = document.createElement('div'); tarjeta.className = 'cotizacion-card';
                 tarjeta.innerHTML = `
                     <span class="cotizacion-tipo">Dólar ${dolar.nombre}</span>
                     <div class="cotizacion-valores-container">
-                        <div style="flex: 1; text-align: center; border-right: 1px solid #cbd5e1; padding-right: 5px;">
-                            <span style="display: block; font-size: 0.75em; color: #64748b; text-transform: uppercase;">Compra</span>
-                            <span class="cotizacion-valor" style="font-size: 1.3em;">$${dolar.compra}</span>
-                        </div>
-                        <div style="flex: 1; text-align: center; padding-left: 5px;">
-                            <span style="display: block; font-size: 0.75em; color: #64748b; text-transform: uppercase;">Venta</span>
-                            <span class="cotizacion-valor" style="font-size: 1.3em; color: var(--celeste-acento);">$${dolar.venta}</span>
-                        </div>
+                        <div style="flex: 1; text-align: center; border-right: 1px solid #cbd5e1; padding-right: 5px;"><span style="display: block; font-size: 0.75em; color: #64748b; text-transform: uppercase;">Compra</span><span class="cotizacion-valor" style="font-size: 1.3em;">$${dolar.compra}</span></div>
+                        <div style="flex: 1; text-align: center; padding-left: 5px;"><span style="display: block; font-size: 0.75em; color: #64748b; text-transform: uppercase;">Venta</span><span class="cotizacion-valor" style="font-size: 1.3em; color: var(--celeste-acento);">$${dolar.venta}</span></div>
                     </div>
                     <span class="cotizacion-fecha">Act: ${fecha}</span>
                 `;
                 panel.appendChild(tarjeta);
             });
-
-            if (window.innerWidth > 768) {
-                VanillaTilt.init(document.querySelectorAll(".cotizacion-card"), {
-                    max: 12, speed: 400, glare: true, "max-glare": 0.2
-                });
-            }
-        } catch (error) {
-            panel.innerHTML = '<p style="color: red; font-weight: bold; text-align: center;">Servicio no disponible.</p>';
-        }
+            if (window.innerWidth > 768) { VanillaTilt.init(document.querySelectorAll(".cotizacion-card"), { max: 12, speed: 400, glare: true, "max-glare": 0.2 }); }
+        } catch (error) { panel.innerHTML = '<p style="color: red; font-weight: bold; text-align: center;">Servicio no disponible.</p>'; }
     }
     setTimeout(obtenerCotizaciones, 800);
 
-    const btnDarkMode = document.getElementById('btn-dark-mode');
-    const iconDarkMode = btnDarkMode.querySelector('i');
-    const cuerpoWeb = document.body;
-
-    if (localStorage.getItem('tema-oscuro') === 'activado') {
-        cuerpoWeb.classList.add('dark-mode');
-        iconDarkMode.classList.replace('fa-moon', 'fa-sun'); 
-    }
-
+    const btnDarkMode = document.getElementById('btn-dark-mode'), iconDarkMode = btnDarkMode.querySelector('i'), cuerpoWeb = document.body;
+    if (localStorage.getItem('tema-oscuro') === 'activado') { cuerpoWeb.classList.add('dark-mode'); iconDarkMode.classList.replace('fa-moon', 'fa-sun'); }
     btnDarkMode.addEventListener('click', () => {
         cuerpoWeb.classList.toggle('dark-mode');
-        if (cuerpoWeb.classList.contains('dark-mode')) {
-            localStorage.setItem('tema-oscuro', 'activado'); 
-            iconDarkMode.classList.replace('fa-moon', 'fa-sun');
-        } else {
-            localStorage.setItem('tema-oscuro', 'desactivado');
-            iconDarkMode.classList.replace('fa-sun', 'fa-moon');
-        }
+        if (cuerpoWeb.classList.contains('dark-mode')) { localStorage.setItem('tema-oscuro', 'activado'); iconDarkMode.classList.replace('fa-moon', 'fa-sun'); } 
+        else { localStorage.setItem('tema-oscuro', 'desactivado'); iconDarkMode.classList.replace('fa-sun', 'fa-moon'); }
     });
 
     function calcularPrestamo() {
-        const capital = parseFloat(document.getElementById('montoPrestamo').value);
-        const tna = parseFloat(document.getElementById('tasaPrestamo').value);
-        const meses = parseInt(document.getElementById('plazoPrestamo').value);
+        const capital = parseFloat(document.getElementById('montoPrestamo').value), tna = parseFloat(document.getElementById('tasaPrestamo').value), meses = parseInt(document.getElementById('plazoPrestamo').value);
         if (isNaN(capital) || isNaN(tna) || isNaN(meses) || capital <= 0 || meses <= 0) return;
-
-        const tasaMensual = (tna / 100) / 12;
-        let cuota = 0;
-        if (tasaMensual === 0) cuota = capital / meses;
-        else cuota = capital * (tasaMensual * Math.pow(1 + tasaMensual, meses)) / (Math.pow(1 + tasaMensual, meses) - 1);
-        const totalDevolver = cuota * meses;
-        const intereses = totalDevolver - capital;
-        const formatoMoneda = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
-        const calcResPrestamo = document.querySelectorAll('.calc-resultados')[1];
-        if(!calcResPrestamo) return;
+        const tasaMensual = (tna / 100) / 12; let cuota = 0;
+        if (tasaMensual === 0) cuota = capital / meses; else cuota = capital * (tasaMensual * Math.pow(1 + tasaMensual, meses)) / (Math.pow(1 + tasaMensual, meses) - 1);
+        const totalDevolver = cuota * meses, intereses = totalDevolver - capital;
+        const calcResPrestamo = document.querySelectorAll('.calc-resultados')[1]; if(!calcResPrestamo) return;
         calcResPrestamo.style.opacity = '0.5';
         setTimeout(() => {
-            document.getElementById('resCuota').innerText = formatoMoneda.format(cuota);
-            document.getElementById('resTotalPrestamo').innerText = formatoMoneda.format(totalDevolver);
-            document.getElementById('resInteresesPrestamo').innerText = formatoMoneda.format(intereses);
-            calcResPrestamo.style.opacity = '1';
-            calcResPrestamo.style.transition = 'opacity 0.4s';
+            animarValor('resCuota', cuota, 1000);
+            animarValor('resTotalPrestamo', totalDevolver, 1000);
+            animarValor('resInteresesPrestamo', intereses, 1000);
+            calcResPrestamo.style.opacity = '1'; calcResPrestamo.style.transition = 'opacity 0.4s';
         }, 150);
     }
     setTimeout(calcularPrestamo, 600);
     
     function actualizarFecha() {
-        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const fechaActual = new Date().toLocaleDateString('es-AR', opciones);
-        const fechaCapitalizada = fechaActual.charAt(0).toUpperCase() + fechaActual.slice(1);
+        const fechaActual = new Date().toLocaleDateString('es-AR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         const elementoFecha = document.getElementById('fecha-en-vivo');
-        if(elementoFecha) elementoFecha.innerText = fechaCapitalizada;
+        if(elementoFecha) elementoFecha.innerText = fechaActual.charAt(0).toUpperCase() + fechaActual.slice(1);
     }
     actualizarFecha();
 
     function calcularCM() {
-        const baseTotal = parseFloat(document.getElementById('cmBaseTotal').value);
-        const coeficiente = parseFloat(document.getElementById('cmCoeficiente').value);
-        const alicuota = parseFloat(document.getElementById('cmAlicuota').value);
+        const baseTotal = parseFloat(document.getElementById('cmBaseTotal').value), coeficiente = parseFloat(document.getElementById('cmCoeficiente').value), alicuota = parseFloat(document.getElementById('cmAlicuota').value);
         if (isNaN(baseTotal) || isNaN(coeficiente) || isNaN(alicuota)) return;
-        const baseAtribuible = baseTotal * coeficiente;
-        const impuesto = baseAtribuible * (alicuota / 100);
-        const formatoMoneda = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
-        const calcResCM = document.querySelectorAll('.calc-resultados')[2]; 
-        if(!calcResCM) return;
+        const baseAtribuible = baseTotal * coeficiente, impuesto = baseAtribuible * (alicuota / 100);
+        const calcResCM = document.querySelectorAll('.calc-resultados')[2]; if(!calcResCM) return;
         calcResCM.style.opacity = '0.5';
         setTimeout(() => {
-            document.getElementById('resCmBase').innerText = formatoMoneda.format(baseAtribuible);
-            document.getElementById('resCmImpuesto').innerText = formatoMoneda.format(impuesto);
-            calcResCM.style.opacity = '1';
-            calcResCM.style.transition = 'opacity 0.4s';
+            animarValor('resCmBase', baseAtribuible, 1000);
+            animarValor('resCmImpuesto', impuesto, 1000);
+            calcResCM.style.opacity = '1'; calcResCM.style.transition = 'opacity 0.4s';
         }, 150);
     }
     setTimeout(calcularCM, 700);
 
     function togglePanelFinanciero() {
-        const panel = document.getElementById('contenido-panel-financiero');
-        const btn = document.getElementById('btn-toggle-panel');
+        const panel = document.getElementById('contenido-panel-financiero'), btn = document.getElementById('btn-toggle-panel');
         if (panel.style.display === 'none') {
-            panel.style.display = 'block';
-            setTimeout(() => panel.style.opacity = '1', 10); 
-            btn.innerHTML = '<i class="fa-solid fa-folder-closed" style="margin-right: 8px;"></i> Cerrar Panel Financiero';
-            btn.style.backgroundColor = '#64748b'; 
+            panel.style.display = 'block'; setTimeout(() => panel.style.opacity = '1', 10); 
+            btn.innerHTML = '<i class="fa-solid fa-folder-closed" style="margin-right: 8px;"></i> Cerrar Panel Financiero'; btn.style.backgroundColor = '#64748b'; 
         } else {
-            panel.style.opacity = '0';
-            setTimeout(() => panel.style.display = 'none', 500); 
-            btn.innerHTML = '<i class="fa-solid fa-folder-open" style="margin-right: 8px;"></i> Abrir Panel Financiero';
-            btn.style.backgroundColor = 'var(--azul-corporativo)'; 
+            panel.style.opacity = '0'; setTimeout(() => panel.style.display = 'none', 500); 
+            btn.innerHTML = '<i class="fa-solid fa-folder-open" style="margin-right: 8px;"></i> Abrir Panel Financiero'; btn.style.backgroundColor = 'var(--azul-corporativo)'; 
         }
     }
 
     function cargarVencimientos() {
-        const hoy = new Date();
-        const mesActual = hoy.getMonth();
-        const anioActual = hoy.getFullYear();
-        const vencimientos = [
-            { dia: 15, titulo: "Ingresos Brutos (CM03) - SIFERE" },
-            { dia: 18, titulo: "IVA y Cargas Sociales (0-3)" },
-            { dia: 20, titulo: "IVA y Cargas Sociales (4-6)" },
-            { dia: 22, titulo: "IVA y Cargas Sociales (7-9)" }
-        ];
+        const hoy = new Date(), mesActual = hoy.getMonth(), anioActual = hoy.getFullYear();
+        const vencimientos = [{ dia: 15, titulo: "Ingresos Brutos (CM03) - SIFERE" }, { dia: 18, titulo: "IVA y Cargas Sociales (0-3)" }, { dia: 20, titulo: "IVA y Cargas Sociales (4-6)" }, { dia: 22, titulo: "IVA y Cargas Sociales (7-9)" }];
         let listaHTML = '';
         vencimientos.forEach(v => {
-            let mesVencimiento = mesActual;
-            let anioVencimiento = anioActual;
-            if (hoy.getDate() > v.dia) {
-                mesVencimiento++; 
-                if (mesVencimiento > 11) {
-                    mesVencimiento = 0;
-                    anioVencimiento++;
-                }
-            }
+            let mesVencimiento = mesActual, anioVencimiento = anioActual;
+            if (hoy.getDate() > v.dia) { mesVencimiento++; if (mesVencimiento > 11) { mesVencimiento = 0; anioVencimiento++; } }
             const fechaVenc = new Date(anioVencimiento, mesVencimiento, v.dia);
-            const mesTexto = fechaVenc.toLocaleDateString('es-AR', { month: 'short' }).toUpperCase();
-            const diffTiempo = Math.abs(fechaVenc - hoy);
-            const diffDias = Math.ceil(diffTiempo / (1000 * 60 * 60 * 24));
-            
+            const diffDias = Math.ceil(Math.abs(fechaVenc - hoy) / (1000 * 60 * 60 * 24));
             let badge = `<span style="background: var(--celeste-acento); color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">En ${diffDias} días</span>`;
             if (diffDias === 0) badge = `<span style="background: #ef4444; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">¡VENCE HOY!</span>`;
             else if (diffDias <= 5) badge = `<span style="background: #f59e0b; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">Faltan ${diffDias}d</span>`;
-
-            listaHTML += `
-                <div class="vencimiento-item">
-                    <div>
-                        <div class="vencimiento-item-dia">${v.dia} de ${mesTexto}</div>
-                        <div class="vencimiento-item-titulo">${v.titulo}</div>
-                    </div>
-                    <div>${badge}</div>
-                </div>
-            `;
+            listaHTML += `<div class="vencimiento-item"><div><div class="vencimiento-item-dia">${v.dia} de ${fechaVenc.toLocaleDateString('es-AR', { month: 'short' }).toUpperCase()}</div><div class="vencimiento-item-titulo">${v.titulo}</div></div><div>${badge}</div></div>`;
         });
-        const panelVenc = document.getElementById('lista-vencimientos');
-        if(panelVenc) panelVenc.innerHTML = listaHTML;
+        const panelVenc = document.getElementById('lista-vencimientos'); if(panelVenc) panelVenc.innerHTML = listaHTML;
     }
     setTimeout(cargarVencimientos, 900);
 
-    if (window.innerWidth > 768) {
-        VanillaTilt.init(document.querySelectorAll(".tilt-element"), {
-            max: 12,              
-            speed: 400,           
-            glare: true,          
-            "max-glare": 0.2,     
-            scale: 1.03           
-        });
-    }
+    if (window.innerWidth > 768) { VanillaTilt.init(document.querySelectorAll(".tilt-element"), { max: 12, speed: 400, glare: true, "max-glare": 0.2, scale: 1.03 }); }
 </script>
 </body>
 </html>
