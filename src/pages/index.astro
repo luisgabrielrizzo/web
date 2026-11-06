@@ -44,7 +44,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         /* CABECERA PARALLAX */
         header { 
             background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(8, 145, 178, 0.85)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
-            background-attachment: fixed; /* EFECTO PARALLAX */
+            background-attachment: fixed; 
             color: #fff; padding: 140px 20px 100px; text-align: center; position: relative; overflow: hidden;
         }
         
@@ -226,9 +226,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 <body>
 
 <header>
-    <!-- PARTICLES JS CONTENEDOR (Fondo Tecnológico) -->
     <div id="particles-js"></div>
-
     <div class="header-content">
         <div id="fecha-en-vivo" style="position: absolute; top: -110px; right: 5px; color: #bae6fd; font-size: 0.85rem; font-weight: 500; font-family: var(--fuente-textos); background: rgba(0,0,0,0.25); padding: 6px 14px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px);">
             Cargando fecha...
@@ -462,29 +460,19 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 
 <footer><p>&copy; <span>2026 Luis Gabriel Rizzo</span></p></footer>
 
-<!-- LIBRERÍAS DE ANIMACIÓN (Tilt 3D y Particles JS) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<!-- CDN MÁS ESTABLE PARA PARTICLES JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
 
 <script is:inline>
-    // PARTICLES JS (Nodos Tecnológicos)
-    particlesJS("particles-js", {
-        particles: {
-            number: { value: 40, density: { enable: true, value_area: 800 } },
-            color: { value: "#06B6D4" },
-            shape: { type: "circle" },
-            opacity: { value: 0.5, random: false },
-            size: { value: 3, random: true },
-            line_linked: { enable: true, distance: 150, color: "#06B6D4", opacity: 0.4, width: 1 },
-            move: { enable: true, speed: 2, direction: "none", random: false, straight: false, out_mode: "out", bounce: false }
-        },
-        interactivity: {
-            detect_on: "canvas",
-            events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" }, resize: true },
-            modes: { grab: { distance: 140, line_linked: { opacity: 1 } }, push: { particles_nb: 4 } }
-        },
-        retina_detect: true
-    });
+    // PARTICLES JS (Nodos Tecnológicos) - Con seguro de fallos
+    if (typeof particlesJS !== "undefined") {
+        particlesJS("particles-js", {
+            particles: { number: { value: 40, density: { enable: true, value_area: 800 } }, color: { value: "#06B6D4" }, shape: { type: "circle" }, opacity: { value: 0.5, random: false }, size: { value: 3, random: true }, line_linked: { enable: true, distance: 150, color: "#06B6D4", opacity: 0.4, width: 1 }, move: { enable: true, speed: 2, direction: "none", random: false, straight: false, out_mode: "out", bounce: false } },
+            interactivity: { detect_on: "canvas", events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" }, resize: true }, modes: { grab: { distance: 140, line_linked: { opacity: 1 } }, push: { particles_nb: 4 } } },
+            retina_detect: true
+        });
+    }
 
     const frases = ["Contador Público Nacional", "Auditoría Externa"];
     let fraseActual = 0, caracterActual = 0, borrando = false;
@@ -519,9 +507,13 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         sistemas: "Posee un dominio avanzado en Excel, Google Workspace, herramientas de Inteligencia Artificial aplicadas a la contabilidad y manejo experto del sistema Tango Gestión.",
         contacto: "Por supuesto. El número directo de WhatsApp de Luis es: <strong>+54 9 387 652 4189</strong>.<br><br>También puedes escribirle a <strong>contacto@luisrizzo.com.ar</strong>"
     };
+    
+    // Diccionario de etiquetas corregido para no depender de "event"
+    const etiquetasBotones = { experiencia: "Resumen de Experiencia", educacion: "Estudios y Formación", sistemas: "Sistemas que maneja", contacto: "Solicitar WhatsApp" };
+
     function enviarMensaje(tipo) {
         cajaOpciones.style.display = 'none';
-        const msgUsuario = document.createElement('div'); msgUsuario.className = 'mensaje usuario'; msgUsuario.textContent = event.target.innerText;
+        const msgUsuario = document.createElement('div'); msgUsuario.className = 'mensaje usuario'; msgUsuario.textContent = etiquetasBotones[tipo];
         contenedorMensajes.appendChild(msgUsuario); contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
         const escribiendo = document.createElement('div'); escribiendo.className = 'escribiendo'; escribiendo.innerHTML = '<span></span><span></span><span></span>';
         contenedorMensajes.appendChild(escribiendo); contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
@@ -533,7 +525,6 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         }, 1500);
     }
 
-    // MOTOR DE ANIMACIÓN DE NÚMEROS (Cuenta Progresiva)
     function animarValor(id, valorFinal, duration) {
         const obj = document.getElementById(id);
         if(!obj) return;
@@ -541,7 +532,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         const step = (timestamp) => {
             if (!startTimestamp) startTimestamp = timestamp;
             const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            const easeProgress = 1 - Math.pow(1 - progress, 4); // Efecto de frenado suave al final
+            const easeProgress = 1 - Math.pow(1 - progress, 4); 
             const currentVal = easeProgress * valorFinal;
             obj.innerText = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(currentVal);
             if (progress < 1) window.requestAnimationFrame(step);
@@ -566,11 +557,9 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     }
     setTimeout(calcularInversion, 500);
 
-    // DÓLAR CON ESQUELETOS DE CARGA
     async function obtenerCotizaciones() {
         const panel = document.getElementById('panel-dolares');
         if(!panel) return;
-        // Inyectar 4 tarjetas "Skeleton" antes de consultar
         panel.innerHTML = '<div class="skeleton-card"></div>'.repeat(4);
         try {
             const respuesta = await fetch('https://dolarapi.com/v1/dolares');
@@ -591,7 +580,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
                 `;
                 panel.appendChild(tarjeta);
             });
-            if (window.innerWidth > 768) { VanillaTilt.init(document.querySelectorAll(".cotizacion-card"), { max: 12, speed: 400, glare: true, "max-glare": 0.2 }); }
+            if (window.innerWidth > 768 && typeof VanillaTilt !== "undefined") { VanillaTilt.init(document.querySelectorAll(".cotizacion-card"), { max: 12, speed: 400, glare: true, "max-glare": 0.2 }); }
         } catch (error) { panel.innerHTML = '<p style="color: red; font-weight: bold; text-align: center;">Servicio no disponible.</p>'; }
     }
     setTimeout(obtenerCotizaciones, 800);
@@ -671,7 +660,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     }
     setTimeout(cargarVencimientos, 900);
 
-    if (window.innerWidth > 768) { VanillaTilt.init(document.querySelectorAll(".tilt-element"), { max: 12, speed: 400, glare: true, "max-glare": 0.2, scale: 1.03 }); }
+    if (window.innerWidth > 768 && typeof VanillaTilt !== "undefined") { VanillaTilt.init(document.querySelectorAll(".tilt-element"), { max: 12, speed: 400, glare: true, "max-glare": 0.2, scale: 1.03 }); }
 </script>
 </body>
 </html>
