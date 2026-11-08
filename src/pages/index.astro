@@ -801,6 +801,24 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             VanillaTilt.init(document.querySelectorAll(".tilt-element"), { max: 10, speed: 400, glare: true, "max-glare": 0.2, scale: 1.02 }); 
         }
     } catch(e) {}
+
+    // 13. MENÚ INTELIGENTE (Ocultar al bajar, mostrar al subir)
+    try {
+        let ultimoScroll = window.pageYOffset || document.documentElement.scrollTop;
+        const menuNavegacion = document.querySelector('nav');
+        if (menuNavegacion) {
+            menuNavegacion.style.transition = 'transform 0.4s cubic-bezier(0.3, 1, 0.3, 1)';
+            window.addEventListener('scroll', () => {
+                const scrollActual = window.pageYOffset || document.documentElement.scrollTop;
+                if (scrollActual > ultimoScroll && scrollActual > 150) {
+                    menuNavegacion.style.transform = 'translateY(-100%)';
+                } else {
+                    menuNavegacion.style.transform = 'translateY(0)';
+                }
+                ultimoScroll = scrollActual <= 0 ? 0 : scrollActual;
+            });
+        }
+    } catch(e) {}
 </script>
 </body>
 </html>
