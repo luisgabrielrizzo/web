@@ -819,6 +819,26 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             });
         }
     } catch(e) {}
+    
+    // 14. EASTER EGG: x Clics en la foto de perfil para abrir sorpresa
+    try {
+        let contadorClics = 0;
+        // Seleccionamos todas las fotos de perfil que tengas en la web
+        const fotosPerfil = document.querySelectorAll('.foto-perfil');
+        
+        fotosPerfil.forEach(foto => {
+            foto.addEventListener('click', () => {
+                contadorClics++;
+                
+                // Si llega a x clics... ¡Sorpresa!
+                if (contadorClics === 35) {
+                    contadorClics = 0; // Reseteamos el contador
+                    // IMPORTANTE: Cambia esta URL por la de tu sorpresa
+                    window.open('https://www.facebook.com/rizzoluisgabriel', '_blank');
+                }
+            });
+        });
+    } catch(e) {}
 </script>
 </body>
 </html>
