@@ -360,6 +360,10 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
                     <div><span>Total Invertido:</span><strong id="resInvertido">$0.00</strong></div>
                     <div><span>Intereses Generados:</span><strong id="resIntereses" style="color: var(--verde-exito);">$0.00</strong></div>
                 </div>
+                <!-- CONTENEDOR PARA EL GRÁFICO CHART.JS -->
+                <div style="margin-top: 25px; position: relative; height: 200px; width: 100%; display: flex; justify-content: center;">
+                    <canvas id="graficoInversion"></canvas>
+                </div>
             </div>
         </div>
 
@@ -459,9 +463,10 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 
 <footer><p>&copy; <span>2026 Luis Gabriel Rizzo</span></p></footer>
 
-<!-- LIBRERÍAS DE ANIMACIÓN -->
+<!-- LIBRERÍAS DE ANIMACIÓN Y GRÁFICOS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script is:inline>
     // 1. SEGURO ANTI-FALLOS DE CARGA
@@ -628,7 +633,9 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         } catch(error){}
     }
 
-    // 9. Calculadoras Financieras
+    // 9. Calculadoras Financieras (con Gráfico Interactivo)
+    let miGraficoInversion = null;
+
     window.calcularInversion = function() {
         try {
             const p = parseFloat(document.getElementById('capInicial').value);
@@ -649,6 +656,34 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
                     animarVal('resTotal', tf); 
                     animarVal('resInvertido', ti); 
                     animarVal('resIntereses', int); 
+                    
+                    // -- INICIO LÓGICA GRÁFICO CHART.JS --
+                    const ctx = document.getElementById('graficoInversion');
+                    if (ctx) {
+                        if (miGraficoInversion) miGraficoInversion.destroy();
+                        miGraficoInversion = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Capital Invertido', 'Intereses Ganados'],
+                                datasets: [{
+                                    data: [ti, int],
+                                    backgroundColor: ['#0F172A', '#10b981'],
+                                    borderWidth: 0,
+                                    hoverOffset: 5
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                cutout: '75%',
+                                plugins: {
+                                    legend: { position: 'bottom', labels: { color: '#64748b', font: { family: 'Inter' } } }
+                                }
+                            }
+                        });
+                    }
+                    // -- FIN LÓGICA GRÁFICO --
+
                     bx.style.opacity = '1'; bx.style.transition = 'opacity 0.4s'; 
                 }, 150); 
             }
@@ -820,36 +855,30 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         }
     } catch(e) {}
     
-    // 14. EASTER EGG: x Clics en la foto de perfil para abrir sorpresa
+    // 14. EASTER EGG: 35 Clics en la foto de perfil para abrir sorpresa
     try {
         let contadorClics = 0;
-        // Seleccionamos todas las fotos de perfil que tengas en la web
         const fotosPerfil = document.querySelectorAll('.foto-perfil');
         
         fotosPerfil.forEach(foto => {
             foto.addEventListener('click', () => {
                 contadorClics++;
-                
-                // Si llega a x clics... ¡Sorpresa!
                 if (contadorClics === 35) {
-                    contadorClics = 0; // Reseteamos el contador
-                    // IMPORTANTE: Cambia esta URL por la de tu sorpresa
+                    contadorClics = 0;
                     window.open('https://www.facebook.com/rizzoluisgabriel', '_blank');
                 }
             });
         });
     } catch(e) {}
+
     // 15. PROTECCIÓN BÁSICA: Bloquear clic derecho y atajos de teclado para inspeccionar
     try {
-        // Bloquear menú contextual (clic derecho)
         document.addEventListener('contextmenu', event => event.preventDefault());
-        
-        // Bloquear F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+Shift+J y Ctrl+U (Ver código fuente)
         document.onkeydown = function(e) {
             if (
-                e.keyCode === 123 || // F12
-                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || // Ctrl+Shift+I/J/C
-                (e.ctrlKey && e.keyCode === 85) // Ctrl+U
+                e.keyCode === 123 || 
+                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || 
+                (e.ctrlKey && e.keyCode === 85) 
             ) {
                 return false;
             }
