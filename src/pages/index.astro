@@ -346,7 +346,8 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             </div>
         </div>
 
-        <div class="calc-controles">
+        <div class="calculadora-grid">
+            <div class="calc-controles">
                 <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-seedling"></i> Simulador de Inversiones</h3>
                 <div class="input-grupo"><label>Capital Inicial ($)</label><input type="number" id="capInicial" value="100000" min="0" /></div>
                 <div class="input-grupo"><label>Aporte Mensual ($)</label><input type="number" id="aporteMensual" value="10000" min="0" /></div>
@@ -633,7 +634,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         } catch(error){}
     }
 
-    // 9. Calculadoras Financieras (con Gráfico Interactivo)
+    // 9. Calculadoras Financieras (con Gráfico Interactivo y Plazo Mensual)
     let miGraficoInversion = null;
 
     window.calcularInversion = function() {
@@ -641,13 +642,12 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
             const p = parseFloat(document.getElementById('capInicial').value);
             const pmt = parseFloat(document.getElementById('aporteMensual').value);
             const r = parseFloat(document.getElementById('tasaAnual').value)/100;
-            const m = parseInt(document.getElementById('mesesPlazo').value); // Ahora leemos meses directamente
+            const m = parseInt(document.getElementById('mesesPlazo').value); 
             
             if (isNaN(p) || isNaN(pmt) || isNaN(r) || isNaN(m)) return;
             
             const tm = r / 12;
             
-            // Fórmula corregida para usar los meses ingresados
             const tf = (p * Math.pow(1 + tm, m)) + (pmt * ((Math.pow(1 + tm, m) - 1) / tm));
             const ti = p + (pmt * m), int = tf - ti;
             
