@@ -402,6 +402,25 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
                 </div>
             </div>
         </div>
+
+        <!-- ESCÁNER DE FACTURAS CON IA -->
+        <div class="calculadora-grid" style="margin-top: 30px;">
+            <div class="calc-controles">
+                <h3 style="color: var(--azul-corporativo); margin-top: 0; margin-bottom: 15px; font-size: 1.2em;"><i class="fa-solid fa-camera-retro"></i> Escáner IA de Comprobantes</h3>
+                <p style="font-size: 0.9em; color: #64748b; margin-bottom: 15px;">Toma una foto de un ticket o factura. La IA (Tesseract OCR) leerá la imagen para extraer automáticamente el CUIT.</p>
+                <div class="input-grupo">
+                    <input type="file" id="inputFactura" accept="image/*" capture="environment" style="display: none;" onchange="escanearFactura(event)" />
+                    <button onclick="document.getElementById('inputFactura').click()" class="btn-calc" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"><i class="fa-solid fa-expand"></i> Abrir Cámara / Subir Foto</button>
+                </div>
+            </div>
+            <div class="calc-resultados" style="border-left-color: #8b5cf6; min-height: 200px; display: flex; flex-direction: column; justify-content: center;">
+                <div id="resultadoEscaner" style="text-align: center;">
+                    <i class="fa-solid fa-robot" style="font-size: 3em; color: #cbd5e1; margin-bottom: 15px;"></i>
+                    <p style="color: #64748b; margin: 0; font-weight: 500;">Esperando imagen para analizar...</p>
+                </div>
+            </div>
+        </div>
+
     </div> 
 </div>
 
@@ -464,10 +483,11 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 
 <footer><p>&copy; <span>2026 Luis Gabriel Rizzo</span></p></footer>
 
-<!-- LIBRERÍAS DE ANIMACIÓN Y GRÁFICOS -->
+<!-- LIBRERÍAS DE ANIMACIÓN, GRÁFICOS E IA OCR -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
 
 <script is:inline>
     // 1. SEGURO ANTI-FALLOS DE CARGA
@@ -634,7 +654,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         } catch(error){}
     }
 
-    // 9. Calculadoras Financieras (con Gráfico Interactivo y Plazo Mensual)
+    // 9. Calculadoras Financieras
     let miGraficoInversion = null;
 
     window.calcularInversion = function() {
@@ -659,7 +679,6 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
                     animarVal('resInvertido', ti); 
                     animarVal('resIntereses', int); 
                     
-                    // -- INICIO LÓGICA GRÁFICO CHART.JS --
                     const ctx = document.getElementById('graficoInversion');
                     if (ctx) {
                         if (miGraficoInversion) miGraficoInversion.destroy();
@@ -684,7 +703,6 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
                             }
                         });
                     }
-                    // -- FIN LÓGICA GRÁFICO --
 
                     bx.style.opacity = '1'; bx.style.transition = 'opacity 0.4s'; 
                 }, 150); 
@@ -739,7 +757,6 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         } catch(error){}
     };
     
-    // Iniciar calculadoras
     setTimeout(() => { calcularInversion(); calcularPrestamo(); calcularCM(); }, 800);
 
     window.togglePanelFinanciero = function() {
@@ -857,11 +874,10 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         }
     } catch(e) {}
     
-    // 14. EASTER EGG: 35 Clics en la foto de perfil para abrir sorpresa
+    // 14. EASTER EGG
     try {
         let contadorClics = 0;
         const fotosPerfil = document.querySelectorAll('.foto-perfil');
-        
         fotosPerfil.forEach(foto => {
             foto.addEventListener('click', () => {
                 contadorClics++;
@@ -873,7 +889,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         });
     } catch(e) {}
 
-    // 15. PROTECCIÓN BÁSICA: Bloquear clic derecho y atajos de teclado para inspeccionar
+    // 15. PROTECCIÓN BÁSICA
     try {
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.onkeydown = function(e) {
@@ -881,11 +897,57 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
                 e.keyCode === 123 || 
                 (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || 
                 (e.ctrlKey && e.keyCode === 85) 
-            ) {
-                return false;
-            }
+            ) { return false; }
         };
     } catch(e) {}
+
+    // 16. ESCÁNER DE FACTURAS IA (TESSERACT.JS)
+    window.escanearFactura = async function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const resDiv = document.getElementById('resultadoEscaner');
+        resDiv.innerHTML = `
+            <div style="text-align: center; color: #8b5cf6;">
+                <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2.5em; margin-bottom: 15px;"></i>
+                <p style="font-weight: 600; margin: 0;">Red Neuronal procesando imagen...</p>
+                <p style="font-size: 0.8em; color: #64748b;">(Esto puede tardar unos segundos la primera vez)</p>
+            </div>
+        `;
+
+        try {
+            const result = await Tesseract.recognize(file, 'spa');
+            const texto = result.data.text;
+            
+            // Patrón matemático de CUIT (2 dígitos - 8 dígitos - 1 dígito)
+            const regexCuit = /\b(20|23|24|27|30|33|34)-?\s?\d{8}-?\s?\d{1}\b/g;
+            const matchesCuit = texto.match(regexCuit);
+            let cuitDetectado = matchesCuit ? matchesCuit[0] : 'No se detectó un CUIT claro';
+
+            resDiv.innerHTML = `
+                <div style="text-align: left;">
+                    <h4 style="color: #8b5cf6; margin-top:0; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                        <i class="fa-solid fa-check-double"></i> Análisis Completado
+                    </h4>
+                    <div style="margin-top: 15px;">
+                        <span style="font-size: 0.9em; color: #64748b;">CUIT Encontrado:</span><br>
+                        <strong style="color: var(--azul-corporativo); font-size: 1.5em; letter-spacing: 1px;">${cuitDetectado}</strong>
+                    </div>
+                    <details style="margin-top: 20px; font-size: 0.85em; color: #64748b; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                        <summary style="cursor: pointer; font-weight: bold; color: var(--azul-claro);">Ver todo el texto detectado</summary>
+                        <div style="margin-top: 10px; max-height: 150px; overflow-y: auto; white-space: pre-wrap; word-break: break-word;">${texto}</div>
+                    </details>
+                </div>
+            `;
+        } catch (error) {
+            resDiv.innerHTML = `
+                <div style="text-align: center; color: #ef4444;">
+                    <i class="fa-solid fa-triangle-exclamation" style="font-size: 2em; margin-bottom: 10px;"></i>
+                    <p>No se pudo analizar la imagen. Intenta con una foto más nítida.</p>
+                </div>
+            `;
+        }
+    };
 </script>
 </body>
 </html>
