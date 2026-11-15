@@ -817,31 +817,41 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     }
     setTimeout(getCotizaciones, 1000);
 
-    // 11. Vencimientos Automáticos
+    // 11. Vencimientos Automáticos (Actualizado con Ganancias PJ)
     function cargarVencimientos() {
         try {
             const hoy = new Date(), m = hoy.getMonth(), a = hoy.getFullYear();
             const vencs = [
-                { dia: 15, tit: "Ingresos Brutos (CM03) - SIFERE" }, 
+                // Agregamos Ganancias PJ (Anticipos mensuales)
+                { dia: 13, tit: "Anticipos Ganancias PJ (CUIT 0 al 3)" },
+                { dia: 14, tit: "Anticipos Ganancias PJ (CUIT 4 al 6)" },
+                { dia: 15, tit: "Ingresos Brutos (CM03) y Ganancias PJ (7-9)" }, 
                 { dia: 18, tit: "IVA y Cargas Sociales (0-3)" }, 
                 { dia: 20, tit: "IVA y Cargas Sociales (4-6)" }, 
                 { dia: 22, tit: "IVA y Cargas Sociales (7-9)" }
             ];
+            
             let h = '';
             vencs.forEach(v => {
                 let mv = m, av = a; 
+                // Si la fecha ya pasó este mes, mostramos el vencimiento del mes que viene
                 if (hoy.getDate() > v.dia) { 
                     mv++; 
                     if (mv > 11) { mv = 0; av++; } 
                 }
                 const fv = new Date(av, mv, v.dia);
-                const diff = Math.ceil(Math.abs(fv - hoy) / (1000 * 60 * 60 * 24));
+                
+                // Si el vencimiento cae fin de semana, la AFIP lo pasa al lunes
+                if (fv.getDay() === 6) fv.setDate(fv.getDate() + 2); // Sábado pasa a Lunes
+                if (fv.getDay() === 0) fv.setDate(fv.getDate() + 1); // Domingo pasa a Lunes
+
+                const diff = Math.ceil((fv - hoy) / (1000 * 60 * 60 * 24));
                 
                 let bg = `<span style="background: var(--celeste-acento); color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">En ${diff} días</span>`;
                 if (diff === 0) bg = `<span style="background: #ef4444; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">¡VENCE HOY!</span>`;
                 else if (diff <= 5) bg = `<span style="background: #f59e0b; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">Faltan ${diff}d</span>`;
                 
-                h += `<div class="vencimiento-item"><div><div class="vencimiento-item-dia">${v.dia} de ${fv.toLocaleDateString('es-AR', { month: 'short' }).toUpperCase()}</div><div class="vencimiento-item-titulo">${v.tit}</div></div><div>${bg}</div></div>`;
+                h += `<div class="vencimiento-item"><div><div class="vencimiento-item-dia">${fv.getDate()} de ${fv.toLocaleDateString('es-AR', { month: 'short' }).toUpperCase()}</div><div class="vencimiento-item-titulo">${v.tit}</div></div><div>${bg}</div></div>`;
             });
             const p = document.getElementById('lista-vencimientos'); 
             if(p) p.innerHTML = h;
