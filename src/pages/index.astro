@@ -944,11 +944,13 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
     }
     setTimeout(getCotizaciones, 1000);
 
-    // 11. Vencimientos Automáticos (Actualizado con Ganancias PJ)
+    // 11. Vencimientos Automáticos (Actualizado con DDJJ y Anticipos Ganancias PJ)
     function cargarVencimientos() {
         try {
             const hoy = new Date(), m = hoy.getMonth(), a = hoy.getFullYear();
-            const vencs = [
+            
+            // Base de vencimientos mensuales
+            let vencs = [
                 { dia: 13, tit: "Anticipos Ganancias PJ (CUIT 0 al 3)" },
                 { dia: 14, tit: "Anticipos Ganancias PJ (CUIT 4 al 6)" },
                 { dia: 15, tit: "Ingresos Brutos (CM03) y Ganancias PJ (7-9)" }, 
@@ -956,16 +958,31 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
                 { dia: 20, tit: "IVA y Cargas Sociales (4-6)" }, 
                 { dia: 22, tit: "IVA y Cargas Sociales (7-9)" }
             ];
+
+            // Vencimiento de Declaración Jurada Anual (5to mes posterior al cierre)
+            // Asumimos el cierre estándar mayoritario (Diciembre -> Vence en Mayo)
+            // Si quieres mostrarlo siempre como recordatorio corporativo:
+            vencs.push(
+                { dia: 13, tit: "DDJJ Ganancias PJ (Cierres -5 meses) - CUIT 0-3" },
+                { dia: 14, tit: "DDJJ Ganancias PJ (Cierres -5 meses) - CUIT 4-6" },
+                { dia: 15, tit: "DDJJ Ganancias PJ (Cierres -5 meses) - CUIT 7-9" }
+            );
             
             let h = '';
+            
+            // Ordenamos el array para que aparezcan en orden cronológico en el panel
+            vencs.sort((a, b) => a.dia - b.dia);
+
             vencs.forEach(v => {
                 let mv = m, av = a; 
+                // Si la fecha ya pasó este mes, mostramos el vencimiento del mes que viene
                 if (hoy.getDate() > v.dia) { 
                     mv++; 
                     if (mv > 11) { mv = 0; av++; } 
                 }
                 const fv = new Date(av, mv, v.dia);
                 
+                // Si el vencimiento cae fin de semana, la AFIP lo pasa al lunes
                 if (fv.getDay() === 6) fv.setDate(fv.getDate() + 2); // Sábado pasa a Lunes
                 if (fv.getDay() === 0) fv.setDate(fv.getDate() + 1); // Domingo pasa a Lunes
 
