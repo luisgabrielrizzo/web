@@ -10,8 +10,10 @@ export async function onRequestPost(context) {
         const { imageBase64, mimeType } = await context.request.json();
         const dataUri = `data:${mimeType || 'image/jpeg'};base64,${imageBase64}`;
 
-        const prompt = `Sos un Contador Público y Auditor argentino. Analizá esta imagen de un comprobante, factura o ticket de Argentina y extraé los datos fiscales con precisión.
-Devolvé ÚNICAMENTE un objeto JSON válido, sin texto adicional ni explicaciones, con esta estructura exacta (si un dato no se ve, poné null o 0 según corresponda):
+        const systemPrompt = `Sos un extractor automático de datos contables de facturas argentinas.
+Respondé ÚNICAMENTE con un objeto JSON válido. No escribas saludos, ni explicaciones, ni markdown.`;
+
+        const userPrompt = `Extraé los datos de este comprobante y devolvé exactamente este JSON (si falta un dato, usá null o 0):
 {
     "razonSocial": "Nombre del emisor",
     "cuit": "XX-XXXXXXXX-X",
@@ -27,30 +29,20 @@ Devolvé ÚNICAMENTE un objeto JSON válido, sin texto adicional ni explicacione
     ]
 }`;
 
-        const payload = {
+        const aiResponse = await context.env.AI.run("@cf/meta/llama-3.2-11b-vision-instruct", {
             messages: [
+                { role: "system", content: systemPrompt },
                 {
                     role: "user",
                     content: [
-                        { type: "text", text: prompt },
+                        { type: "text", text: userPrompt },
                         { type: "image_url", image_url: { url: dataUri } }
                     ]
                 }
             ],
+            temperature: 0.1,
             max_tokens: 1024
-        };
-
-        let aiResponse;
-        try {
-            aiResponse = await context.env.AI.run("@cf/meta/llama-3.2-11b-vision-instruct", payload);
-        } catch (err) {
-            if (err.message && err.message.includes("5016")) {
-                await context.env.AI.run("@cf/meta/llama-3.2-11b-vision-instruct", { prompt: "agree" });
-                aiResponse = await context.env.AI.run("@cf/meta/llama-3.2-11b-vision-instruct", payload);
-            } else {
-                throw err;
-            }
-        }
+        });
 
         let rawText = aiResponse?.response || aiResponse?.choices?.[0]?.message?.content || "";
         if (typeof rawText !== "string") {
@@ -59,10 +51,13 @@ Devolvé ÚNICAMENTE un objeto JSON válido, sin texto adicional ni explicacione
 
         const jsonMatch = rawText.match(/\{[\s\S]*\}/);
         if (!jsonMatch) {
-            throw new Error("La IA no devolvió un formato JSON válido.");
+            throw new Error("La IA respondió texto en vez de JSON: " + rawText.slice(0, 180));
         }
 
-        return new Response(jsonMatch[0], {
+        // Validamos que el JSON extraído sea parseable antes de enviarlo al navegador
+        const parsed = JSON.parse(jsonMatch[0]);
+
+        return new Response(JSON.stringify(parsed), {
             headers: { "Content-Type": "application/json" }
         });
 
