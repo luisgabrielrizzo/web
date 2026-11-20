@@ -1,3 +1,4 @@
+JavaScript
 export async function onRequestPost(context) {
     try {
         const apiKey = context.env.GEMINI_API_KEY;
@@ -41,18 +42,33 @@ export async function onRequestPost(context) {
         });
 
         const data = await response.json();
-        const textoJson = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
-        if (!textoJson) {
-            throw new Error("No se pudo interpretar la respuesta de la IA.");
+        // Si Google devuelve un error, lo mostramos tal cual para saber qué pasó
+        if (!response.ok || data.error) {
+            const msgGoogle = data.error?.message || JSON.stringify(data);
+            return new Response(JSON.stringify({ error: "Google AI dice: " + msgGoogle }), {
+                status: 500,
+                headers: { "Content-Type": "application/json" }
+            });
         }
+
+        let textoJson = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!textoJson) {
+            return new Response(JSON.stringify({ error: "Respuesta vacía de Google: " + JSON.stringify(data) }), {
+                status: 500,
+                headers: { "Content-Type": "application/json" }
+            });
+        }
+
+        // Limpiamos posibles bloques ```json ... ``` por seguridad
+        textoJson = textoJson.replace(/```json/g, '').replace(/```/g, '').trim();
 
         return new Response(textoJson, {
             headers: { "Content-Type": "application/json" }
         });
 
     } catch (error) {
-        return new Response(JSON.stringify({ error: "Error procesando la factura: " + error.message }), {
+        return new Response(JSON.stringify({ error: "Error interno: " + error.message }), {
             status: 500,
             headers: { "Content-Type": "application/json" }
         });
