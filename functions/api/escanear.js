@@ -3,7 +3,6 @@ function parsearNumero(valor) {
     let limpio = String(valor).replace(/[^0-9.,-]/g, "").trim();
     if (!limpio) return 0;
 
-    // Si tiene punto y coma (ej: 12.500,50 o 12,500.50), detecta cuál es el decimal
     if (limpio.includes(",") && limpio.includes(".")) {
         if (limpio.lastIndexOf(",") > limpio.lastIndexOf(".")) {
             limpio = limpio.replace(/\./g, "").replace(",", ".");
@@ -14,7 +13,30 @@ function parsearNumero(valor) {
         limpio = limpio.replace(",", ".");
     }
     const num = parseFloat(limpio);
-    return isNaN(num) ? 0 : num;
+    return isNaN(num) ? 0 : Math.round(num * 100) / 100;
+}
+
+function armarAsiento(datos) {
+    const asiento = [];
+    const esFacturaA = /factura\s*a/i.test(datos.tipoComprobante);
+
+    if (esFacturaA && datos.iva > 0) {
+        if (datos.netoGravado > 0) {
+            asiento.push({ cuenta: "Compras / Gastos", debe: datos.netoGravado, haber: 0 });
+        }
+        asiento.push({ cuenta: "IVA Crédito Fiscal", debe: datos.iva, haber: 0 });
+        if (datos.otrosTributos > 0) {
+            asiento.push({ cuenta: "Percepciones / Otros Tributos", debe: datos.otrosTributos, haber: 0 });
+        }
+    } else if (datos.total > 0) {
+        asiento.push({ cuenta: "Gastos Generales / Compras", debe: datos.total, haber: 0 });
+    }
+
+    if (datos.total > 0) {
+        asiento.push({ cuenta: "Proveedores / Caja", debe: 0, haber: datos.total });
+    }
+
+    return asiento;
 }
 
 export async function onRequestPost(context) {
@@ -29,20 +51,17 @@ export async function onRequestPost(context) {
         const { imageBase64, mimeType } = await context.request.json();
         const dataUri = `data:${mimeType || 'image/jpeg'};base64,${imageBase64}`;
 
-        const prompt = `Sos un Contador Público argentino. Analizá esta factura o ticket y respondé ÚNICAMENTE completando estas líneas exactas (sin JSON, sin markdown, sin explicaciones):
+        const prompt = `Extraé únicamente los datos de esta factura o ticket argentino. Completá estas 9 líneas exactas sin agregar explicaciones:
 
-RAZON_SOCIAL: [Nombre del emisor]
+RAZON_SOCIAL: [Nombre de la empresa emisora]
 CUIT: [XX-XXXXXXXX-X]
-TIPO: [Factura A / B / C / Ticket]
-NUMERO: [0001-00001234]
+TIPO: [Factura A / Factura B / Factura C / Ticket]
+NUMERO: [Punto de venta y número]
 FECHA: [DD/MM/AAAA]
-NETO: [solo número]
-IVA: [solo número]
-OTROS: [solo número]
-TOTAL: [solo número]
-ASIENTO: [Nombre de cuenta] | [importe Debe] | [importe Haber]
-ASIENTO: [Nombre de cuenta] | [importe Debe] | [importe Haber]
-ASIENTO: [Nombre de cuenta] | [importe Debe] | [importe Haber]`;
+NETO: [Importe Subtotal o Neto Gravado, solo número]
+IVA: [Importe de IVA, solo número, 0 si no discrimina]
+OTROS: [Importe de Percepciones u Otros Tributos, solo número, 0 si no hay]
+TOTAL: [Importe Total final, solo número]`;
 
         const aiResponse = await context.env.AI.run("@cf/meta/llama-3.2-11b-vision-instruct", {
             messages: [
@@ -55,7 +74,7 @@ ASIENTO: [Nombre de cuenta] | [importe Debe] | [importe Haber]`;
                 }
             ],
             temperature: 0.1,
-            max_tokens: 1024
+            max_tokens: 512
         });
 
         const rawText = String(aiResponse?.response || aiResponse?.choices?.[0]?.message?.content || "");
@@ -73,8 +92,7 @@ ASIENTO: [Nombre de cuenta] | [importe Debe] | [importe Haber]`;
             asientoSugerido: []
         };
 
-        const lineas = rawText.split("\n");
-        for (const linea of lineas) {
+        for (const linea of rawText.split("\n")) {
             const limpia = linea.replace(/\*\*/g, "").trim();
             if (!limpia.includes(":")) continue;
 
@@ -91,17 +109,16 @@ ASIENTO: [Nombre de cuenta] | [importe Debe] | [importe Haber]`;
             else if (clave === "IVA") resultado.iva = parsearNumero(valor);
             else if (clave === "OTROS") resultado.otrosTributos = parsearNumero(valor);
             else if (clave === "TOTAL") resultado.total = parsearNumero(valor);
-            else if (clave === "ASIENTO") {
-                const partes = valor.split("|").map(p => p.trim());
-                if (partes.length >= 3) {
-                    resultado.asientoSugerido.push({
-                        cuenta: partes[0],
-                        debe: parsearNumero(partes[1]),
-                        haber: parsearNumero(partes[2])
-                    });
-                }
-            }
         }
+
+        // Validación matemática: si faltó el Neto pero tenemos Total, lo calculamos por diferencia
+        if (resultado.netoGravado === 0 && resultado.total > 0) {
+            const calculado = resultado.total - resultado.iva - resultado.otrosTributos;
+            resultado.netoGravado = calculado > 0 ? Math.round(calculado * 100) / 100 : resultado.total;
+        }
+
+        // Armamos el asiento contable de forma determinística (siempre balanceado)
+        resultado.asientoSugerido = armarAsiento(resultado);
 
         return new Response(JSON.stringify(resultado), {
             headers: { "Content-Type": "application/json" }
