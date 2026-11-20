@@ -587,7 +587,6 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://unpkg.com/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
 
 <script is:inline>
     // 1. SEGURO ANTI-FALLOS DE CARGA
@@ -1052,7 +1051,7 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         };
     } catch(e) {}
 
-    // 16. ESCÁNER DE FACTURAS IA
+    // 16. ESCÁNER DE FACTURAS CON IA MULTIMODAL (GEMINI + CLOUDFLARE)
     window.escanearFactura = async function(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -1060,40 +1059,82 @@ const publicaciones = posts.sort((a, b) => new Date(b.frontmatter.date).valueOf(
         const resDiv = document.getElementById('resultadoEscaner');
         resDiv.innerHTML = `
             <div style="text-align: center; color: #8b5cf6;">
-                <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2.5em; margin-bottom: 15px;"></i>
-                <p style="font-weight: 600; margin: 0;">Red Neuronal procesando imagen...</p>
-                <p style="font-size: 0.8em; color: #64748b;">(Esto puede tardar unos segundos la primera vez)</p>
+                <i class="fa-solid fa-sparkles fa-spin" style="font-size: 2.5em; margin-bottom: 15px;"></i>
+                <p style="font-weight: 600; margin: 0;">Gemini IA analizando comprobante fiscal...</p>
+                <p style="font-size: 0.8em; color: #64748b;">Extrayendo CUIT, importes y armando asiento contable</p>
             </div>
         `;
 
         try {
-            const result = await Tesseract.recognize(file, 'spa');
-            const texto = result.data.text;
-            
-            const regexCuit = /\b(20|23|24|27|30|33|34)-?\s?\d{8}-?\s?\d{1}\b/g;
-            const matchesCuit = texto.match(regexCuit);
-            let cuitDetectado = matchesCuit ? matchesCuit[0] : 'No se detectó un CUIT claro';
+            // Convertimos la imagen a Base64 para enviarla a Cloudflare
+            const base64 = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+
+            const res = await fetch('/api/escanear', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    imageBase64: base64,
+                    mimeType: file.type || 'image/jpeg'
+                })
+            });
+
+            const data = await res.json();
+            if (!res.ok || data.error) throw new Error(data.error || 'Error en el servidor');
+
+            const fmt = (n) => new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(n || 0);
+
+            let filasAsiento = '';
+            if (data.asientoSugerido && data.asientoSugerido.length > 0) {
+                filasAsiento = data.asientoSugerido.map(a => `
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 6px 4px; font-weight: 500;">${a.cuenta}</td>
+                        <td style="padding: 6px 4px; text-align: right; color: #059669;">${a.debe ? fmt(a.debe) : '-'}</td>
+                        <td style="padding: 6px 4px; text-align: right; color: #e11d48;">${a.haber ? fmt(a.haber) : '-'}</td>
+                    </tr>
+                `).join('');
+            }
 
             resDiv.innerHTML = `
-                <div style="text-align: left;">
-                    <h4 style="color: #8b5cf6; margin-top:0; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
-                        <i class="fa-solid fa-check-double"></i> Análisis Completado
+                <div style="text-align: left; font-size: 0.9em;">
+                    <h4 style="color: #8b5cf6; margin-top: 0; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+                        <i class="fa-solid fa-check-double"></i> ${data.tipoComprobante || 'Comprobante'} ${data.numeroComprobante || ''}
                     </h4>
-                    <div style="margin-top: 15px;">
-                        <span style="font-size: 0.9em; color: #64748b;">CUIT Encontrado:</span><br>
-                        <strong style="color: var(--azul-corporativo); font-size: 1.5em; letter-spacing: 1px;">${cuitDetectado}</strong>
+                    <p style="margin: 6px 0;"><strong>Emisor:</strong> ${data.razonSocial || 'No detectado'}</p>
+                    <p style="margin: 6px 0;"><strong>CUIT:</strong> ${data.cuit || 'No detectado'} | <strong>Fecha:</strong> ${data.fecha || '-'}</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: rgba(139, 92, 246, 0.08); padding: 10px; border-radius: 8px; margin: 12px 0;">
+                        <div>Neto: <strong>${fmt(data.netoGravado)}</strong></div>
+                        <div>IVA: <strong>${fmt(data.iva)}</strong></div>
+                        <div>Percep/Otros: <strong>${fmt(data.otrosTributos)}</strong></div>
+                        <div style="color: #8b5cf6;">Total: <strong>${fmt(data.total)}</strong></div>
                     </div>
-                    <details style="margin-top: 20px; font-size: 0.85em; color: #64748b; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                        <summary style="cursor: pointer; font-weight: bold; color: var(--azul-claro);">Ver todo el texto detectado</summary>
-                        <div style="margin-top: 10px; max-height: 150px; overflow-y: auto; white-space: pre-wrap; word-break: break-word;">${texto}</div>
-                    </details>
+
+                    ${filasAsiento ? `
+                        <p style="margin: 10px 0 5px; font-weight: bold; color: var(--azul-corporativo);">Asiento Contable Sugerido:</p>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.85em;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid #cbd5e1; text-align: left;">
+                                    <th style="padding: 4px;">Cuenta</th>
+                                    <th style="padding: 4px; text-align: right;">Debe</th>
+                                    <th style="padding: 4px; text-align: right;">Haber</th>
+                                </tr>
+                            </thead>
+                            <tbody>${filasAsiento}</tbody>
+                        </table>
+                    ` : ''}
                 </div>
             `;
         } catch (error) {
             resDiv.innerHTML = `
                 <div style="text-align: center; color: #ef4444;">
                     <i class="fa-solid fa-triangle-exclamation" style="font-size: 2em; margin-bottom: 10px;"></i>
-                    <p>No se pudo analizar la imagen. Intenta con una foto más nítida.</p>
+                    <p style="margin: 0; font-weight: bold;">No se pudo analizar el comprobante</p>
+                    <p style="font-size: 0.8em; margin-top: 5px;">${error.message}</p>
                 </div>
             `;
         }
