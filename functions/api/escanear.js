@@ -1,4 +1,3 @@
-JavaScript
 export async function onRequestPost(context) {
     try {
         const apiKey = context.env.GEMINI_API_KEY;
