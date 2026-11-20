@@ -24,45 +24,43 @@ export async function onRequestPost(context) {
             ]
         }`;
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [
-                        { text: prompt },
-                        { inline_data: { mime_type: mimeType, data: imageBase64 } }
-                    ]
-                }],
-                generationConfig: {
-                    responseMimeType: "application/json"
-                }
-            })
-        });
+        // Lista de modelos en orden de prioridad: si uno está saturado, salta al siguiente
+        const modelos = ["gemini-3.8-flash", "gemini-flash-latest", "gemini-2.0-flash"];
+        let ultimoError = "No se pudo conectar con ningún modelo.";
 
-        const data = await response.json();
-
-        // Si Google devuelve un error, lo mostramos tal cual para saber qué pasó
-        if (!response.ok || data.error) {
-            const msgGoogle = data.error?.message || JSON.stringify(data);
-            return new Response(JSON.stringify({ error: "Google AI dice: " + msgGoogle }), {
-                status: 500,
-                headers: { "Content-Type": "application/json" }
+        for (const modelo of modelos) {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${apiKey}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [
+                            { text: prompt },
+                            { inline_data: { mime_type: mimeType, data: imageBase64 } }
+                        ]
+                    }],
+                    generationConfig: {
+                        responseMimeType: "application/json"
+                    }
+                })
             });
+
+            const data = await response.json();
+
+            if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                let textoJson = data.candidates[0].content.parts[0].text;
+                textoJson = textoJson.replace(/```json/g, '').replace(/```/g, '').trim();
+                return new Response(textoJson, {
+                    headers: { "Content-Type": "application/json" }
+                });
+            }
+
+            ultimoError = data.error?.message || `Error en ${modelo}`;
         }
 
-        let textoJson = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (!textoJson) {
-            return new Response(JSON.stringify({ error: "Respuesta vacía de Google: " + JSON.stringify(data) }), {
-                status: 500,
-                headers: { "Content-Type": "application/json" }
-            });
-        }
-
-        // Limpiamos posibles bloques ```json ... ``` por seguridad
-        textoJson = textoJson.replace(/```json/g, '').replace(/```/g, '').trim();
-
-        return new Response(textoJson, {
+        // Si fallaron todos los modelos de la lista
+        return new Response(JSON.stringify({ error: "Google AI saturado en todos los modelos: " + ultimoError }), {
+            status: 503,
             headers: { "Content-Type": "application/json" }
         });
 
