@@ -27,7 +27,7 @@ Devolvé ÚNICAMENTE un objeto JSON válido, sin texto adicional ni explicacione
     ]
 }`;
 
-        const aiResponse = await context.env.AI.run("@cf/meta/llama-3.2-11b-vision-instruct", {
+        const payload = {
             messages: [
                 {
                     role: "user",
@@ -38,15 +38,25 @@ Devolvé ÚNICAMENTE un objeto JSON válido, sin texto adicional ni explicacione
                 }
             ],
             max_tokens: 1024
-        });
+        };
 
-        // Extraemos el texto según el formato que devuelva Workers AI
+        let aiResponse;
+        try {
+            aiResponse = await context.env.AI.run("@cf/meta/llama-3.2-11b-vision-instruct", payload);
+        } catch (err) {
+            if (err.message && err.message.includes("5016")) {
+                await context.env.AI.run("@cf/meta/llama-3.2-11b-vision-instruct", { prompt: "agree" });
+                aiResponse = await context.env.AI.run("@cf/meta/llama-3.2-11b-vision-instruct", payload);
+            } else {
+                throw err;
+            }
+        }
+
         let rawText = aiResponse?.response || aiResponse?.choices?.[0]?.message?.content || "";
         if (typeof rawText !== "string") {
             rawText = JSON.stringify(rawText);
         }
 
-        // Extraemos únicamente el bloque JSON por si el modelo agrega texto antes o después
         const jsonMatch = rawText.match(/\{[\s\S]*\}/);
         if (!jsonMatch) {
             throw new Error("La IA no devolvió un formato JSON válido.");
